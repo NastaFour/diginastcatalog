@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Diginast — Tecnología que inspira</title>
+    <title>Diginast — Hardware de Alto Rendimiento & Setups Pro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -11,8 +11,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
     <style>
+
+
         :root {
-            font-size: 17px;
             --naranja-primario: #F97316;
             --naranja-deep: #EA580C;
             --naranja-glow: #FB923C;
@@ -21,11 +22,12 @@
             --carbon-border: #262628;
             --crema: #FFF7ED;
             --gris-texto: #A1A1AA;
-            --borde-fuego: rgba(249, 115, 22, 0.3);
-            --sombra-glow: 0 0 40px rgba(249, 115, 22, 0.4);
+            --borde-fuego: rgba(249, 115, 22, 0.35);
+            --sombra-glow: 0 0 40px rgba(249, 115, 22, 0.45);
             --fuente-principal: 'Inter', sans-serif;
             --fuente-mono: 'JetBrains Mono', monospace;
-            --nav-height: 82px;
+            --nav-height: 86px;
+            font-size: 18px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -453,9 +455,9 @@
         }
 
         .hero-title {
-            font-size: clamp(2.2rem, 8vw, 4.5rem);
+            font-size: clamp(3rem, 8.5vw, 5.5rem);
             font-weight: 900; line-height: 1.1;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.6rem;
             letter-spacing: -0.03em;
         }
 
@@ -471,11 +473,10 @@
         @keyframes text-shimmer { to { background-position: 200% center; } }
 
         .hero-subtitle {
-            font-size: 1.05rem; color: var(--gris-texto);
-            margin-bottom: 2rem;
-            max-width: 500px; line-height: 1.6;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 1.3rem; color: var(--gris-texto);
+            margin-bottom: 2.4rem;
+            max-width: 650px; line-height: 1.65;
+            margin-left: auto; margin-right: auto;
         }
 
         @media (min-width: 1024px) {
@@ -589,8 +590,8 @@
 
         .hero-3d-card {
             position: relative;
-            width: 100%; max-width: 340px;
-            aspect-ratio: 3/4;
+            width: 100%; max-width: 460px;
+            aspect-ratio: 4/5;
             transform-style: preserve-3d;
             transition: transform 0.3s ease-out;
             cursor: pointer;
@@ -654,8 +655,8 @@
         }
 
         .card-title {
-            font-size: 1.2rem; font-weight: 800;
-            margin-bottom: 1rem; color: var(--crema);
+            font-size: 1.5rem; font-weight: 800;
+            margin-bottom: 1.2rem; color: var(--crema);
         }
 
         .card-specs { display: grid; gap: 0.5rem; margin-top: auto; }
@@ -673,9 +674,9 @@
         .card-spec-value { color: var(--naranja-glow); font-weight: 700; }
 
         .card-price {
-            font-size: 2rem; font-weight: 900;
+            font-size: 2.5rem; font-weight: 900;
             color: var(--naranja-glow);
-            margin-top: 1rem;
+            margin-top: 1.2rem;
             font-family: var(--fuente-mono);
         }
 
@@ -1037,11 +1038,11 @@
         }
 
         .stat-number {
-            font-size: 2rem;
+            font-size: clamp(3rem, 5.5vw, 4.4rem);
             font-weight: 900;
             color: var(--naranja-primario);
             font-family: var(--fuente-mono);
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.4rem;
             display: block;
         }
 
@@ -1051,10 +1052,10 @@
 
         .stat-label {
             color: var(--gris-texto);
-            font-weight: 500;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.7rem;
+            letter-spacing: 1.5px;
+            font-size: 0.95rem;
         }
 
         /* ============ SECCIONES GENERALES ============ */
@@ -1174,9 +1175,9 @@
         }
 
         .category-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 0.4rem;
             color: var(--crema);
         }
 
@@ -1301,10 +1302,10 @@
         }
 
         .product-name {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 0.6rem;
-            line-height: 1.4;
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            line-height: 1.35;
         }
 
         .product-specs {
@@ -1331,8 +1332,8 @@
         }
 
         .product-price {
-            font-size: 1.4rem;
-            font-weight: 800;
+            font-size: 1.75rem;
+            font-weight: 900;
             color: var(--naranja-glow);
             font-family: var(--fuente-mono);
         }
@@ -1908,9 +1909,580 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(3px); }
         }
+    
+        /* ============ CYBER AURA THEME PALETTES & CONTROLS ============ */
+        :root[data-theme="cyan"] {
+            --naranja-primario: #06B6D4;
+            --naranja-deep: #0891B2;
+            --naranja-glow: #22D3EE;
+            --borde-fuego: rgba(6, 182, 212, 0.35);
+            --sombra-glow: 0 0 40px rgba(6, 182, 212, 0.45);
+        }
+        :root[data-theme="purple"] {
+            --naranja-primario: #A855F7;
+            --naranja-deep: #9333EA;
+            --naranja-glow: #C084FC;
+            --borde-fuego: rgba(168, 85, 247, 0.35);
+            --sombra-glow: 0 0 40px rgba(168, 85, 247, 0.45);
+        }
+        :root[data-theme="green"] {
+            --naranja-primario: #10B981;
+            --naranja-deep: #059669;
+            --naranja-glow: #34D399;
+            --borde-fuego: rgba(16, 185, 129, 0.35);
+            --sombra-glow: 0 0 40px rgba(16, 185, 129, 0.45);
+        }
+
+        /* Floating Theme Switcher & Audio Controls */
+        .cyber-quick-controls {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(14, 14, 18, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 50px;
+            padding: 0.4rem 0.8rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+
+        .theme-dot {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-dot:hover, .theme-dot.active {
+            transform: scale(1.25);
+            border-color: #fff;
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        .audio-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--gris-texto);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.2rem 0.4rem;
+            border-left: 1px solid var(--carbon-border);
+            margin-left: 0.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .audio-toggle-btn.active {
+            color: var(--naranja-glow);
+        }
+
+        .audio-toggle-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Interactive Benchmark Simulator Card */
+        .benchmark-section {
+            padding: 4rem 1.5rem;
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .benchmark-card {
+            background: rgba(20, 20, 24, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        @media (min-width: 1024px) {
+            .benchmark-card {
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+            }
+        }
+
+        .benchmark-title {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 900;
+            margin-bottom: 0.8rem;
+        }
+
+        .benchmark-desc {
+            color: var(--gris-texto);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.8rem;
+        }
+
+        .benchmark-selectors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .benchmark-btn {
+            background: var(--carbon-lift);
+            border: 1px solid var(--carbon-border);
+            color: var(--crema);
+            font-family: var(--fuente-mono);
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .benchmark-btn.active {
+            background: var(--naranja-primario);
+            color: var(--carbon);
+            border-color: var(--naranja-primario);
+            box-shadow: var(--sombra-glow);
+        }
+
+        .fps-meter-container {
+            background: var(--carbon);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 20px;
+            padding: 2.2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fps-number {
+            font-family: var(--fuente-mono);
+            font-size: clamp(3.5rem, 8vw, 5.5rem);
+            font-weight: 900;
+            color: var(--naranja-glow);
+            line-height: 1;
+            margin-bottom: 0.4rem;
+            text-shadow: 0 0 40px var(--naranja-primario);
+        }
+
+        .fps-label {
+            font-family: var(--fuente-mono);
+            font-size: 1rem;
+            color: var(--gris-texto);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .fps-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: var(--carbon-border);
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            overflow: hidden;
+        }
+
+        .fps-bar-fill {
+            height: 100%;
+            width: 88%;
+            background: linear-gradient(90deg, var(--naranja-primario), var(--naranja-glow));
+            border-radius: 10px;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 15px var(--naranja-primario);
+        }
+
+        /* 3D Holographic Tilt Glare on Product Cards */
+        .product-card {
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s ease, box-shadow 0.4s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--borde-fuego);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(249, 115, 22, 0.2);
+        }
+
+    
+        /* ============ CYBER AURA THEME PALETTES & CONTROLS ============ */
+        :root[data-theme="cyan"] {
+            --naranja-primario: #06B6D4;
+            --naranja-deep: #0891B2;
+            --naranja-glow: #22D3EE;
+            --borde-fuego: rgba(6, 182, 212, 0.35);
+            --sombra-glow: 0 0 40px rgba(6, 182, 212, 0.45);
+        }
+        :root[data-theme="purple"] {
+            --naranja-primario: #A855F7;
+            --naranja-deep: #9333EA;
+            --naranja-glow: #C084FC;
+            --borde-fuego: rgba(168, 85, 247, 0.35);
+            --sombra-glow: 0 0 40px rgba(168, 85, 247, 0.45);
+        }
+        :root[data-theme="green"] {
+            --naranja-primario: #10B981;
+            --naranja-deep: #059669;
+            --naranja-glow: #34D399;
+            --borde-fuego: rgba(16, 185, 129, 0.35);
+            --sombra-glow: 0 0 40px rgba(16, 185, 129, 0.45);
+        }
+
+        /* Floating Theme Switcher & Audio Controls */
+        .cyber-quick-controls {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(14, 14, 18, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 50px;
+            padding: 0.4rem 0.8rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+
+        .theme-dot {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-dot:hover, .theme-dot.active {
+            transform: scale(1.25);
+            border-color: #fff;
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        .audio-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--gris-texto);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.2rem 0.4rem;
+            border-left: 1px solid var(--carbon-border);
+            margin-left: 0.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .audio-toggle-btn.active {
+            color: var(--naranja-glow);
+        }
+
+        .audio-toggle-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Interactive Benchmark Simulator Card */
+        .benchmark-section {
+            padding: 4rem 1.5rem;
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .benchmark-card {
+            background: rgba(20, 20, 24, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        @media (min-width: 1024px) {
+            .benchmark-card {
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+            }
+        }
+
+        .benchmark-title {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 900;
+            margin-bottom: 0.8rem;
+        }
+
+        .benchmark-desc {
+            color: var(--gris-texto);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.8rem;
+        }
+
+        .benchmark-selectors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .benchmark-btn {
+            background: var(--carbon-lift);
+            border: 1px solid var(--carbon-border);
+            color: var(--crema);
+            font-family: var(--fuente-mono);
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .benchmark-btn.active {
+            background: var(--naranja-primario);
+            color: var(--carbon);
+            border-color: var(--naranja-primario);
+            box-shadow: var(--sombra-glow);
+        }
+
+        .fps-meter-container {
+            background: var(--carbon);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 20px;
+            padding: 2.2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fps-number {
+            font-family: var(--fuente-mono);
+            font-size: clamp(3.5rem, 8vw, 5.5rem);
+            font-weight: 900;
+            color: var(--naranja-glow);
+            line-height: 1;
+            margin-bottom: 0.4rem;
+            text-shadow: 0 0 40px var(--naranja-primario);
+        }
+
+        .fps-label {
+            font-family: var(--fuente-mono);
+            font-size: 1rem;
+            color: var(--gris-texto);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .fps-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: var(--carbon-border);
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            overflow: hidden;
+        }
+
+        .fps-bar-fill {
+            height: 100%;
+            width: 88%;
+            background: linear-gradient(90deg, var(--naranja-primario), var(--naranja-glow));
+            border-radius: 10px;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 15px var(--naranja-primario);
+        }
+
+        /* 3D Holographic Tilt Glare on Product Cards */
+        .product-card {
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s ease, box-shadow 0.4s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--borde-fuego);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(249, 115, 22, 0.2);
+        }
+
+    
+        /* ============ GLOBAL CANVAS & THEMES ============ */
+        #bg-particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            display: block;
+        }
+
+        body {
+            background-color: #060608;
+            background-image: radial-gradient(circle at 50% 10%, rgba(249, 115, 22, 0.07) 0%, transparent 65%);
+            min-height: 100vh;
+        }
+
+        .hero, .stats-section, .section, .sticky-section, .promos-section, .cta-section, .benchmark-section {
+            background: transparent !important;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer {
+            background: rgba(10, 10, 11, 0.88) !important;
+            backdrop-filter: blur(16px);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Color Theme Presets */
+        :root[data-theme="cyan"] {
+            --naranja-primario: #06B6D4;
+            --naranja-deep: #0891B2;
+            --naranja-glow: #22D3EE;
+            --borde-fuego: rgba(6, 182, 212, 0.35);
+            --sombra-glow: 0 0 40px rgba(6, 182, 212, 0.45);
+        }
+        :root[data-theme="purple"] {
+            --naranja-primario: #A855F7;
+            --naranja-deep: #9333EA;
+            --naranja-glow: #C084FC;
+            --borde-fuego: rgba(168, 85, 247, 0.35);
+            --sombra-glow: 0 0 40px rgba(168, 85, 247, 0.45);
+        }
+        :root[data-theme="green"] {
+            --naranja-primario: #10B981;
+            --naranja-deep: #059669;
+            --naranja-glow: #34D399;
+            --borde-fuego: rgba(16, 185, 129, 0.35);
+            --sombra-glow: 0 0 40px rgba(16, 185, 129, 0.45);
+        }
+
+        /* Controls */
+        .cyber-quick-controls {
+            position: fixed;
+            bottom: 1.5rem; left: 1.5rem;
+            z-index: 1001;
+            display: flex; align-items: center; gap: 0.6rem;
+            background: rgba(14, 14, 18, 0.88);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 50px;
+            padding: 0.4rem 0.8rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+
+        .theme-dot {
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .theme-dot:hover, .theme-dot.active {
+            transform: scale(1.25);
+            border-color: #fff;
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        .audio-toggle-btn {
+            background: none; border: none;
+            color: var(--gris-texto);
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            padding: 0.2rem 0.4rem;
+            border-left: 1px solid var(--carbon-border);
+            margin-left: 0.2rem;
+            transition: color 0.3s ease;
+        }
+        .audio-toggle-btn.active { color: var(--naranja-glow); }
+        .audio-toggle-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+        /* Benchmark Card */
+        .benchmark-section {
+            padding: 4rem 1.5rem;
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .benchmark-card {
+            background: rgba(20, 20, 24, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        @media (min-width: 1024px) {
+            .benchmark-card { grid-template-columns: 1fr 1fr; gap: 4rem; }
+        }
+        .benchmark-title { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900; margin-bottom: 0.8rem; }
+        .benchmark-desc { color: var(--gris-texto); font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.8rem; }
+        .benchmark-selectors { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.5rem; }
+        .benchmark-btn {
+            background: var(--carbon-lift);
+            border: 1px solid var(--carbon-border);
+            color: var(--crema);
+            font-family: var(--fuente-mono);
+            font-size: 0.85rem; font-weight: 700;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .benchmark-btn.active {
+            background: var(--naranja-primario);
+            color: var(--carbon);
+            border-color: var(--naranja-primario);
+            box-shadow: var(--sombra-glow);
+        }
+        .fps-meter-container {
+            background: var(--carbon);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 20px;
+            padding: 2.2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .fps-number {
+            font-family: var(--fuente-mono);
+            font-size: clamp(3.5rem, 8vw, 5.5rem);
+            font-weight: 900;
+            color: var(--naranja-glow);
+            line-height: 1;
+            margin-bottom: 0.4rem;
+            text-shadow: 0 0 40px var(--naranja-primario);
+        }
+        .fps-label { font-family: var(--fuente-mono); font-size: 1rem; color: var(--gris-texto); text-transform: uppercase; letter-spacing: 2px; }
+        .fps-bar-bg { width: 100%; height: 8px; background: var(--carbon-border); border-radius: 10px; margin-top: 1.5rem; overflow: hidden; }
+        .fps-bar-fill { height: 100%; width: 88%; background: linear-gradient(90deg, var(--naranja-primario), var(--naranja-glow)); border-radius: 10px; transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 15px var(--naranja-primario); }
+
+    
     </style>
 </head>
 <body>
+
+
     <!-- LOADING -->
     <div id="loading-screen">
         <div class="loader-bolt">
@@ -2216,6 +2788,137 @@
         <div class="catalog-grid" id="catalog-grid"></div>
     </section>
 
+    
+    <!-- SIMULADOR DE RENDIMIENTO HARDWARE INTERACTIVO -->
+    <section class="benchmark-section reveal" id="benchmark">
+        <div class="benchmark-card">
+            <div>
+                <div class="hero-badge" style="margin-bottom: 1rem;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    Simulador de FPS en Tiempo Real
+                </div>
+                <h2 class="benchmark-title">Rendimiento <span class="gradient-text" style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Extremo</span> Garantizado</h2>
+                <p class="benchmark-desc">Selecciona resolución y título para calcular la tasa de fotogramas por segundo promedio en nuestros equipos insignia.</p>
+                
+                <div style="font-family:var(--fuente-mono);font-size:0.8rem;color:var(--naranja-glow);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:1px;">Juegos & Renders:</div>
+                <div class="benchmark-selectors" id="game-selectors">
+                    <button class="benchmark-btn active" onclick="setBenchmarkGame('cyberpunk', this)">Cyberpunk 2077 RT</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkGame('wukong', this)">Black Myth: Wukong</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkGame('gta6', this)">GTA VI Ultra</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkGame('blender', this)">Blender Cycles 4K</button>
+                </div>
+
+                <div style="font-family:var(--fuente-mono);font-size:0.8rem;color:var(--naranja-glow);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:1px;">Resolución:</div>
+                <div class="benchmark-selectors" id="res-selectors">
+                    <button class="benchmark-btn" onclick="setBenchmarkRes('1080p', this)">1080p FHD</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkRes('1440p', this)">1440p 2K</button>
+                    <button class="benchmark-btn active" onclick="setBenchmarkRes('4k', this)">4K Ultra UHD</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkRes('8k', this)">8K DSR</button>
+                </div>
+            </div>
+
+            <div class="fps-meter-container">
+                <div class="fps-label" id="benchmark-rig-label">RTX 4090 + i9 14900K</div>
+                <div class="fps-number" id="fps-display">165</div>
+                <div class="fps-label" id="fps-status">FPS // ULTRA RAY TRACING DLSS 3.5</div>
+                <div class="fps-bar-bg">
+                    <div class="fps-bar-fill" id="fps-bar" style="width: 88%;"></div>
+                </div>
+                <div style="margin-top:1.5rem;font-family:var(--fuente-mono);font-size:0.85rem;color:var(--gris-texto);">
+                    Temperatura Media: <span style="color:var(--naranja-glow);font-weight:700;">58°C Líquida</span> • Latencia: <span style="color:var(--naranja-glow);font-weight:700;">4.2ms</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    
+    <!-- SIMULADOR DE RENDIMIENTO HARDWARE INTERACTIVO -->
+    <section class="benchmark-section reveal" id="benchmark">
+        <div class="benchmark-card">
+            <div>
+                <div class="hero-badge" style="margin-bottom: 1rem;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    Simulador de FPS en Tiempo Real
+                </div>
+                <h2 class="benchmark-title">Rendimiento <span class="gradient-text" style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Extremo</span> Garantizado</h2>
+                <p class="benchmark-desc">Selecciona resolución y título para calcular la tasa de fotogramas por segundo promedio en nuestros equipos insignia.</p>
+                
+                <div style="font-family:var(--fuente-mono);font-size:0.8rem;color:var(--naranja-glow);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:1px;">Juegos & Renders:</div>
+                <div class="benchmark-selectors" id="game-selectors">
+                    <button class="benchmark-btn active" onclick="setBenchmarkGame('cyberpunk', this)">Cyberpunk 2077 RT</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkGame('wukong', this)">Black Myth: Wukong</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkGame('gta6', this)">GTA VI Ultra</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkGame('blender', this)">Blender Cycles 4K</button>
+                </div>
+
+                <div style="font-family:var(--fuente-mono);font-size:0.8rem;color:var(--naranja-glow);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:1px;">Resolución:</div>
+                <div class="benchmark-selectors" id="res-selectors">
+                    <button class="benchmark-btn" onclick="setBenchmarkRes('1080p', this)">1080p FHD</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkRes('1440p', this)">1440p 2K</button>
+                    <button class="benchmark-btn active" onclick="setBenchmarkRes('4k', this)">4K Ultra UHD</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkRes('8k', this)">8K DSR</button>
+                </div>
+            </div>
+
+            <div class="fps-meter-container">
+                <div class="fps-label" id="benchmark-rig-label">RTX 4090 + i9 14900K</div>
+                <div class="fps-number" id="fps-display">165</div>
+                <div class="fps-label" id="fps-status">FPS // ULTRA RAY TRACING DLSS 3.5</div>
+                <div class="fps-bar-bg">
+                    <div class="fps-bar-fill" id="fps-bar" style="width: 88%;"></div>
+                </div>
+                <div style="margin-top:1.5rem;font-family:var(--fuente-mono);font-size:0.85rem;color:var(--gris-texto);">
+                    Temperatura Media: <span style="color:var(--naranja-glow);font-weight:700;">58°C Líquida</span> • Latencia: <span style="color:var(--naranja-glow);font-weight:700;">4.2ms</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    
+    <!-- SIMULADOR DE RENDIMIENTO HARDWARE INTERACTIVO -->
+    <section class="benchmark-section reveal" id="benchmark">
+        <div class="benchmark-card">
+            <div>
+                <div class="hero-badge" style="margin-bottom: 1rem;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    Simulador de FPS en Tiempo Real
+                </div>
+                <h2 class="benchmark-title">Rendimiento <span class="gradient-text" style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Extremo</span> Garantizado</h2>
+                <p class="benchmark-desc">Selecciona resolución y título para calcular la tasa de fotogramas por segundo promedio en nuestros equipos insignia.</p>
+                
+                <div style="font-family:var(--fuente-mono);font-size:0.8rem;color:var(--naranja-glow);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:1px;">Juegos & Renders:</div>
+                <div class="benchmark-selectors" id="game-selectors">
+                    <button class="benchmark-btn active" onclick="setBenchmarkGame('cyberpunk', this)">Cyberpunk 2077 RT</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkGame('wukong', this)">Black Myth: Wukong</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkGame('gta6', this)">GTA VI Ultra</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkGame('blender', this)">Blender Cycles 4K</button>
+                </div>
+
+                <div style="font-family:var(--fuente-mono);font-size:0.8rem;color:var(--naranja-glow);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:1px;">Resolución:</div>
+                <div class="benchmark-selectors" id="res-selectors">
+                    <button class="benchmark-btn" onclick="setBenchmarkRes('1080p', this)">1080p FHD</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkRes('1440p', this)">1440p 2K</button>
+                    <button class="benchmark-btn active" onclick="setBenchmarkRes('4k', this)">4K Ultra UHD</button>
+                    <button class="benchmark-btn" onclick="setBenchmarkRes('8k', this)">8K DSR</button>
+                </div>
+            </div>
+
+            <div class="fps-meter-container">
+                <div class="fps-label" id="benchmark-rig-label">RTX 4090 + i9 14900K</div>
+                <div class="fps-number" id="fps-display">165</div>
+                <div class="fps-label" id="fps-status">FPS // ULTRA RAY TRACING DLSS 3.5</div>
+                <div class="fps-bar-bg">
+                    <div class="fps-bar-fill" id="fps-bar" style="width: 88%;"></div>
+                </div>
+                <div style="margin-top:1.5rem;font-family:var(--fuente-mono);font-size:0.85rem;color:var(--gris-texto);">
+                    Temperatura Media: <span style="color:var(--naranja-glow);font-weight:700;">58°C Líquida</span> • Latencia: <span style="color:var(--naranja-glow);font-weight:700;">4.2ms</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- CTA -->
     <section class="cta-section" id="cotizar">
         <div class="cta-orb"></div>
@@ -2305,33 +3008,47 @@
         <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
     </div>
 
+    
+    <!-- CYBER QUICK CONTROLS -->
+    <div class="cyber-quick-controls" id="cyber-controls">
+        <div class="theme-dot active" style="background:#F97316;" onclick="setCyberTheme('flame', this)" title="Flame Orange"></div>
+        <div class="theme-dot" style="background:#06B6D4;" onclick="setCyberTheme('cyan', this)" title="Cyber Cyan"></div>
+        <div class="theme-dot" style="background:#A855F7;" onclick="setCyberTheme('purple', this)" title="Neon Purple"></div>
+        <div class="theme-dot" style="background:#10B981;" onclick="setCyberTheme('green', this)" title="Matrix Green"></div>
+        <button class="audio-toggle-btn" id="audio-btn" onclick="toggleCyberAudio()" title="Activar/Desactivar Sonido Cyber">
+            <svg viewBox="0 0 24 24" id="audio-icon"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        </button>
+    </div>
+
+    
     <script>
+
         // ============ DETECCIÓN ============
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         const isDesktop = window.innerWidth > 768 && !isTouch;
         const enable3D = true;
 
-        // ============ DATA ============
+        // ============ DATA HARDWARE CATALOG ============
         const categorias = [
-            { id: "gaming", nombre: "Gaming", count: 45, icon: `<svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM11 13H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`, img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=800&fit=crop" },
-            { id: "workstation", nombre: "Workstations", count: 32, icon: `<svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>`, img: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&h=800&fit=crop" },
-            { id: "laptops", nombre: "Laptops", count: 38, icon: `<svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 5h16v11H4V5z"/></svg>`, img: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=800&fit=crop" },
-            { id: "componentes", nombre: "Componentes", count: 65, icon: `<svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>`, img: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&h=800&fit=crop" },
-            { id: "audio", nombre: "Audio Pro", count: 28, icon: `<svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>`, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=800&fit=crop" },
-            { id: "monitores", nombre: "Monitores", count: 34, icon: `<svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14z"/></svg>`, img: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&h=800&fit=crop" }
+            { id: "gaming", nombre: "Gaming PCs", count: 45, icon: '<svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM11 13H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5-.67 1.5-1.5 1.5z"/></svg>', img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=800&fit=crop" },
+            { id: "workstation", nombre: "Workstations", count: 32, icon: '<svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>', img: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&h=800&fit=crop" },
+            { id: "laptops", nombre: "Laptops Pro", count: 38, icon: '<svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 5h16v11H4V5z"/></svg>', img: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=800&fit=crop" },
+            { id: "componentes", nombre: "Componentes & GPUs", count: 65, icon: '<svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>', img: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&h=800&fit=crop" },
+            { id: "audio", nombre: "Audio Studio", count: 28, icon: '<svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>', img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=800&fit=crop" },
+            { id: "monitores", nombre: "Monitores 4K/OLED", count: 34, icon: '<svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14z"/></svg>', img: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&h=800&fit=crop" }
         ];
 
         const productos = [
-            { id: 1, nombre: "Setup Gaming Xtreme RTX 4090", categoria: "gaming", precio: 3499, imagen: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&h=800&fit=crop", descripcion: "El setup gaming definitivo con RTX 4090 y refrigeración líquida.", specs: ["RTX 4090", "i9 14900K", "64GB DDR5"] },
-            { id: 2, nombre: "Workstation Creator Pro", categoria: "workstation", precio: 2899, imagen: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=1200&h=800&fit=crop", descripcion: "Equipo profesional para edición 8K y 3D rendering.", specs: ["Threadripper", "256GB RAM", "8TB SSD"] },
-            { id: 3, nombre: "Laptop Ultra Creator 16\"", categoria: "laptops", precio: 2299, imagen: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&h=800&fit=crop", descripcion: "Laptop para creadores con pantalla OLED 4K.", specs: ["OLED 4K", "RTX 4080", "64GB RAM"] },
-            { id: 4, nombre: "GPU RTX 4090 Gaming OC", categoria: "componentes", precio: 1599, imagen: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&h=800&fit=crop", descripcion: "La GPU más potente del mercado para gaming en 8K.", specs: ["24GB GDDR6X", "DLSS 3.5", "PCIe 5.0"] },
-            { id: 5, nombre: "Monitor Odyssey Neo G9", categoria: "monitores", precio: 1899, imagen: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=1200&h=800&fit=crop", descripcion: "Monitor curvo 57\" con resolución 7680x2160 y 240Hz.", specs: ["57\" Curvo", "7680x2160", "240Hz"] },
-            { id: 6, nombre: "Audio Setup Studio Pro", categoria: "audio", precio: 899, imagen: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&h=800&fit=crop", descripcion: "Setup completo de audio profesional para creators.", specs: ["Monitores 8\"", "24bit/192kHz", "DAW Ready"] }
+            { id: 1, nombre: "Setup Gaming Xtreme RTX 4090", categoria: "gaming", precio: 3499, imagen: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&h=800&fit=crop", descripcion: "El setup gaming definitivo con RTX 4090 24GB GDDR6X, i9 14900K y refrigeración líquida personalizada 360mm.", specs: ["RTX 4090 24GB", "i9 14900K 5.8GHz", "64GB DDR5 7200MHz", "2TB NVMe 7400MB/s"] },
+            { id: 2, nombre: "Workstation Threadripper Pro 3D", categoria: "workstation", precio: 2899, imagen: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=1200&h=800&fit=crop", descripcion: "Estación de trabajo extrema para edición 8K Raw, simulaciones VFX y renderizado en tiempo real.", specs: ["Threadripper 7980X", "128GB DDR5 ECC", "RTX 4080 Super", "8TB NVMe Gen5"] },
+            { id: 3, nombre: "Laptop Ultra Creator 16 OLED", categoria: "laptops", precio: 2299, imagen: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&h=800&fit=crop", descripcion: "Potencia portátil sin límites con pantalla OLED 4K calibrada 100% DCI-P3 y RTX 4080.", specs: ["OLED 4K 120Hz", "RTX 4080 Mobile", "64GB RAM", "i9 14900HX"] },
+            { id: 4, nombre: "GPU NVIDIA RTX 4090 24GB OC", categoria: "componentes", precio: 1599, imagen: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&h=800&fit=crop", descripcion: "La tarjeta gráfica de consumo más potente del mundo con 83 TFLOPS de poder de cómputo y DLSS 3.5.", specs: ["24GB GDDR6X", "DLSS 3.5 Ray Recon", "PCIe 5.0", "Triple Fan RGB"] },
+            { id: 5, nombre: "Monitor Odyssey Neo G9 57 Dual 4K", categoria: "monitores", precio: 1899, imagen: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=1200&h=800&fit=crop", descripcion: "Monitor curvo 1000R de 57 pulgadas con resolución dual 4K (7680x2160), Quantum Mini-LED y 240Hz.", specs: ["57 Pulgadas 1000R", "Dual 4K 7680x2160", "240Hz 1ms", "HDR 2000"] },
+            { id: 6, nombre: "Audio Setup Studio Reference Pro", categoria: "audio", precio: 899, imagen: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&h=800&fit=crop", descripcion: "Monitores de estudio bi-amplificados de campo cercano con interfaz 24bit/192kHz y microfonía dinámica.", specs: ["Monitores 8 Bi-Amp", "Interfaz 192kHz", "Micrófono Dinámico XLR", "DAW Ready"] }
         ];
 
-        // ============ LENIS ============
+        // ============ LENIS SMOOTH SCROLL ============
         const lenis = new Lenis({
             duration: isMobile ? 0.8 : 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -2344,12 +3061,120 @@
         gsap.ticker.add((time) => { lenis.raf(time * 1000); });
         gsap.ticker.lagSmoothing(0);
 
-        // ============ LOADING ============
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                document.getElementById('loading-screen').classList.add('hidden');
-            }, 1800);
-        });
+        // ============ RELIABLE LOADING SCREEN DISMISS ============
+        function hideLoadingScreen() {
+            const loader = document.getElementById('loading-screen');
+            if (loader && !loader.classList.contains('hidden')) {
+                loader.classList.add('hidden');
+                setTimeout(() => { loader.style.display = 'none'; }, 600);
+            }
+        }
+
+        window.addEventListener('load', () => setTimeout(hideLoadingScreen, 200));
+        document.addEventListener('DOMContentLoaded', () => setTimeout(hideLoadingScreen, 300));
+        setTimeout(hideLoadingScreen, 1000);
+
+        const loaderEl = document.getElementById('loading-screen');
+        if (loaderEl) loaderEl.addEventListener('click', hideLoadingScreen);
+
+        // ============ WEB AUDIO CYBER SYNTHESIZER ============
+        let audioCtx = null;
+        let soundEnabled = false;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playCyberSound(type = 'hover') {
+            if (!soundEnabled || !audioCtx) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+                if (type === 'hover') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.05);
+                    gain.gain.setValueAtTime(0.04, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } else if (type === 'click') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(600, now);
+                    osc.frequency.exponentialRampToValueAtTime(300, now + 0.08);
+                    gain.gain.setValueAtTime(0.07, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                }
+            } catch (e) {}
+        }
+
+        function toggleCyberAudio() {
+            initAudio();
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('audio-btn');
+            if (btn) btn.classList.toggle('active', soundEnabled);
+            if (soundEnabled) playCyberSound('click');
+        }
+
+        function setCyberTheme(theme, btn) {
+            playCyberSound('click');
+            if (theme === 'flame') {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+            document.querySelectorAll('.theme-dot').forEach(d => d.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+        }
+
+        // ============ INTERACTIVE BENCHMARK SIMULATOR ============
+        let currentBenchGame = 'cyberpunk';
+        let currentBenchRes = '4k';
+
+        const benchMatrix = {
+            cyberpunk: { '1080p': 240, '1440p': 195, '4k': 165, '8k': 78 },
+            wukong:    { '1080p': 220, '1440p': 180, '4k': 148, '8k': 65 },
+            gta6:      { '1080p': 200, '1440p': 165, '4k': 135, '8k': 60 },
+            blender:   { '1080p': 320, '1440p': 260, '4k': 210, '8k': 110 }
+        };
+
+        function updateBenchmarkDisplay() {
+            const fpsVal = benchMatrix[currentBenchGame][currentBenchRes];
+            const fpsEl = document.getElementById('fps-display');
+            const barEl = document.getElementById('fps-bar');
+            if (fpsEl) fpsEl.textContent = fpsVal;
+            if (barEl) {
+                const percent = Math.min(100, Math.max(20, (fpsVal / 320) * 100));
+                barEl.style.width = percent + '%';
+            }
+        }
+
+        function setBenchmarkGame(game, btn) {
+            playCyberSound('click');
+            currentBenchGame = game;
+            document.querySelectorAll('#game-selectors .benchmark-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            updateBenchmarkDisplay();
+        }
+
+        function setBenchmarkRes(res, btn) {
+            playCyberSound('click');
+            currentBenchRes = res;
+            document.querySelectorAll('#res-selectors .benchmark-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            updateBenchmarkDisplay();
+        }
 
         // ============ CURSOR (desktop only) ============
         if (isDesktop) {
@@ -2372,12 +3197,13 @@
             })();
 
             document.addEventListener('mouseover', (e) => {
-                if (e.target.closest('a, button, .product-card, .category-card')) {
+                if (e.target.closest('a, button, .product-card, .category-card, .theme-dot, .benchmark-btn')) {
                     cursorRing.classList.add('hovered');
+                    playCyberSound('hover');
                 }
             });
             document.addEventListener('mouseout', (e) => {
-                if (e.target.closest('a, button, .product-card, .category-card')) {
+                if (e.target.closest('a, button, .product-card, .category-card, .theme-dot, .benchmark-btn')) {
                     cursorRing.classList.remove('hovered');
                 }
             });
@@ -2388,100 +3214,81 @@
         const mobileMenu = document.getElementById('mobile-menu');
         let menuOpen = false;
 
-        hamburger.addEventListener('click', () => {
-            menuOpen = !menuOpen;
-            hamburger.classList.toggle('active', menuOpen);
-            mobileMenu.classList.toggle('open', menuOpen);
-            if (menuOpen) lenis.stop(); else lenis.start();
-        });
-
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                menuOpen = false;
-                hamburger.classList.remove('active');
-                mobileMenu.classList.remove('open');
-                lenis.start();
-                const target = document.querySelector(link.getAttribute('href'));
-                if (target) lenis.scrollTo(target, { duration: 1.2 });
+        if (hamburger && mobileMenu) {
+            hamburger.addEventListener('click', () => {
+                menuOpen = !menuOpen;
+                hamburger.classList.toggle('active', menuOpen);
+                mobileMenu.classList.toggle('open', menuOpen);
+                if (menuOpen) lenis.stop(); else lenis.start();
             });
-        });
+
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    menuOpen = false;
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('open');
+                    lenis.start();
+                    const target = document.querySelector(link.getAttribute('href'));
+                    if (target) lenis.scrollTo(target, { duration: 1.2 });
+                });
+            });
+        }
 
         // ============ SCROLL PROGRESS + NAVBAR ============
         lenis.on('scroll', ({ scroll, limit }) => {
-            document.getElementById('scroll-progress').style.width = (scroll / limit) * 100 + '%';
-            document.getElementById('navbar').classList.toggle('scrolled', scroll > 30);
+            const sp = document.getElementById('scroll-progress');
+            const nb = document.getElementById('navbar');
+            if (sp) sp.style.width = (scroll / limit) * 100 + '%';
+            if (nb) nb.classList.toggle('scrolled', scroll > 30);
         });
 
         // ============ CINEMATIC LIVING CYBERNETIC BACKGROUND ENGINE ============
         const bgCanvas = document.getElementById('bg-particles');
         const bgCtx = bgCanvas.getContext('2d');
 
-        let width = window.innerWidth;
-        let height = window.innerHeight;
-        let mouseX = width / 2;
-        let mouseY = height / 2;
-        let targetMouseX = width / 2;
-        let targetMouseY = height / 2;
-        let scrollY = 0;
+        let bgWidth = window.innerWidth;
+        let bgHeight = window.innerHeight;
+        let bMouseX = bgWidth / 2;
+        let bMouseY = bgHeight / 2;
+        let targetBMouseX = bgWidth / 2;
+        let targetBMouseY = bgHeight / 2;
         let scrollVelocity = 0;
         let lastScrollY = 0;
 
-        // 1. Ambient Cyber Energy Nebulas
         const nebulas = [
-            { x: width * 0.2, y: height * 0.3, vx: 0.3, vy: 0.2, r: 280, color: 'rgba(249, 115, 22, 0.12)', baseR: 280, phase: 0 },
-            { x: width * 0.8, y: height * 0.6, vx: -0.25, vy: 0.3, r: 320, color: 'rgba(234, 88, 12, 0.10)', baseR: 320, phase: 2 },
-            { x: width * 0.5, y: height * 0.8, vx: 0.2, vy: -0.2, r: 260, color: 'rgba(251, 146, 60, 0.08)', baseR: 260, phase: 4 },
-            { x: width * 0.7, y: height * 0.2, vx: -0.2, vy: -0.15, r: 220, color: 'rgba(180, 83, 9, 0.09)', baseR: 220, phase: 1 }
+            { x: bgWidth * 0.2, y: bgHeight * 0.3, vx: 0.3, vy: 0.2, r: 280, color: 'rgba(249, 115, 22, 0.14)', baseR: 280, phase: 0 },
+            { x: bgWidth * 0.8, y: bgHeight * 0.6, vx: -0.25, vy: 0.3, r: 320, color: 'rgba(234, 88, 12, 0.12)', baseR: 320, phase: 2 },
+            { x: bgWidth * 0.5, y: bgHeight * 0.8, vx: 0.2, vy: -0.2, r: 260, color: 'rgba(251, 146, 60, 0.10)', baseR: 260, phase: 4 },
+            { x: bgWidth * 0.7, y: bgHeight * 0.2, vx: -0.2, vy: -0.15, r: 220, color: 'rgba(180, 83, 9, 0.11)', baseR: 220, phase: 1 }
         ];
 
-        // 2. 3D Geometric Polyhedrons (True 3D perspective projection)
         const polyhedrons = [];
-        const isMob = width < 768;
-        const polyCount = isMob ? 24 : 48;
+        const polyCount = isMobile ? 26 : 52;
 
-        // Define 3D Vertices for Polyhedrons
-        const cubeVerts = [
-            [-1,-1,-1], [1,-1,-1], [1,1,-1], [-1,1,-1],
-            [-1,-1,1],  [1,-1,1],  [1,1,1],  [-1,1,1]
-        ];
-        const cubeEdges = [
-            [0,1],[1,2],[2,3],[3,0],
-            [4,5],[5,6],[6,7],[7,4],
-            [0,4],[1,5],[2,6],[3,7]
-        ];
+        const cubeVerts = [[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]];
+        const cubeEdges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
 
-        const octaVerts = [
-            [0,1.4,0], [0,-1.4,0],
-            [-1,0,-1], [1,0,-1], [1,0,1], [-1,0,1]
-        ];
-        const octaEdges = [
-            [0,2],[0,3],[0,4],[0,5],
-            [1,2],[1,3],[1,4],[1,5],
-            [2,3],[3,4],[4,5],[5,2]
-        ];
+        const octaVerts = [[0,1.4,0],[0,-1.4,0],[-1,0,-1],[1,0,-1],[1,0,1],[-1,0,1]];
+        const octaEdges = [[0,2],[0,3],[0,4],[0,5],[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[5,2]];
 
-        const tetraVerts = [
-            [1,1,1], [-1,-1,1], [-1,1,-1], [1,-1,-1]
-        ];
-        const tetraEdges = [
-            [0,1],[0,2],[0,3],[1,2],[2,3],[3,1]
-        ];
+        const tetraVerts = [[1,1,1],[-1,-1,1],[-1,1,-1],[1,-1,-1]];
+        const tetraEdges = [[0,1],[0,2],[0,3],[1,2],[2,3],[3,1]];
 
         const telemetryTags = [
             "83 TFLOPS", "RTX 4090", "i9 14900K", "GDDR6X", "PCIe 5.0",
             "NVMe 7400MB/s", "DDR5 7200MHz", "360mm LIQUID", "0x7F-CORE",
-            "// ONLINE", "[SYS:OPTIMAL]", "⚡ 1200W PLATINUM", "RGB_SYNC", "4K_144Hz"
+            "// ONLINE", "[SYS:OPTIMAL]", "1200W PLATINUM", "RGB_SYNC", "4K_144Hz"
         ];
 
         function initEntities() {
             const dpr = Math.min(window.devicePixelRatio || 1, 2);
-            width = window.innerWidth;
-            height = window.innerHeight;
-            bgCanvas.width = width * dpr;
-            bgCanvas.height = height * dpr;
-            bgCanvas.style.width = width + 'px';
-            bgCanvas.style.height = height + 'px';
+            bgWidth = window.innerWidth;
+            bgHeight = window.innerHeight;
+            bgCanvas.width = bgWidth * dpr;
+            bgCanvas.height = bgHeight * dpr;
+            bgCanvas.style.width = bgWidth + 'px';
+            bgCanvas.style.height = bgHeight + 'px';
             bgCtx.scale(dpr, dpr);
 
             polyhedrons.length = 0;
@@ -2490,9 +3297,9 @@
             for (let i = 0; i < polyCount; i++) {
                 const type = types[i % types.length];
                 polyhedrons.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    z: Math.random() * 600 + 200, // 3D depth
+                    x: Math.random() * bgWidth,
+                    y: Math.random() * bgHeight,
+                    z: Math.random() * 600 + 200,
                     vx: (Math.random() - 0.5) * 0.5,
                     vy: (Math.random() - 0.5) * 0.5,
                     vz: (Math.random() - 0.5) * 0.2,
@@ -2512,12 +3319,11 @@
             }
         }
 
-        // 3. Shooting Cyber Comets / Laser Streaks
         const comets = [];
         function spawnComet() {
-            if (comets.length < (isMob ? 2 : 4)) {
+            if (comets.length < (isMobile ? 2 : 4)) {
                 comets.push({
-                    x: Math.random() * width * 1.2 - width * 0.1,
+                    x: Math.random() * bgWidth * 1.2 - bgWidth * 0.1,
                     y: -50,
                     length: Math.random() * 120 + 80,
                     vx: (Math.random() - 0.2) * 4 + 2,
@@ -2531,7 +3337,6 @@
         }
         setInterval(spawnComet, 1800);
 
-        // 4. Click Shockwave Ripples
         const ripples = [];
         window.addEventListener('click', (e) => {
             ripples.push({
@@ -2545,8 +3350,8 @@
         });
 
         window.addEventListener('mousemove', (e) => {
-            targetMouseX = e.clientX;
-            targetMouseY = e.clientY;
+            targetBMouseX = e.clientX;
+            targetBMouseY = e.clientY;
         });
 
         window.addEventListener('scroll', () => {
@@ -2555,21 +3360,16 @@
             lastScrollY = currentScroll;
         }, { passive: true });
 
-        // 3D Matrix Math Helper
         function project3D(x, y, z, rotX, rotY, rotZ, scale, cx, cy) {
-            // Rotate around X
             let y1 = y * Math.cos(rotX) - z * Math.sin(rotX);
             let z1 = y * Math.sin(rotX) + z * Math.cos(rotX);
 
-            // Rotate around Y
             let x2 = x * Math.cos(rotY) + z1 * Math.sin(rotY);
             let z2 = -x * Math.sin(rotY) + z1 * Math.cos(rotY);
 
-            // Rotate around Z
             let x3 = x2 * Math.cos(rotZ) - y1 * Math.sin(rotZ);
             let y3 = x2 * Math.sin(rotZ) + y1 * Math.cos(rotZ);
 
-            // Perspective Projection
             const fov = 450;
             const dist = fov + z2;
             if (dist <= 1) return null;
@@ -2584,24 +3384,23 @@
         }
 
         function drawCyberEngine() {
-            bgCtx.clearRect(0, 0, width, height);
+            bgCtx.clearRect(0, 0, bgWidth, bgHeight);
 
-            // Smooth mouse interpolation
-            mouseX += (targetMouseX - mouseX) * 0.05;
-            mouseY += (targetMouseY - mouseY) * 0.05;
+            bMouseX += (targetBMouseX - bMouseX) * 0.05;
+            bMouseY += (targetBMouseY - bMouseY) * 0.05;
             scrollVelocity *= 0.92;
 
-            // ---- LAYER 1: Ambient Plasma Energy Nebulas ----
+            // 1. Nebulas
             nebulas.forEach(n => {
                 n.x += n.vx;
                 n.y += n.vy;
                 n.phase += 0.015;
                 n.r = n.baseR + Math.sin(n.phase) * 35;
 
-                if (n.x < -100) n.x = width + 100;
-                if (n.x > width + 100) n.x = -100;
-                if (n.y < -100) n.y = height + 100;
-                if (n.y > height + 100) n.y = -100;
+                if (n.x < -100) n.x = bgWidth + 100;
+                if (n.x > bgWidth + 100) n.x = -100;
+                if (n.y < -100) n.y = bgHeight + 100;
+                if (n.y > bgHeight + 100) n.y = -100;
 
                 const grad = bgCtx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r);
                 grad.addColorStop(0, n.color);
@@ -2613,8 +3412,8 @@
                 bgCtx.fill();
             });
 
-            // ---- LAYER 2: Connecting Laser Vectors between Polyhedrons ----
-            const maxConnDist = isMob ? 120 : 180;
+            // 2. Vectors
+            const maxConnDist = isMobile ? 120 : 180;
             for (let i = 0; i < polyhedrons.length; i++) {
                 const p1 = polyhedrons[i];
                 for (let j = i + 1; j < polyhedrons.length; j++) {
@@ -2625,30 +3424,19 @@
 
                     if (dist < maxConnDist) {
                         const alpha = (1 - dist / maxConnDist) * 0.38;
-                        bgCtx.strokeStyle = `rgba(249, 115, 22, ${alpha})`;
+                        bgCtx.strokeStyle = 'rgba(249, 115, 22, ' + alpha + ')';
                         bgCtx.lineWidth = 1.0;
                         bgCtx.beginPath();
                         bgCtx.moveTo(p1.x, p1.y);
                         bgCtx.lineTo(p2.x, p2.y);
                         bgCtx.stroke();
-
-                        // Glowing midpoint energy spark
-                        if (dist < maxConnDist * 0.5) {
-                            const mx = (p1.x + p2.x) / 2;
-                            const my = (p1.y + p2.y) / 2;
-                            bgCtx.fillStyle = '#FED7AA';
-                            bgCtx.globalAlpha = alpha * 1.5;
-                            bgCtx.beginPath();
-                            bgCtx.arc(mx, my, 1.5, 0, Math.PI * 2);
-                            bgCtx.fill();
-                        }
                     }
                 }
             }
 
-            // ---- LAYER 3: 3D Wireframe Polyhedrons & Telemetry Badges ----
+            // 3. Polyhedrons
             polyhedrons.forEach(p => {
-                p.x += p.vx + (mouseX - width / 2) * 0.0004;
+                p.x += p.vx + (bMouseX - bgWidth / 2) * 0.0004;
                 p.y += p.vy + scrollVelocity;
                 p.z += p.vz;
                 p.rotX += p.vRotX + scrollVelocity * 0.003;
@@ -2656,11 +3444,10 @@
                 p.rotZ += p.vRotZ;
                 p.pulse += p.pulseSpeed;
 
-                // Wrap screen boundaries
-                if (p.x < -60) p.x = width + 60;
-                if (p.x > width + 60) p.x = -60;
-                if (p.y < -60) p.y = height + 60;
-                if (p.y > height + 60) p.y = -60;
+                if (p.x < -60) p.x = bgWidth + 60;
+                if (p.x > bgWidth + 60) p.x = -60;
+                if (p.y < -60) p.y = bgHeight + 60;
+                if (p.y > bgHeight + 60) p.y = -60;
                 if (p.z < 100) p.z = 700;
                 if (p.z > 700) p.z = 100;
 
@@ -2670,10 +3457,8 @@
                     const verts = p.type === 'cube' ? cubeVerts : (p.type === 'octa' ? octaVerts : tetraVerts);
                     const edges = p.type === 'cube' ? cubeEdges : (p.type === 'octa' ? octaEdges : tetraEdges);
 
-                    // Project all vertices
                     const proj = verts.map(v => project3D(v[0], v[1], v[2], p.rotX, p.rotY, p.rotZ, p.scale, p.x, p.y));
 
-                    // Draw Wireframe Edges
                     bgCtx.strokeStyle = '#F97316';
                     bgCtx.globalAlpha = opacity;
                     bgCtx.lineWidth = 1.3;
@@ -2689,7 +3474,6 @@
                         }
                     });
 
-                    // Draw Glowing Vertex Nodes
                     bgCtx.fillStyle = '#FB923C';
                     bgCtx.globalAlpha = opacity * 1.3;
                     proj.forEach(v => {
@@ -2700,7 +3484,6 @@
                         }
                     });
                 } else if (p.type === 'ring') {
-                    // Concentric Orbital Ring
                     bgCtx.save();
                     bgCtx.translate(p.x, p.y);
                     bgCtx.rotate(p.rotZ);
@@ -2711,47 +3494,28 @@
                     bgCtx.beginPath();
                     bgCtx.arc(0, 0, p.scale * 1.2, 0, Math.PI * 2);
                     bgCtx.stroke();
-
-                    // Inner Hexagon
-                    bgCtx.rotate(p.rotY * 2);
-                    bgCtx.strokeStyle = '#F97316';
-                    bgCtx.globalAlpha = opacity;
-                    bgCtx.beginPath();
-                    for (let k = 0; k < 6; k++) {
-                        const a = (k * Math.PI) / 3;
-                        const px = p.scale * 0.8 * Math.cos(a);
-                        const py = p.scale * 0.8 * Math.sin(a);
-                        if (k === 0) bgCtx.moveTo(px, py);
-                        else bgCtx.lineTo(px, py);
-                    }
-                    bgCtx.closePath();
-                    bgCtx.stroke();
-
                     bgCtx.restore();
                 } else if (p.type === 'tag') {
-                    // Floating Cyber Telemetry Tag
                     bgCtx.save();
                     bgCtx.translate(p.x, p.y);
                     bgCtx.rotate(Math.sin(p.pulse) * 0.08);
 
-                    // Badge box
-                    bgCtx.fillStyle = 'rgba(20, 20, 22, 0.75)';
+                    bgCtx.fillStyle = 'rgba(20, 20, 24, 0.75)';
                     bgCtx.strokeStyle = 'rgba(249, 115, 22, 0.45)';
                     bgCtx.globalAlpha = opacity * 0.85;
                     bgCtx.lineWidth = 1;
 
                     const text = p.tag;
-                    bgCtx.font = "600 10px 'JetBrains Mono', monospace";
+                    bgCtx.font = "600 11px 'JetBrains Mono', monospace";
                     const metrics = bgCtx.measureText(text);
                     const tw = metrics.width + 16;
-                    const th = 20;
+                    const th = 22;
 
                     bgCtx.beginPath();
                     bgCtx.roundRect(-tw / 2, -th / 2, tw, th, 4);
                     bgCtx.fill();
                     bgCtx.stroke();
 
-                    // Text
                     bgCtx.fillStyle = '#FB923C';
                     bgCtx.globalAlpha = opacity * 1.1;
                     bgCtx.textAlign = 'center';
@@ -2762,14 +3526,14 @@
                 }
             });
 
-            // ---- LAYER 4: Shooting Comets / Laser Trails ----
+            // 4. Comets
             for (let i = comets.length - 1; i >= 0; i--) {
                 const c = comets[i];
                 c.x += c.vx;
                 c.y += c.vy;
                 c.life -= c.decay;
 
-                if (c.life <= 0 || c.y > height + 100 || c.x > width + 100) {
+                if (c.life <= 0 || c.y > bgHeight + 100 || c.x > bgWidth + 100) {
                     comets.splice(i, 1);
                     continue;
                 }
@@ -2779,8 +3543,8 @@
 
                 const cometGrad = bgCtx.createLinearGradient(tailX, tailY, c.x, c.y);
                 cometGrad.addColorStop(0, 'rgba(249, 115, 22, 0)');
-                cometGrad.addColorStop(0.7, `rgba(249, 115, 22, ${c.life * 0.5})`);
-                cometGrad.addColorStop(1, `rgba(255, 247, 237, ${c.life * 0.9})`);
+                cometGrad.addColorStop(0.7, 'rgba(249, 115, 22, ' + (c.life * 0.5) + ')');
+                cometGrad.addColorStop(1, 'rgba(255, 247, 237, ' + (c.life * 0.9) + ')');
 
                 bgCtx.strokeStyle = cometGrad;
                 bgCtx.lineWidth = c.width;
@@ -2789,16 +3553,9 @@
                 bgCtx.moveTo(tailX, tailY);
                 bgCtx.lineTo(c.x, c.y);
                 bgCtx.stroke();
-
-                // Bright head
-                bgCtx.fillStyle = '#FFF7ED';
-                bgCtx.globalAlpha = c.life * 0.9;
-                bgCtx.beginPath();
-                bgCtx.arc(c.x, c.y, c.width * 1.5, 0, Math.PI * 2);
-                bgCtx.fill();
             }
 
-            // ---- LAYER 5: Click Energy Ripples ----
+            // 5. Ripples
             for (let i = ripples.length - 1; i >= 0; i--) {
                 const rip = ripples[i];
                 rip.r += rip.speed;
@@ -2809,16 +3566,10 @@
                     continue;
                 }
 
-                bgCtx.strokeStyle = `rgba(249, 115, 22, ${rip.opacity})`;
+                bgCtx.strokeStyle = 'rgba(249, 115, 22, ' + rip.opacity + ')';
                 bgCtx.lineWidth = 2;
                 bgCtx.beginPath();
                 bgCtx.arc(rip.x, rip.y, rip.r, 0, Math.PI * 2);
-                bgCtx.stroke();
-
-                bgCtx.strokeStyle = `rgba(251, 146, 60, ${rip.opacity * 0.5})`;
-                bgCtx.lineWidth = 1;
-                bgCtx.beginPath();
-                bgCtx.arc(rip.x, rip.y, rip.r * 0.65, 0, Math.PI * 2);
                 bgCtx.stroke();
             }
 
@@ -2828,22 +3579,23 @@
         function initParticles() {
             initEntities();
         }
-        window.addEventListener('resize', initParticles);
 
         function drawParticles() {
             drawCyberEngine();
         }
 
-        // ============ HERO CARD ============
+        window.addEventListener('resize', initParticles);
+
+        // ============ HERO CARD 3D ============
         const heroCard = document.getElementById('hero-card');
         let flipped = false;
 
-        if (isDesktop) {
+        if (isDesktop && heroCard) {
             heroCard.addEventListener('mousemove', (e) => {
                 if (!flipped) {
                     const rect = heroCard.getBoundingClientRect();
                     const x = e.clientX - rect.left, y = e.clientY - rect.top;
-                    heroCard.style.transform = `rotateX(${(y - rect.height/2)/12}deg) rotateY(${(rect.width/2 - x)/12}deg)`;
+                    heroCard.style.transform = 'rotateX(' + ((y - rect.height/2)/12) + 'deg) rotateY(' + ((rect.width/2 - x)/12) + 'deg)';
                 }
             });
             heroCard.addEventListener('mouseleave', () => {
@@ -2851,15 +3603,32 @@
             });
         }
 
-        heroCard.addEventListener('click', () => {
-            flipped = !flipped;
-            heroCard.style.transform = flipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
-        });
+        if (heroCard) {
+            heroCard.addEventListener('click', () => {
+                playCyberSound('click');
+                flipped = !flipped;
+                heroCard.style.transform = flipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+            });
 
-        // ============ THREE.JS FEATURED ============
+            heroCard.addEventListener('touchmove', (e) => {
+                if (flipped) return;
+                const touch = e.touches[0];
+                const rect = heroCard.getBoundingClientRect();
+                const x = touch.clientX - rect.left;
+                const y = touch.clientY - rect.top;
+                heroCard.style.transform = 'perspective(1000px) rotateX(' + ((y - rect.height/2)/10) + 'deg) rotateY(' + ((rect.width/2 - x)/10) + 'deg)';
+            }, { passive: true });
+
+            heroCard.addEventListener('touchend', () => {
+                if (!flipped) heroCard.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+            });
+        }
+
+        // ============ THREE.JS FEATURED PC TOWER ============
         function initFeatured3D() {
             if (!enable3D) return;
             const canvas = document.getElementById('featured-canvas');
+            if (!canvas) return;
             const container = canvas.parentElement;
 
             const scene = new THREE.Scene();
@@ -2870,14 +3639,13 @@
 
             const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
 
             scene.add(new THREE.AmbientLight(0x404040, 0.5));
             const key = new THREE.DirectionalLight(0xF97316, 2);
             key.position.set(5, 5, 5);
             scene.add(key);
 
-            // PC Tower
             const group = new THREE.Group();
             const bodyGeo = new THREE.BoxGeometry(3, 4, 2);
             const bodyMat = new THREE.MeshPhongMaterial({ color: 0x141416, emissive: 0xF97316, emissiveIntensity: 0.05, transparent: true, opacity: 0.9 });
@@ -2886,7 +3654,6 @@
             const edges = new THREE.LineSegments(new THREE.EdgesGeometry(bodyGeo), new THREE.LineBasicMaterial({ color: 0xF97316, transparent: true, opacity: 0.8 }));
             group.add(edges);
 
-            // Fans
             const fans = new THREE.Group();
             for (let i = 0; i < 3; i++) {
                 const fan = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.06, 8, 24), new THREE.MeshBasicMaterial({ color: 0xF97316, transparent: true, opacity: 0.7 }));
@@ -2894,7 +3661,6 @@
                 fans.add(fan);
             }
             group.add(fans);
-
             scene.add(group);
 
             let progress = 0;
@@ -2933,11 +3699,12 @@
             });
         }
 
-        // ============ THREE.JS RENDER 3D ============
+        // ============ THREE.JS RENDER 3D CORE ============
         function initRender3D() {
             if (!enable3D) return;
             const container = document.getElementById('render3d-canvas-container');
             const canvas = document.getElementById('render3d-canvas');
+            if (!canvas || !container) return;
 
             const scene = new THREE.Scene();
             scene.fog = new THREE.FogExp2(0x0A0A0B, 0.015);
@@ -2947,16 +3714,14 @@
 
             const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
 
-            // Central icosahedron
             const central = new THREE.Mesh(new THREE.IcosahedronGeometry(3, 1), new THREE.MeshBasicMaterial({ color: 0xF97316, wireframe: true, transparent: true, opacity: 0.6 }));
             scene.add(central);
 
             const inner = new THREE.Mesh(new THREE.OctahedronGeometry(1.5, 0), new THREE.MeshPhongMaterial({ color: 0xFB923C, emissive: 0xEA580C, emissiveIntensity: 0.4 }));
             central.add(inner);
 
-            // Rings
             const ringGroup = new THREE.Group();
             for (let i = 0; i < 3; i++) {
                 const ring = new THREE.Mesh(new THREE.TorusGeometry(5 + i*1.5, 0.02, 8, 80), new THREE.MeshBasicMaterial({ color: 0xF97316, transparent: true, opacity: 0.4 - i*0.1 }));
@@ -2967,7 +3732,6 @@
             }
             scene.add(ringGroup);
 
-            // Floating shapes
             const shapes = [];
             const configs = [
                 ['tetra', 0.5, [6,2,-3]], ['tetra', 0.3, [-7,-1,-5]],
@@ -2984,7 +3748,6 @@
                 scene.add(mesh);
             });
 
-            // Stars
             const starGeo = new THREE.BufferGeometry();
             const starPos = new Float32Array(300 * 3);
             for (let i = 0; i < 300; i++) {
@@ -3012,9 +3775,11 @@
 
                     const title = document.getElementById('render-title');
                     const sub = document.getElementById('render-subtitle');
-                    if (progress < 0.33) { title.innerHTML = 'Una experiencia <span style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">visual única</span>'; sub.textContent = 'Explora el poder desde adentro'; }
-                    else if (progress < 0.66) { title.innerHTML = 'Rendimiento <span style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">extremo</span>'; sub.textContent = 'Cada componente optimizado'; }
-                    else { title.innerHTML = 'El futuro es <span style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">ahora</span>'; sub.textContent = 'Descubre lo que podemos crear'; }
+                    if (title && sub) {
+                        if (progress < 0.33) { title.innerHTML = 'Una experiencia <span style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">visual única</span>'; sub.textContent = 'Explora el poder desde adentro'; }
+                        else if (progress < 0.66) { title.innerHTML = 'Rendimiento <span style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">extremo</span>'; sub.textContent = 'Cada componente optimizado'; }
+                        else { title.innerHTML = 'El futuro es <span style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">ahora</span>'; sub.textContent = 'Descubre lo que podemos crear'; }
+                    }
                 }
             });
 
@@ -3049,20 +3814,22 @@
         // ============ RENDER CATEGORIES ============
         function renderCategories() {
             const grid = document.getElementById('categories-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
             categorias.forEach((cat, i) => {
                 const card = document.createElement('div');
                 card.className = 'category-card reveal';
-                card.style.transitionDelay = `${i * 0.08}s`;
-                card.innerHTML = `
-                    <img class="category-bg" src="${cat.img}" alt="${cat.nombre}" loading="lazy">
-                    <div class="category-overlay"></div>
-                    <div class="category-content">
-                        <div class="category-icon-wrapper">${cat.icon}</div>
-                        <div class="category-name">${cat.nombre}</div>
-                        <div class="category-count">${cat.count} productos</div>
-                    </div>
-                `;
+                card.style.transitionDelay = (i * 0.08) + 's';
+                card.innerHTML = 
+                    '<img class="category-bg" src="' + cat.img + '" alt="' + cat.nombre + '" loading="lazy">' +
+                    '<div class="category-overlay"></div>' +
+                    '<div class="category-content">' +
+                        '<div class="category-icon-wrapper">' + cat.icon + '</div>' +
+                        '<div class="category-name">' + cat.nombre + '</div>' +
+                        '<div class="category-count">' + cat.count + ' productos</div>' +
+                    '</div>';
                 card.addEventListener('click', () => {
+                    playCyberSound('click');
                     filterProducts(cat.id);
                     lenis.scrollTo('#catalogo', { duration: 1 });
                 });
@@ -3071,46 +3838,61 @@
         }
 
         // ============ RENDER PRODUCTS ============
+        function filterProducts(catId) {
+            const container = document.getElementById('catalog-filters');
+            if (container) {
+                container.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.id === catId);
+                });
+            }
+            renderProducts(catId);
+        }
+
         function renderProducts(filter = 'todos') {
             const grid = document.getElementById('catalog-grid');
+            if (!grid) return;
             grid.innerHTML = '';
             const filtered = filter === 'todos' ? productos : productos.filter(p => p.categoria === filter);
 
             filtered.forEach(producto => {
                 const card = document.createElement('article');
-                card.className = 'product-card';
-                card.innerHTML = `
-                    <div class="product-image" data-id="${producto.id}">
-                        <img src="${producto.imagen}" alt="${producto.nombre}" loading="lazy">
-                        <span class="product-badge">${producto.categoria}</span>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-category">${producto.categoria}</div>
-                        <h3 class="product-name">${producto.nombre}</h3>
-                        <div class="product-specs">
-                            ${producto.specs.map(s => `<span class="product-spec">${s}</span>`).join('')}
-                        </div>
-                        <div class="product-footer">
-                            <div class="product-price">$${producto.precio.toLocaleString()}</div>
-                            <button class="btn-ver-detalles" onclick="openModal(${producto.id})">
-                                <span>Ver Detalles</span>
-                                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                `;
+                card.className = 'product-card reveal';
+                card.innerHTML = 
+                    '<div class="product-image" onclick="openModal(' + producto.id + ')">' +
+                        '<img src="' + producto.imagen + '" alt="' + producto.nombre + '" loading="lazy">' +
+                        '<span class="product-badge">' + producto.categoria + '</span>' +
+                    '</div>' +
+                    '<div class="product-content">' +
+                        '<div class="product-category">' + producto.categoria + '</div>' +
+                        '<h3 class="product-name">' + producto.nombre + '</h3>' +
+                        '<div class="product-specs">' +
+                            producto.specs.map(s => '<span class="product-spec">' + s + '</span>').join('') +
+                        '</div>' +
+                        '<div class="product-footer">' +
+                            '<div class="product-price">$' + producto.precio.toLocaleString() + '</div>' +
+                            '<button class="btn-ver-detalles" onclick="openModal(' + producto.id + ')">' +
+                                '<span>Ver Detalles</span>' +
+                                '<svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>' +
+                            '</button>' +
+                        '</div>' +
+                    '</div>';
                 grid.appendChild(card);
             });
+            observeReveals();
         }
 
         function renderFilters() {
             const container = document.getElementById('catalog-filters');
+            if (!container) return;
+            container.innerHTML = '';
             const filters = [{ id: 'todos', nombre: 'Todos' }, ...categorias.map(c => ({ id: c.id, nombre: c.nombre }))];
             filters.forEach(f => {
                 const btn = document.createElement('button');
-                btn.className = `filter-btn ${f.id === 'todos' ? 'active' : ''}`;
+                btn.className = 'filter-btn ' + (f.id === 'todos' ? 'active' : '');
+                btn.dataset.id = f.id;
                 btn.textContent = f.nombre;
                 btn.addEventListener('click', () => {
+                    playCyberSound('click');
                     container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     renderProducts(f.id);
@@ -3119,658 +3901,24 @@
             });
         }
 
-        // ============ MODAL CON ZOOM INTEGRADO ============
+        // ============ MODAL CON ZOOM OPTICO Y WHATSAPP ============
         const modalOverlay = document.getElementById('modal-overlay');
         const zoomContainer = document.getElementById('zoom-container');
         const modalImage = document.getElementById('modal-image');
         const zoomLens = document.getElementById('zoom-lens');
-        const zoomIndicator = document.getElementById('zoom-indicator');
         const touchHint = document.getElementById('touch-hint');
 
         let isZoomActive = false;
         let currentZoomLevel = 1;
 
-                function openModal(productId) {
+        function openModal(productId) {
+            playCyberSound('click');
             const producto = productos.find(p => p.id === productId);
             if (!producto) return;
 
             const waBtn = document.getElementById('modal-whatsapp-btn');
             if (waBtn) {
-                waBtn.href = 'https://wa.me/584127670871?text=' + encodeURIComponent('Hola Diginast, quiero cotizar: ' + producto.nombre + ' (
-
-        function closeModal() {
-            modalOverlay.classList.remove('active');
-            lenis.start();
-            resetZoomState();
-        }
-
-        function resetZoomState() {
-            isZoomActive = false;
-            currentZoomLevel = 1;
-            modalImage.style.transform = 'scale(1)';
-            modalImage.style.transformOrigin = 'center center';
-            zoomLens.classList.remove('active');
-        }
-
-        function updateZoomModeText() {
-            const text = document.getElementById('zoom-mode-text');
-            if (isTouch) {
-                text.textContent = isZoomActive ? 'Toca para salir' : 'Toca para zoom';
-            } else {
-                text.textContent = 'Hover para zoom';
-            }
-        }
-
-        // ZOOM: Desktop (mouse hover + seguimiento)
-        if (!isTouch) {
-            zoomContainer.addEventListener('mouseenter', () => {
-                if (!isZoomActive) {
-                    isZoomActive = true;
-                    currentZoomLevel = 2.5;
-                    zoomLens.classList.add('active');
-                }
-            });
-
-            zoomContainer.addEventListener('mousemove', (e) => {
-                if (isZoomActive) {
-                    const rect = zoomContainer.getBoundingClientRect();
-                    const x = ((e.clientX - rect.left) / rect.width) * 100;
-                    const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-                    // Actualizar transform-origin de la imagen
-                    modalImage.style.transformOrigin = `${x}% ${y}%`;
-                    modalImage.style.transform = `scale(${currentZoomLevel})`;
-
-                    // Actualizar posición de la lente
-                    zoomLens.style.left = (e.clientX - rect.left - 50) + 'px';
-                    zoomLens.style.top = (e.clientY - rect.top - 50) + 'px';
-                }
-            });
-
-            zoomContainer.addEventListener('mouseleave', () => {
-                resetZoomState();
-            });
-
-            // Click para toggle zoom level
-            zoomContainer.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (currentZoomLevel === 2.5) {
-                    currentZoomLevel = 4;
-                } else if (currentZoomLevel === 4) {
-                    currentZoomLevel = 1;
-                    isZoomActive = false;
-                } else {
-                    currentZoomLevel = 2.5;
-                    isZoomActive = true;
-                    zoomLens.classList.add('active');
-                }
-            });
-        }
-
-        // ZOOM: Táctil (tap para activar, drag para mover)
-        if (isTouch) {
-            let lastTap = 0;
-            let startX = 0, startY = 0;
-            let currentX = 50, currentY = 50;
-
-            zoomContainer.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                const now = Date.now();
-                const touch = e.touches[0];
-                const rect = zoomContainer.getBoundingClientRect();
-
-                // Detectar doble tap
-                if (now - lastTap < 300) {
-                    // Doble tap: reset zoom
-                    resetZoomState();
-                    updateZoomModeText();
-                    return;
-                }
-                lastTap = now;
-
-                if (!isZoomActive) {
-                    // Activar zoom en el punto tocado
-                    isZoomActive = true;
-                    currentZoomLevel = 2.5;
-                    currentX = ((touch.clientX - rect.left) / rect.width) * 100;
-                    currentY = ((touch.clientY - rect.top) / rect.height) * 100;
-                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
-                    modalImage.style.transform = `scale(${currentZoomLevel})`;
-                    touchHint.textContent = '👆 Arrastra para explorar • Doble tap para salir';
-                }
-
-                startX = touch.clientX;
-                startY = touch.clientY;
-            }, { passive: false });
-
-            zoomContainer.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-                if (isZoomActive && e.touches.length === 1) {
-                    const touch = e.touches[0];
-                    const rect = zoomContainer.getBoundingClientRect();
-
-                    // Calcular nueva posición del origen
-                    const deltaX = (touch.clientX - startX) / rect.width * 100;
-                    const deltaY = (touch.clientY - startY) / rect.height * 100;
-
-                    currentX = Math.max(0, Math.min(100, currentX - deltaX / currentZoomLevel));
-                    currentY = Math.max(0, Math.min(100, currentY - deltaY / currentZoomLevel));
-
-                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
-                    modalImage.style.transform = `scale(${currentZoomLevel})`;
-
-                    startX = touch.clientX;
-                    startY = touch.clientY;
-                }
-
-                // Pinch zoom
-                if (e.touches.length === 2 && isZoomActive) {
-                    const dist = Math.hypot(
-                        e.touches[0].clientX - e.touches[1].clientX,
-                        e.touches[0].clientY - e.touches[1].clientY
-                    );
-                    if (zoomContainer.dataset.lastPinchDist) {
-                        const scale = dist / parseFloat(zoomContainer.dataset.lastPinchDist);
-                        currentZoomLevel = Math.max(1, Math.min(5, currentZoomLevel * scale));
-                        modalImage.style.transform = `scale(${currentZoomLevel})`;
-                    }
-                    zoomContainer.dataset.lastPinchDist = dist;
-                }
-            }, { passive: false });
-
-            zoomContainer.addEventListener('touchend', (e) => {
-                delete zoomContainer.dataset.lastPinchDist;
-            });
-        }
-
-        document.getElementById('modal-close').addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) closeModal();
-        });
-
-        // ============ SEARCH ============
-        function openSearch() {
-            document.getElementById('search-overlay').classList.add('active');
-            document.getElementById('search-input').focus();
-            lenis.stop();
-            if (menuOpen) {
-                menuOpen = false;
-                hamburger.classList.remove('active');
-                mobileMenu.classList.remove('open');
-            }
-        }
-
-        function closeSearch() {
-            document.getElementById('search-overlay').classList.remove('active');
-            lenis.start();
-        }
-
-        document.getElementById('search-overlay').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) closeSearch();
-        });
-
-        document.getElementById('search-input').addEventListener('input', function() {
-            const query = this.value.toLowerCase();
-            const results = document.getElementById('search-results');
-
-            if (query.length < 2) {
-                results.classList.remove('show');
-                return;
-            }
-
-            const filtered = productos.filter(p =>
-                p.nombre.toLowerCase().includes(query) ||
-                p.categoria.toLowerCase().includes(query) ||
-                p.specs.some(s => s.toLowerCase().includes(query))
-            );
-
-            results.innerHTML = '';
-
-            if (filtered.length === 0) {
-                results.innerHTML = '<div style="text-align:center;color:var(--gris-texto);padding:1.5rem;font-style:italic;">No se encontraron resultados</div>';
-            } else {
-                filtered.forEach(producto => {
-                    const card = document.createElement('div');
-                    card.className = 'search-result-card';
-                    card.innerHTML = `
-                        <img src="${producto.imagen}" alt="${producto.nombre}" class="search-result-img">
-                        <div class="search-result-info">
-                            <h4>${producto.nombre}</h4>
-                            <p>$${producto.precio.toLocaleString()}</p>
-                        </div>
-                    `;
-                    card.addEventListener('click', () => {
-                        closeSearch();
-                        openModal(producto.id);
-                    });
-                    results.appendChild(card);
-                });
-            }
-            results.classList.add('show');
-        });
-
-        // ============ TOAST ============
-        function showToast() {
-            const toast = document.getElementById('toast');
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-        }
-
-        // ============ REVEAL ANIMATIONS ============
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        function observeReveals() {
-            document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
-        }
-
-        // ============ STATS COUNTER ============
-        function animateStats() {
-            const stats = document.querySelectorAll('.stat-number');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const target = parseInt(entry.target.dataset.count);
-                        let current = 0;
-                        const increment = target / 60;
-                        const timer = setInterval(() => {
-                            current += increment;
-                            if (current >= target) {
-                                current = target;
-                                clearInterval(timer);
-                            }
-                            entry.target.textContent = Math.floor(current).toLocaleString() + '+';
-                        }, 16);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            });
-            stats.forEach(s => observer.observe(s));
-        }
-
-        // ============ SMOOTH SCROLL ============
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    lenis.scrollTo(target, { duration: 1.2 });
-                }
-            });
-        });
-
-        // ============ KEYBOARD ============
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeSearch();
-                closeModal();
-            }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                openSearch();
-            }
-        });
-
-        // ============ INIT ============
-        document.addEventListener('DOMContentLoaded', function() {
-            renderCategories();
-            renderFilters();
-            renderProducts();
-            animateStats();
-            initFeatured3D();
-            initRender3D();
-            observeReveals();
-            updateZoomModeText();
-
-            // Ocultar hint flotante después de 6s
-            setTimeout(() => {
-                const hint = document.querySelector('.mobile-scroll-hint');
-                if (hint) hint.style.opacity = '0';
-            }, 6000);
-
-            setTimeout(() => ScrollTrigger.refresh(), 500);
-        });
-    </script>
-</body>
-</html> + producto.precio + ')');
-            }
-            const producto = productos.find(p => p.id === productId);
-            if (!producto) return;
-
-            modalImage.src = producto.imagen;
-            modalImage.alt = producto.nombre;
-            document.getElementById('modal-category').textContent = producto.categoria;
-            document.getElementById('modal-title').textContent = producto.nombre;
-            document.getElementById('modal-description').textContent = producto.descripcion;
-            document.getElementById('modal-price').textContent = `$${producto.precio.toLocaleString()}`;
-
-            document.getElementById('modal-specs').innerHTML = producto.specs.map(s => `
-                <div class="modal-spec">
-                    <div class="modal-spec-label">Spec</div>
-                    <div class="modal-spec-value">${s}</div>
-                </div>
-            `).join('');
-
-            // Reset zoom
-            resetZoomState();
-            updateZoomModeText();
-
-            modalOverlay.classList.add('active');
-            lenis.stop();
-
-            // Ocultar hint táctil después de 3s
-            setTimeout(() => {
-                touchHint.style.display = 'none';
-            }, 3000);
-        }
-
-        function closeModal() {
-            modalOverlay.classList.remove('active');
-            lenis.start();
-            resetZoomState();
-        }
-
-        function resetZoomState() {
-            isZoomActive = false;
-            currentZoomLevel = 1;
-            modalImage.style.transform = 'scale(1)';
-            modalImage.style.transformOrigin = 'center center';
-            zoomLens.classList.remove('active');
-        }
-
-        function updateZoomModeText() {
-            const text = document.getElementById('zoom-mode-text');
-            if (isTouch) {
-                text.textContent = isZoomActive ? 'Toca para salir' : 'Toca para zoom';
-            } else {
-                text.textContent = 'Hover para zoom';
-            }
-        }
-
-        // ZOOM: Desktop (mouse hover + seguimiento)
-        if (!isTouch) {
-            zoomContainer.addEventListener('mouseenter', () => {
-                if (!isZoomActive) {
-                    isZoomActive = true;
-                    currentZoomLevel = 2.5;
-                    zoomLens.classList.add('active');
-                }
-            });
-
-            zoomContainer.addEventListener('mousemove', (e) => {
-                if (isZoomActive) {
-                    const rect = zoomContainer.getBoundingClientRect();
-                    const x = ((e.clientX - rect.left) / rect.width) * 100;
-                    const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-                    // Actualizar transform-origin de la imagen
-                    modalImage.style.transformOrigin = `${x}% ${y}%`;
-                    modalImage.style.transform = `scale(${currentZoomLevel})`;
-
-                    // Actualizar posición de la lente
-                    zoomLens.style.left = (e.clientX - rect.left - 50) + 'px';
-                    zoomLens.style.top = (e.clientY - rect.top - 50) + 'px';
-                }
-            });
-
-            zoomContainer.addEventListener('mouseleave', () => {
-                resetZoomState();
-            });
-
-            // Click para toggle zoom level
-            zoomContainer.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (currentZoomLevel === 2.5) {
-                    currentZoomLevel = 4;
-                } else if (currentZoomLevel === 4) {
-                    currentZoomLevel = 1;
-                    isZoomActive = false;
-                } else {
-                    currentZoomLevel = 2.5;
-                    isZoomActive = true;
-                    zoomLens.classList.add('active');
-                }
-            });
-        }
-
-        // ZOOM: Táctil (tap para activar, drag para mover)
-        if (isTouch) {
-            let lastTap = 0;
-            let startX = 0, startY = 0;
-            let currentX = 50, currentY = 50;
-
-            zoomContainer.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                const now = Date.now();
-                const touch = e.touches[0];
-                const rect = zoomContainer.getBoundingClientRect();
-
-                // Detectar doble tap
-                if (now - lastTap < 300) {
-                    // Doble tap: reset zoom
-                    resetZoomState();
-                    updateZoomModeText();
-                    return;
-                }
-                lastTap = now;
-
-                if (!isZoomActive) {
-                    // Activar zoom en el punto tocado
-                    isZoomActive = true;
-                    currentZoomLevel = 2.5;
-                    currentX = ((touch.clientX - rect.left) / rect.width) * 100;
-                    currentY = ((touch.clientY - rect.top) / rect.height) * 100;
-                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
-                    modalImage.style.transform = `scale(${currentZoomLevel})`;
-                    touchHint.textContent = '👆 Arrastra para explorar • Doble tap para salir';
-                }
-
-                startX = touch.clientX;
-                startY = touch.clientY;
-            }, { passive: false });
-
-            zoomContainer.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-                if (isZoomActive && e.touches.length === 1) {
-                    const touch = e.touches[0];
-                    const rect = zoomContainer.getBoundingClientRect();
-
-                    // Calcular nueva posición del origen
-                    const deltaX = (touch.clientX - startX) / rect.width * 100;
-                    const deltaY = (touch.clientY - startY) / rect.height * 100;
-
-                    currentX = Math.max(0, Math.min(100, currentX - deltaX / currentZoomLevel));
-                    currentY = Math.max(0, Math.min(100, currentY - deltaY / currentZoomLevel));
-
-                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
-                    modalImage.style.transform = `scale(${currentZoomLevel})`;
-
-                    startX = touch.clientX;
-                    startY = touch.clientY;
-                }
-
-                // Pinch zoom
-                if (e.touches.length === 2 && isZoomActive) {
-                    const dist = Math.hypot(
-                        e.touches[0].clientX - e.touches[1].clientX,
-                        e.touches[0].clientY - e.touches[1].clientY
-                    );
-                    if (zoomContainer.dataset.lastPinchDist) {
-                        const scale = dist / parseFloat(zoomContainer.dataset.lastPinchDist);
-                        currentZoomLevel = Math.max(1, Math.min(5, currentZoomLevel * scale));
-                        modalImage.style.transform = `scale(${currentZoomLevel})`;
-                    }
-                    zoomContainer.dataset.lastPinchDist = dist;
-                }
-            }, { passive: false });
-
-            zoomContainer.addEventListener('touchend', (e) => {
-                delete zoomContainer.dataset.lastPinchDist;
-            });
-        }
-
-        document.getElementById('modal-close').addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) closeModal();
-        });
-
-        // ============ SEARCH ============
-        function openSearch() {
-            document.getElementById('search-overlay').classList.add('active');
-            document.getElementById('search-input').focus();
-            lenis.stop();
-            if (menuOpen) {
-                menuOpen = false;
-                hamburger.classList.remove('active');
-                mobileMenu.classList.remove('open');
-            }
-        }
-
-        function closeSearch() {
-            document.getElementById('search-overlay').classList.remove('active');
-            lenis.start();
-        }
-
-        document.getElementById('search-overlay').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) closeSearch();
-        });
-
-        document.getElementById('search-input').addEventListener('input', function() {
-            const query = this.value.toLowerCase();
-            const results = document.getElementById('search-results');
-
-            if (query.length < 2) {
-                results.classList.remove('show');
-                return;
-            }
-
-            const filtered = productos.filter(p =>
-                p.nombre.toLowerCase().includes(query) ||
-                p.categoria.toLowerCase().includes(query) ||
-                p.specs.some(s => s.toLowerCase().includes(query))
-            );
-
-            results.innerHTML = '';
-
-            if (filtered.length === 0) {
-                results.innerHTML = '<div style="text-align:center;color:var(--gris-texto);padding:1.5rem;font-style:italic;">No se encontraron resultados</div>';
-            } else {
-                filtered.forEach(producto => {
-                    const card = document.createElement('div');
-                    card.className = 'search-result-card';
-                    card.innerHTML = `
-                        <img src="${producto.imagen}" alt="${producto.nombre}" class="search-result-img">
-                        <div class="search-result-info">
-                            <h4>${producto.nombre}</h4>
-                            <p>$${producto.precio.toLocaleString()}</p>
-                        </div>
-                    `;
-                    card.addEventListener('click', () => {
-                        closeSearch();
-                        openModal(producto.id);
-                    });
-                    results.appendChild(card);
-                });
-            }
-            results.classList.add('show');
-        });
-
-        // ============ TOAST ============
-        function showToast() {
-            const toast = document.getElementById('toast');
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-        }
-
-        // ============ REVEAL ANIMATIONS ============
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        function observeReveals() {
-            document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
-        }
-
-        // ============ STATS COUNTER ============
-        function animateStats() {
-            const stats = document.querySelectorAll('.stat-number');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const target = parseInt(entry.target.dataset.count);
-                        let current = 0;
-                        const increment = target / 60;
-                        const timer = setInterval(() => {
-                            current += increment;
-                            if (current >= target) {
-                                current = target;
-                                clearInterval(timer);
-                            }
-                            entry.target.textContent = Math.floor(current).toLocaleString() + '+';
-                        }, 16);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            });
-            stats.forEach(s => observer.observe(s));
-        }
-
-        // ============ SMOOTH SCROLL ============
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    lenis.scrollTo(target, { duration: 1.2 });
-                }
-            });
-        });
-
-        // ============ KEYBOARD ============
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeSearch();
-                closeModal();
-            }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                openSearch();
-            }
-        });
-
-        // ============ INIT ============
-        document.addEventListener('DOMContentLoaded', function() {
-            renderCategories();
-            renderFilters();
-            renderProducts();
-            animateStats();
-            initFeatured3D();
-            initRender3D();
-            observeReveals();
-            updateZoomModeText();
-
-            // Ocultar hint flotante después de 6s
-            setTimeout(() => {
-                const hint = document.querySelector('.mobile-scroll-hint');
-                if (hint) hint.style.opacity = '0';
-            }, 6000);
-
-            setTimeout(() => ScrollTrigger.refresh(), 500);
-        });
-    </script>
-</body>
-</html> + producto.precio + ')');
+                waBtn.href = 'https://wa.me/584127670871?text=' + encodeURIComponent('Hola Diginast, quiero cotizar: ' + producto.nombre + ' ($' + producto.precio + ')');
             }
 
             modalImage.src = producto.imagen;
@@ -3778,29 +3926,26 @@
             document.getElementById('modal-category').textContent = producto.categoria;
             document.getElementById('modal-title').textContent = producto.nombre;
             document.getElementById('modal-description').textContent = producto.descripcion;
-            document.getElementById('modal-price').textContent = `${producto.precio.toLocaleString()}`;
+            document.getElementById('modal-price').textContent = '$' + producto.precio.toLocaleString();
 
-            document.getElementById('modal-specs').innerHTML = producto.specs.map(s => `
-                <div class="modal-spec">
-                    <div class="modal-spec-label">Spec</div>
-                    <div class="modal-spec-value">${s}</div>
-                </div>
-            `).join('');
+            document.getElementById('modal-specs').innerHTML = producto.specs.map(s => 
+                '<div class="modal-spec">' +
+                    '<div class="modal-spec-label">Spec</div>' +
+                    '<div class="modal-spec-value">' + s + '</div>' +
+                '</div>'
+            ).join('');
 
-            // Reset zoom
             resetZoomState();
             updateZoomModeText();
 
             modalOverlay.classList.add('active');
             lenis.stop();
 
-            // Ocultar hint táctil después de 3s
-            setTimeout(() => {
-                touchHint.style.display = 'none';
-            }, 3000);
+            setTimeout(() => { if (touchHint) touchHint.style.display = 'none'; }, 3000);
         }
 
         function closeModal() {
+            playCyberSound('click');
             modalOverlay.classList.remove('active');
             lenis.start();
             resetZoomState();
@@ -3811,25 +3956,22 @@
             currentZoomLevel = 1;
             modalImage.style.transform = 'scale(1)';
             modalImage.style.transformOrigin = 'center center';
-            zoomLens.classList.remove('active');
+            if (zoomLens) zoomLens.classList.remove('active');
         }
 
         function updateZoomModeText() {
             const text = document.getElementById('zoom-mode-text');
-            if (isTouch) {
-                text.textContent = isZoomActive ? 'Toca para salir' : 'Toca para zoom';
-            } else {
-                text.textContent = 'Hover para zoom';
+            if (text) {
+                text.textContent = isTouch ? (isZoomActive ? 'Toca para salir' : 'Toca para zoom') : 'Hover para zoom';
             }
         }
 
-        // ZOOM: Desktop (mouse hover + seguimiento)
-        if (!isTouch) {
+        if (!isTouch && zoomContainer) {
             zoomContainer.addEventListener('mouseenter', () => {
                 if (!isZoomActive) {
                     isZoomActive = true;
                     currentZoomLevel = 2.5;
-                    zoomLens.classList.add('active');
+                    if (zoomLens) zoomLens.classList.add('active');
                 }
             });
 
@@ -3839,51 +3981,38 @@
                     const x = ((e.clientX - rect.left) / rect.width) * 100;
                     const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-                    // Actualizar transform-origin de la imagen
-                    modalImage.style.transformOrigin = `${x}% ${y}%`;
-                    modalImage.style.transform = `scale(${currentZoomLevel})`;
+                    modalImage.style.transformOrigin = x + '% ' + y + '%';
+                    modalImage.style.transform = 'scale(' + currentZoomLevel + ')';
 
-                    // Actualizar posición de la lente
-                    zoomLens.style.left = (e.clientX - rect.left - 50) + 'px';
-                    zoomLens.style.top = (e.clientY - rect.top - 50) + 'px';
+                    if (zoomLens) {
+                        zoomLens.style.left = (e.clientX - rect.left - 50) + 'px';
+                        zoomLens.style.top = (e.clientY - rect.top - 50) + 'px';
+                    }
                 }
             });
 
-            zoomContainer.addEventListener('mouseleave', () => {
-                resetZoomState();
-            });
+            zoomContainer.addEventListener('mouseleave', resetZoomState);
 
-            // Click para toggle zoom level
             zoomContainer.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (currentZoomLevel === 2.5) {
-                    currentZoomLevel = 4;
-                } else if (currentZoomLevel === 4) {
-                    currentZoomLevel = 1;
-                    isZoomActive = false;
-                } else {
-                    currentZoomLevel = 2.5;
-                    isZoomActive = true;
-                    zoomLens.classList.add('active');
-                }
+                playCyberSound('click');
+                currentZoomLevel = currentZoomLevel === 2.5 ? 4 : (currentZoomLevel === 4 ? 1 : 2.5);
+                isZoomActive = currentZoomLevel > 1;
+                if (zoomLens) zoomLens.classList.toggle('active', isZoomActive);
             });
         }
 
-        // ZOOM: Táctil (tap para activar, drag para mover)
-        if (isTouch) {
+        if (isTouch && zoomContainer) {
             let lastTap = 0;
             let startX = 0, startY = 0;
             let currentX = 50, currentY = 50;
 
             zoomContainer.addEventListener('touchstart', (e) => {
-                e.preventDefault();
                 const now = Date.now();
                 const touch = e.touches[0];
                 const rect = zoomContainer.getBoundingClientRect();
 
-                // Detectar doble tap
                 if (now - lastTap < 300) {
-                    // Doble tap: reset zoom
                     resetZoomState();
                     updateZoomModeText();
                     return;
@@ -3891,134 +4020,114 @@
                 lastTap = now;
 
                 if (!isZoomActive) {
-                    // Activar zoom en el punto tocado
                     isZoomActive = true;
                     currentZoomLevel = 2.5;
                     currentX = ((touch.clientX - rect.left) / rect.width) * 100;
                     currentY = ((touch.clientY - rect.top) / rect.height) * 100;
-                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
-                    modalImage.style.transform = `scale(${currentZoomLevel})`;
-                    touchHint.textContent = '👆 Arrastra para explorar • Doble tap para salir';
+                    modalImage.style.transformOrigin = currentX + '% ' + currentY + '%';
+                    modalImage.style.transform = 'scale(' + currentZoomLevel + ')';
                 }
 
                 startX = touch.clientX;
                 startY = touch.clientY;
-            }, { passive: false });
+            }, { passive: true });
 
             zoomContainer.addEventListener('touchmove', (e) => {
-                e.preventDefault();
                 if (isZoomActive && e.touches.length === 1) {
                     const touch = e.touches[0];
                     const rect = zoomContainer.getBoundingClientRect();
-
-                    // Calcular nueva posición del origen
                     const deltaX = (touch.clientX - startX) / rect.width * 100;
                     const deltaY = (touch.clientY - startY) / rect.height * 100;
 
                     currentX = Math.max(0, Math.min(100, currentX - deltaX / currentZoomLevel));
                     currentY = Math.max(0, Math.min(100, currentY - deltaY / currentZoomLevel));
 
-                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
-                    modalImage.style.transform = `scale(${currentZoomLevel})`;
+                    modalImage.style.transformOrigin = currentX + '% ' + currentY + '%';
+                    modalImage.style.transform = 'scale(' + currentZoomLevel + ')';
 
                     startX = touch.clientX;
                     startY = touch.clientY;
                 }
+            }, { passive: true });
+        }
 
-                // Pinch zoom
-                if (e.touches.length === 2 && isZoomActive) {
-                    const dist = Math.hypot(
-                        e.touches[0].clientX - e.touches[1].clientX,
-                        e.touches[0].clientY - e.touches[1].clientY
-                    );
-                    if (zoomContainer.dataset.lastPinchDist) {
-                        const scale = dist / parseFloat(zoomContainer.dataset.lastPinchDist);
-                        currentZoomLevel = Math.max(1, Math.min(5, currentZoomLevel * scale));
-                        modalImage.style.transform = `scale(${currentZoomLevel})`;
-                    }
-                    zoomContainer.dataset.lastPinchDist = dist;
-                }
-            }, { passive: false });
-
-            zoomContainer.addEventListener('touchend', (e) => {
-                delete zoomContainer.dataset.lastPinchDist;
+        const modalCloseBtn = document.getElementById('modal-close');
+        if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+        if (modalOverlay) {
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) closeModal();
             });
         }
 
-        document.getElementById('modal-close').addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) closeModal();
-        });
-
-        // ============ SEARCH ============
+        // ============ SEARCH OVERLAY ============
         function openSearch() {
-            document.getElementById('search-overlay').classList.add('active');
-            document.getElementById('search-input').focus();
-            lenis.stop();
-            if (menuOpen) {
-                menuOpen = false;
-                hamburger.classList.remove('active');
-                mobileMenu.classList.remove('open');
+            playCyberSound('click');
+            const overlay = document.getElementById('search-overlay');
+            if (overlay) {
+                overlay.classList.add('active');
+                document.getElementById('search-input').focus();
+                lenis.stop();
             }
         }
 
         function closeSearch() {
-            document.getElementById('search-overlay').classList.remove('active');
-            lenis.start();
+            const overlay = document.getElementById('search-overlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                lenis.start();
+            }
         }
 
-        document.getElementById('search-overlay').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) closeSearch();
-        });
+        const searchOverlayEl = document.getElementById('search-overlay');
+        if (searchOverlayEl) {
+            searchOverlayEl.addEventListener('click', (e) => {
+                if (e.target === searchOverlayEl) closeSearch();
+            });
+        }
 
-        document.getElementById('search-input').addEventListener('input', function() {
-            const query = this.value.toLowerCase();
-            const results = document.getElementById('search-results');
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                const results = document.getElementById('search-results');
 
-            if (query.length < 2) {
-                results.classList.remove('show');
-                return;
-            }
+                if (query.length < 2) {
+                    results.classList.remove('show');
+                    return;
+                }
 
-            const filtered = productos.filter(p =>
-                p.nombre.toLowerCase().includes(query) ||
-                p.categoria.toLowerCase().includes(query) ||
-                p.specs.some(s => s.toLowerCase().includes(query))
-            );
+                const filtered = productos.filter(p =>
+                    p.nombre.toLowerCase().includes(query) ||
+                    p.categoria.toLowerCase().includes(query) ||
+                    p.specs.some(s => s.toLowerCase().includes(query))
+                );
 
-            results.innerHTML = '';
+                results.innerHTML = '';
 
-            if (filtered.length === 0) {
-                results.innerHTML = '<div style="text-align:center;color:var(--gris-texto);padding:1.5rem;font-style:italic;">No se encontraron resultados</div>';
-            } else {
-                filtered.forEach(producto => {
-                    const card = document.createElement('div');
-                    card.className = 'search-result-card';
-                    card.innerHTML = `
-                        <img src="${producto.imagen}" alt="${producto.nombre}" class="search-result-img">
-                        <div class="search-result-info">
-                            <h4>${producto.nombre}</h4>
-                            <p>$${producto.precio.toLocaleString()}</p>
-                        </div>
-                    `;
-                    card.addEventListener('click', () => {
-                        closeSearch();
-                        openModal(producto.id);
+                if (filtered.length === 0) {
+                    results.innerHTML = '<div style="text-align:center;color:var(--gris-texto);padding:1.5rem;font-style:italic;">No se encontraron productos</div>';
+                } else {
+                    filtered.forEach(producto => {
+                        const card = document.createElement('div');
+                        card.className = 'search-result-card';
+                        card.innerHTML = 
+                            '<img src="' + producto.imagen + '" alt="' + producto.nombre + '" class="search-result-img">' +
+                            '<div class="search-result-info">' +
+                                '<h4>' + producto.nombre + '</h4>' +
+                                '<p>$' + producto.precio.toLocaleString() + '</p>' +
+                            '</div>';
+                        card.addEventListener('click', () => {
+                            closeSearch();
+                            openModal(producto.id);
+                        });
+                        results.appendChild(card);
                     });
-                    results.appendChild(card);
-                });
-            }
-            results.classList.add('show');
-        });
-
-        // ============ TOAST ============
-        function showToast() {
-            const toast = document.getElementById('toast');
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
+                }
+                results.classList.add('show');
+            });
         }
 
-        // ============ REVEAL ANIMATIONS ============
+        // ============ REVEAL OBSERVER ============
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -4056,18 +4165,7 @@
             stats.forEach(s => observer.observe(s));
         }
 
-        // ============ SMOOTH SCROLL ============
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    lenis.scrollTo(target, { duration: 1.2 });
-                }
-            });
-        });
-
-        // ============ KEYBOARD ============
+        // ============ KEYBOARD SHORTCUTS ============
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeSearch();
@@ -4079,319 +4177,11 @@
             }
         });
 
-        // ============ INIT ============
-        document.addEventListener('DOMContentLoaded', function() {
-            renderCategories();
-            renderFilters();
-            renderProducts();
-            animateStats();
-            initFeatured3D();
-            initRender3D();
-            observeReveals();
-            updateZoomModeText();
-
-            // Ocultar hint flotante después de 6s
-            setTimeout(() => {
-                const hint = document.querySelector('.mobile-scroll-hint');
-                if (hint) hint.style.opacity = '0';
-            }, 6000);
-
-            setTimeout(() => ScrollTrigger.refresh(), 500);
-        });
-    </script>
-</body>
-</html> + producto.precio + ')');
-            }
-            const producto = productos.find(p => p.id === productId);
-            if (!producto) return;
-
-            modalImage.src = producto.imagen;
-            modalImage.alt = producto.nombre;
-            document.getElementById('modal-category').textContent = producto.categoria;
-            document.getElementById('modal-title').textContent = producto.nombre;
-            document.getElementById('modal-description').textContent = producto.descripcion;
-            document.getElementById('modal-price').textContent = `$${producto.precio.toLocaleString()}`;
-
-            document.getElementById('modal-specs').innerHTML = producto.specs.map(s => `
-                <div class="modal-spec">
-                    <div class="modal-spec-label">Spec</div>
-                    <div class="modal-spec-value">${s}</div>
-                </div>
-            `).join('');
-
-            // Reset zoom
-            resetZoomState();
-            updateZoomModeText();
-
-            modalOverlay.classList.add('active');
-            lenis.stop();
-
-            // Ocultar hint táctil después de 3s
-            setTimeout(() => {
-                touchHint.style.display = 'none';
-            }, 3000);
-        }
-
-        function closeModal() {
-            modalOverlay.classList.remove('active');
-            lenis.start();
-            resetZoomState();
-        }
-
-        function resetZoomState() {
-            isZoomActive = false;
-            currentZoomLevel = 1;
-            modalImage.style.transform = 'scale(1)';
-            modalImage.style.transformOrigin = 'center center';
-            zoomLens.classList.remove('active');
-        }
-
-        function updateZoomModeText() {
-            const text = document.getElementById('zoom-mode-text');
-            if (isTouch) {
-                text.textContent = isZoomActive ? 'Toca para salir' : 'Toca para zoom';
-            } else {
-                text.textContent = 'Hover para zoom';
-            }
-        }
-
-        // ZOOM: Desktop (mouse hover + seguimiento)
-        if (!isTouch) {
-            zoomContainer.addEventListener('mouseenter', () => {
-                if (!isZoomActive) {
-                    isZoomActive = true;
-                    currentZoomLevel = 2.5;
-                    zoomLens.classList.add('active');
-                }
-            });
-
-            zoomContainer.addEventListener('mousemove', (e) => {
-                if (isZoomActive) {
-                    const rect = zoomContainer.getBoundingClientRect();
-                    const x = ((e.clientX - rect.left) / rect.width) * 100;
-                    const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-                    // Actualizar transform-origin de la imagen
-                    modalImage.style.transformOrigin = `${x}% ${y}%`;
-                    modalImage.style.transform = `scale(${currentZoomLevel})`;
-
-                    // Actualizar posición de la lente
-                    zoomLens.style.left = (e.clientX - rect.left - 50) + 'px';
-                    zoomLens.style.top = (e.clientY - rect.top - 50) + 'px';
-                }
-            });
-
-            zoomContainer.addEventListener('mouseleave', () => {
-                resetZoomState();
-            });
-
-            // Click para toggle zoom level
-            zoomContainer.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (currentZoomLevel === 2.5) {
-                    currentZoomLevel = 4;
-                } else if (currentZoomLevel === 4) {
-                    currentZoomLevel = 1;
-                    isZoomActive = false;
-                } else {
-                    currentZoomLevel = 2.5;
-                    isZoomActive = true;
-                    zoomLens.classList.add('active');
-                }
-            });
-        }
-
-        // ZOOM: Táctil (tap para activar, drag para mover)
-        if (isTouch) {
-            let lastTap = 0;
-            let startX = 0, startY = 0;
-            let currentX = 50, currentY = 50;
-
-            zoomContainer.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                const now = Date.now();
-                const touch = e.touches[0];
-                const rect = zoomContainer.getBoundingClientRect();
-
-                // Detectar doble tap
-                if (now - lastTap < 300) {
-                    // Doble tap: reset zoom
-                    resetZoomState();
-                    updateZoomModeText();
-                    return;
-                }
-                lastTap = now;
-
-                if (!isZoomActive) {
-                    // Activar zoom en el punto tocado
-                    isZoomActive = true;
-                    currentZoomLevel = 2.5;
-                    currentX = ((touch.clientX - rect.left) / rect.width) * 100;
-                    currentY = ((touch.clientY - rect.top) / rect.height) * 100;
-                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
-                    modalImage.style.transform = `scale(${currentZoomLevel})`;
-                    touchHint.textContent = '👆 Arrastra para explorar • Doble tap para salir';
-                }
-
-                startX = touch.clientX;
-                startY = touch.clientY;
-            }, { passive: false });
-
-            zoomContainer.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-                if (isZoomActive && e.touches.length === 1) {
-                    const touch = e.touches[0];
-                    const rect = zoomContainer.getBoundingClientRect();
-
-                    // Calcular nueva posición del origen
-                    const deltaX = (touch.clientX - startX) / rect.width * 100;
-                    const deltaY = (touch.clientY - startY) / rect.height * 100;
-
-                    currentX = Math.max(0, Math.min(100, currentX - deltaX / currentZoomLevel));
-                    currentY = Math.max(0, Math.min(100, currentY - deltaY / currentZoomLevel));
-
-                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
-                    modalImage.style.transform = `scale(${currentZoomLevel})`;
-
-                    startX = touch.clientX;
-                    startY = touch.clientY;
-                }
-
-                // Pinch zoom
-                if (e.touches.length === 2 && isZoomActive) {
-                    const dist = Math.hypot(
-                        e.touches[0].clientX - e.touches[1].clientX,
-                        e.touches[0].clientY - e.touches[1].clientY
-                    );
-                    if (zoomContainer.dataset.lastPinchDist) {
-                        const scale = dist / parseFloat(zoomContainer.dataset.lastPinchDist);
-                        currentZoomLevel = Math.max(1, Math.min(5, currentZoomLevel * scale));
-                        modalImage.style.transform = `scale(${currentZoomLevel})`;
-                    }
-                    zoomContainer.dataset.lastPinchDist = dist;
-                }
-            }, { passive: false });
-
-            zoomContainer.addEventListener('touchend', (e) => {
-                delete zoomContainer.dataset.lastPinchDist;
-            });
-        }
-
-        document.getElementById('modal-close').addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) closeModal();
-        });
-
-        // ============ SEARCH ============
-        function openSearch() {
-            document.getElementById('search-overlay').classList.add('active');
-            document.getElementById('search-input').focus();
-            lenis.stop();
-            if (menuOpen) {
-                menuOpen = false;
-                hamburger.classList.remove('active');
-                mobileMenu.classList.remove('open');
-            }
-        }
-
-        function closeSearch() {
-            document.getElementById('search-overlay').classList.remove('active');
-            lenis.start();
-        }
-
-        document.getElementById('search-overlay').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) closeSearch();
-        });
-
-        document.getElementById('search-input').addEventListener('input', function() {
-            const query = this.value.toLowerCase();
-            const results = document.getElementById('search-results');
-
-            if (query.length < 2) {
-                results.classList.remove('show');
-                return;
-            }
-
-            const filtered = productos.filter(p =>
-                p.nombre.toLowerCase().includes(query) ||
-                p.categoria.toLowerCase().includes(query) ||
-                p.specs.some(s => s.toLowerCase().includes(query))
-            );
-
-            results.innerHTML = '';
-
-            if (filtered.length === 0) {
-                results.innerHTML = '<div style="text-align:center;color:var(--gris-texto);padding:1.5rem;font-style:italic;">No se encontraron resultados</div>';
-            } else {
-                filtered.forEach(producto => {
-                    const card = document.createElement('div');
-                    card.className = 'search-result-card';
-                    card.innerHTML = `
-                        <img src="${producto.imagen}" alt="${producto.nombre}" class="search-result-img">
-                        <div class="search-result-info">
-                            <h4>${producto.nombre}</h4>
-                            <p>$${producto.precio.toLocaleString()}</p>
-                        </div>
-                    `;
-                    card.addEventListener('click', () => {
-                        closeSearch();
-                        openModal(producto.id);
-                    });
-                    results.appendChild(card);
-                });
-            }
-            results.classList.add('show');
-        });
-
-        // ============ TOAST ============
-        function showToast() {
-            const toast = document.getElementById('toast');
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-        }
-
-        // ============ REVEAL ANIMATIONS ============
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    revealObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        function observeReveals() {
-            document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
-        }
-
-        // ============ STATS COUNTER ============
-        function animateStats() {
-            const stats = document.querySelectorAll('.stat-number');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const target = parseInt(entry.target.dataset.count);
-                        let current = 0;
-                        const increment = target / 60;
-                        const timer = setInterval(() => {
-                            current += increment;
-                            if (current >= target) {
-                                current = target;
-                                clearInterval(timer);
-                            }
-                            entry.target.textContent = Math.floor(current).toLocaleString() + '+';
-                        }, 16);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            });
-            stats.forEach(s => observer.observe(s));
-        }
-
-        // ============ SMOOTH SCROLL ============
+        // ============ SMOOTH ANCHOR SCROLLING ============
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
+                playCyberSound('click');
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     lenis.scrollTo(target, { duration: 1.2 });
@@ -4399,20 +4189,10 @@
             });
         });
 
-        // ============ KEYBOARD ============
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeSearch();
-                closeModal();
-            }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                openSearch();
-            }
-        });
-
-        // ============ INIT ============
+        // ============ MASTER INITIALIZATION ============
         document.addEventListener('DOMContentLoaded', function() {
+            initEntities();
+            drawCyberEngine();
             renderCategories();
             renderFilters();
             renderProducts();
@@ -4421,15 +4201,14 @@
             initRender3D();
             observeReveals();
             updateZoomModeText();
+            updateBenchmarkDisplay();
 
-            // Ocultar hint flotante después de 6s
             setTimeout(() => {
-                const hint = document.querySelector('.mobile-scroll-hint');
-                if (hint) hint.style.opacity = '0';
-            }, 6000);
-
-            setTimeout(() => ScrollTrigger.refresh(), 500);
+                if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+                hideLoadingScreen();
+            }, 300);
         });
+
     </script>
 </body>
 </html>
