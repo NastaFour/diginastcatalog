@@ -3081,8 +3081,20 @@
             if (soundEnabled) playCyberSound('click');
         }
 
+        // ============ THEME PALETTES FOR CANVAS + 3D ============
+        const themePalettes = {
+            flame:  { primary: '#F97316', glow: '#FB923C', deep: '#EA580C', rgb: [249, 115, 22], glowRgb: [251, 146, 60], deepRgb: [234, 88, 12], hex: 0xF97316, glowHex: 0xFB923C, deepHex: 0xEA580C },
+            cyan:   { primary: '#06B6D4', glow: '#22D3EE', deep: '#0891B2', rgb: [6, 182, 212],   glowRgb: [34, 211, 238],  deepRgb: [8, 145, 178],  hex: 0x06B6D4, glowHex: 0x22D3EE, deepHex: 0x0891B2 },
+            purple: { primary: '#A855F7', glow: '#C084FC', deep: '#9333EA', rgb: [168, 85, 247],  glowRgb: [192, 132, 252], deepRgb: [147, 51, 234],  hex: 0xA855F7, glowHex: 0xC084FC, deepHex: 0x9333EA },
+            green:  { primary: '#10B981', glow: '#34D399', deep: '#059669', rgb: [16, 185, 129],  glowRgb: [52, 211, 153],  deepRgb: [5, 150, 105],   hex: 0x10B981, glowHex: 0x34D399, deepHex: 0x059669 }
+        };
+        let currentActiveTheme = 'flame';
+        const dynamic3DMats = [];
+        const dynamic3DLights = [];
+
         function setCyberTheme(theme, btn) {
             playCyberSound('click');
+            currentActiveTheme = theme;
             if (theme === 'flame') {
                 document.documentElement.removeAttribute('data-theme');
             } else {
@@ -3090,6 +3102,31 @@
             }
             document.querySelectorAll('.theme-dot').forEach(d => d.classList.remove('active'));
             if (btn) btn.classList.add('active');
+
+            // Update 2D canvas nebula colors
+            const pal = themePalettes[theme] || themePalettes.flame;
+            if (typeof nebulas !== 'undefined') {
+                const nebulaColors = [
+                    'rgba(' + pal.rgb.join(',') + ', 0.14)',
+                    'rgba(' + pal.deepRgb.join(',') + ', 0.12)',
+                    'rgba(' + pal.glowRgb.join(',') + ', 0.10)',
+                    'rgba(' + pal.deepRgb.join(',') + ', 0.11)'
+                ];
+                nebulas.forEach((n, i) => n.color = nebulaColors[i] || nebulaColors[0]);
+            }
+
+            // Update Three.js materials and lights
+            const threeColor = new THREE.Color(pal.hex);
+            const threeGlow = new THREE.Color(pal.glowHex);
+            const threeDeep = new THREE.Color(pal.deepHex);
+            dynamic3DMats.forEach(entry => {
+                if (entry.prop === 'color') entry.mat.color.copy(threeColor);
+                else if (entry.prop === 'emissive') entry.mat.emissive.copy(threeColor);
+                else if (entry.prop === 'emissiveDeep') entry.mat.emissive.copy(threeDeep);
+                else if (entry.prop === 'glow') entry.mat.color.copy(threeGlow);
+                else if (entry.prop === 'colorGlow') { entry.mat.color.copy(threeGlow); }
+            });
+            dynamic3DLights.forEach(light => light.color.copy(threeColor));
         }
 
         // ============ INTERACTIVE BENCHMARK SIMULATOR ============
@@ -3339,6 +3376,10 @@
 
         function drawCyberEngine() {
             bgCtx.clearRect(0, 0, bgWidth, bgHeight);
+            const pal = themePalettes[currentActiveTheme] || themePalettes.flame;
+            const cRgb = pal.rgb;
+            const cGlowRgb = pal.glowRgb;
+            const cDeepRgb = pal.deepRgb;
 
             bMouseX += (targetBMouseX - bMouseX) * 0.05;
             bMouseY += (targetBMouseY - bMouseY) * 0.05;
@@ -3378,7 +3419,7 @@
 
                     if (dist < maxConnDist) {
                         const alpha = (1 - dist / maxConnDist) * 0.38;
-                        bgCtx.strokeStyle = 'rgba(249, 115, 22, ' + alpha + ')';
+                        bgCtx.strokeStyle = 'rgba(' + cRgb.join(',') + ', ' + alpha + ')';
                         bgCtx.lineWidth = 1.0;
                         bgCtx.beginPath();
                         bgCtx.moveTo(p1.x, p1.y);
@@ -3413,7 +3454,7 @@
 
                     const proj = verts.map(v => project3D(v[0], v[1], v[2], p.rotX, p.rotY, p.rotZ, p.scale, p.x, p.y));
 
-                    bgCtx.strokeStyle = '#F97316';
+                    bgCtx.strokeStyle = pal.primary;
                     bgCtx.globalAlpha = opacity;
                     bgCtx.lineWidth = 1.3;
 
@@ -3428,7 +3469,7 @@
                         }
                     });
 
-                    bgCtx.fillStyle = '#FB923C';
+                    bgCtx.fillStyle = pal.glow;
                     bgCtx.globalAlpha = opacity * 1.3;
                     proj.forEach(v => {
                         if (v) {
@@ -3442,7 +3483,7 @@
                     bgCtx.translate(p.x, p.y);
                     bgCtx.rotate(p.rotZ);
 
-                    bgCtx.strokeStyle = '#FB923C';
+                    bgCtx.strokeStyle = pal.glow;
                     bgCtx.globalAlpha = opacity * 0.7;
                     bgCtx.lineWidth = 1.2;
                     bgCtx.beginPath();
@@ -3455,7 +3496,7 @@
                     bgCtx.rotate(Math.sin(p.pulse) * 0.08);
 
                     bgCtx.fillStyle = 'rgba(20, 20, 24, 0.75)';
-                    bgCtx.strokeStyle = 'rgba(249, 115, 22, 0.45)';
+                    bgCtx.strokeStyle = 'rgba(' + cRgb.join(',') + ', 0.45)';
                     bgCtx.globalAlpha = opacity * 0.85;
                     bgCtx.lineWidth = 1;
 
@@ -3470,7 +3511,7 @@
                     bgCtx.fill();
                     bgCtx.stroke();
 
-                    bgCtx.fillStyle = '#FB923C';
+                    bgCtx.fillStyle = pal.glow;
                     bgCtx.globalAlpha = opacity * 1.1;
                     bgCtx.textAlign = 'center';
                     bgCtx.textBaseline = 'middle';
@@ -3496,8 +3537,8 @@
                 const tailY = c.y - c.vy * (c.length / 5);
 
                 const cometGrad = bgCtx.createLinearGradient(tailX, tailY, c.x, c.y);
-                cometGrad.addColorStop(0, 'rgba(249, 115, 22, 0)');
-                cometGrad.addColorStop(0.7, 'rgba(249, 115, 22, ' + (c.life * 0.5) + ')');
+                cometGrad.addColorStop(0, 'rgba(' + cRgb.join(',') + ', 0)');
+                cometGrad.addColorStop(0.7, 'rgba(' + cRgb.join(',') + ', ' + (c.life * 0.5) + ')');
                 cometGrad.addColorStop(1, 'rgba(255, 247, 237, ' + (c.life * 0.9) + ')');
 
                 bgCtx.strokeStyle = cometGrad;
@@ -3520,7 +3561,7 @@
                     continue;
                 }
 
-                bgCtx.strokeStyle = 'rgba(249, 115, 22, ' + rip.opacity + ')';
+                bgCtx.strokeStyle = 'rgba(' + cRgb.join(',') + ', ' + rip.opacity + ')';
                 bgCtx.lineWidth = 2;
                 bgCtx.beginPath();
                 bgCtx.arc(rip.x, rip.y, rip.r, 0, Math.PI * 2);
@@ -3599,20 +3640,26 @@
             const key = new THREE.DirectionalLight(0xF97316, 2);
             key.position.set(5, 5, 5);
             scene.add(key);
+            dynamic3DLights.push(key);
 
             const group = new THREE.Group();
             const bodyGeo = new THREE.BoxGeometry(3, 4, 2);
             const bodyMat = new THREE.MeshPhongMaterial({ color: 0x141416, emissive: 0xF97316, emissiveIntensity: 0.05, transparent: true, opacity: 0.9 });
             group.add(new THREE.Mesh(bodyGeo, bodyMat));
+            dynamic3DMats.push({ mat: bodyMat, prop: 'emissive' });
 
-            const edges = new THREE.LineSegments(new THREE.EdgesGeometry(bodyGeo), new THREE.LineBasicMaterial({ color: 0xF97316, transparent: true, opacity: 0.8 }));
+            const edgeMat = new THREE.LineBasicMaterial({ color: 0xF97316, transparent: true, opacity: 0.8 });
+            const edges = new THREE.LineSegments(new THREE.EdgesGeometry(bodyGeo), edgeMat);
             group.add(edges);
+            dynamic3DMats.push({ mat: edgeMat, prop: 'color' });
 
             const fans = new THREE.Group();
             for (let i = 0; i < 3; i++) {
-                const fan = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.06, 8, 24), new THREE.MeshBasicMaterial({ color: 0xF97316, transparent: true, opacity: 0.7 }));
+                const fanMat = new THREE.MeshBasicMaterial({ color: 0xF97316, transparent: true, opacity: 0.7 });
+                const fan = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.06, 8, 24), fanMat);
                 fan.position.set(0, 1.2 - i * 0.9, 0.9);
                 fans.add(fan);
+                dynamic3DMats.push({ mat: fanMat, prop: 'color' });
             }
             group.add(fans);
             scene.add(group);
@@ -3670,19 +3717,26 @@
             renderer.setSize(container.clientWidth, container.clientHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
 
-            const central = new THREE.Mesh(new THREE.IcosahedronGeometry(3, 1), new THREE.MeshBasicMaterial({ color: 0xF97316, wireframe: true, transparent: true, opacity: 0.6 }));
+            const centralMat = new THREE.MeshBasicMaterial({ color: 0xF97316, wireframe: true, transparent: true, opacity: 0.6 });
+            const central = new THREE.Mesh(new THREE.IcosahedronGeometry(3, 1), centralMat);
             scene.add(central);
+            dynamic3DMats.push({ mat: centralMat, prop: 'color' });
 
-            const inner = new THREE.Mesh(new THREE.OctahedronGeometry(1.5, 0), new THREE.MeshPhongMaterial({ color: 0xFB923C, emissive: 0xEA580C, emissiveIntensity: 0.4 }));
+            const innerMat = new THREE.MeshPhongMaterial({ color: 0xFB923C, emissive: 0xEA580C, emissiveIntensity: 0.4 });
+            const inner = new THREE.Mesh(new THREE.OctahedronGeometry(1.5, 0), innerMat);
             central.add(inner);
+            dynamic3DMats.push({ mat: innerMat, prop: 'glow' });
+            dynamic3DMats.push({ mat: innerMat, prop: 'emissiveDeep' });
 
             const ringGroup = new THREE.Group();
             for (let i = 0; i < 3; i++) {
-                const ring = new THREE.Mesh(new THREE.TorusGeometry(5 + i*1.5, 0.02, 8, 80), new THREE.MeshBasicMaterial({ color: 0xF97316, transparent: true, opacity: 0.4 - i*0.1 }));
+                const ringMat = new THREE.MeshBasicMaterial({ color: 0xF97316, transparent: true, opacity: 0.4 - i*0.1 });
+                const ring = new THREE.Mesh(new THREE.TorusGeometry(5 + i*1.5, 0.02, 8, 80), ringMat);
                 if (i===0) ring.rotation.x = Math.PI/2;
                 else if (i===1) { ring.rotation.x = Math.PI/3; ring.rotation.y = Math.PI/4; }
                 else { ring.rotation.x = -Math.PI/4; ring.rotation.z = Math.PI/6; }
                 ringGroup.add(ring);
+                dynamic3DMats.push({ mat: ringMat, prop: 'color' });
             }
             scene.add(ringGroup);
 
@@ -3695,11 +3749,13 @@
             ];
             configs.forEach(([type, size, pos]) => {
                 const geos = { tetra: THREE.TetrahedronGeometry, octa: THREE.OctahedronGeometry, icosa: THREE.IcosahedronGeometry, dodeca: THREE.DodecahedronGeometry };
-                const mesh = new THREE.Mesh(new geos[type](size, 0), new THREE.MeshBasicMaterial({ color: 0xF97316, wireframe: true, transparent: true, opacity: 0.5 }));
+                const shapeMat = new THREE.MeshBasicMaterial({ color: 0xF97316, wireframe: true, transparent: true, opacity: 0.5 });
+                const mesh = new THREE.Mesh(new geos[type](size, 0), shapeMat);
                 mesh.position.set(...pos);
                 mesh.userData = { baseY: pos[1], rSpeed: { x: (Math.random()-.5)*0.02, y: (Math.random()-.5)*0.02 }, fOffset: Math.random()*Math.PI*2, fSpeed: 0.5+Math.random()*0.5 };
                 shapes.push(mesh);
                 scene.add(mesh);
+                dynamic3DMats.push({ mat: shapeMat, prop: 'color' });
             });
 
             const starGeo = new THREE.BufferGeometry();
@@ -3710,8 +3766,10 @@
                 starPos[i*3+2] = (Math.random()-.5)*30 - 10;
             }
             starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-            const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xFB923C, size: 0.08, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending }));
+            const starMat = new THREE.PointsMaterial({ color: 0xFB923C, size: 0.08, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending });
+            const stars = new THREE.Points(starGeo, starMat);
             scene.add(stars);
+            dynamic3DMats.push({ mat: starMat, prop: 'glow' });
 
             let active = false;
             let progress = 0;
