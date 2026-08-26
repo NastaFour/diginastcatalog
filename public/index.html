@@ -2818,95 +2818,17 @@
     </section>
 
     
-    <!-- SIMULADOR DE RENDIMIENTO HARDWARE INTERACTIVO -->
-    <section class="benchmark-section reveal" id="benchmark">
-        <div class="benchmark-card">
-            <div>
-                <div class="hero-badge" style="margin-bottom: 1rem;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                    Simulador de FPS en Tiempo Real
-                </div>
-                <h2 class="benchmark-title">Rendimiento <span class="gradient-text" style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Extremo</span> Garantizado</h2>
-                <p class="benchmark-desc">Selecciona resolución y título para calcular la tasa de fotogramas por segundo promedio en nuestros equipos insignia.</p>
-                
-                <div style="font-family:var(--fuente-mono);font-size:0.8rem;color:var(--naranja-glow);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:1px;">Juegos & Renders:</div>
-                <div class="benchmark-selectors" id="game-selectors">
-                    <button class="benchmark-btn active" onclick="setBenchmarkGame('cyberpunk', this)">Cyberpunk 2077 RT</button>
-                    <button class="benchmark-btn" onclick="setBenchmarkGame('wukong', this)">Black Myth: Wukong</button>
-                    <button class="benchmark-btn" onclick="setBenchmarkGame('gta6', this)">GTA VI Ultra</button>
-                    <button class="benchmark-btn" onclick="setBenchmarkGame('blender', this)">Blender Cycles 4K</button>
-                </div>
-
-                <div style="font-family:var(--fuente-mono);font-size:0.8rem;color:var(--naranja-glow);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:1px;">Resolución:</div>
-                <div class="benchmark-selectors" id="res-selectors">
-                    <button class="benchmark-btn" onclick="setBenchmarkRes('1080p', this)">1080p FHD</button>
-                    <button class="benchmark-btn" onclick="setBenchmarkRes('1440p', this)">1440p 2K</button>
-                    <button class="benchmark-btn active" onclick="setBenchmarkRes('4k', this)">4K Ultra UHD</button>
-                    <button class="benchmark-btn" onclick="setBenchmarkRes('8k', this)">8K DSR</button>
-                </div>
-            </div>
-
-            <div class="fps-meter-container">
-                <div class="fps-label" id="benchmark-rig-label">RTX 4090 + i9 14900K</div>
-                <div class="fps-number" id="fps-display">165</div>
-                <div class="fps-label" id="fps-status">FPS // ULTRA RAY TRACING DLSS 3.5</div>
-                <div class="fps-bar-bg">
-                    <div class="fps-bar-fill" id="fps-bar" style="width: 88%;"></div>
-                </div>
-                <div style="margin-top:1.5rem;font-family:var(--fuente-mono);font-size:0.85rem;color:var(--gris-texto);">
-                    Temperatura Media: <span style="color:var(--naranja-glow);font-weight:700;">58°C Líquida</span> • Latencia: <span style="color:var(--naranja-glow);font-weight:700;">4.2ms</span>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
 
     
-    <!-- SIMULADOR DE RENDIMIENTO HARDWARE INTERACTIVO -->
-    <section class="benchmark-section reveal" id="benchmark">
-        <div class="benchmark-card">
-            <div>
-                <div class="hero-badge" style="margin-bottom: 1rem;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                    Simulador de FPS en Tiempo Real
-                </div>
-                <h2 class="benchmark-title">Rendimiento <span class="gradient-text" style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Extremo</span> Garantizado</h2>
-                <p class="benchmark-desc">Selecciona resolución y título para calcular la tasa de fotogramas por segundo promedio en nuestros equipos insignia.</p>
-                
-                <div style="font-family:var(--fuente-mono);font-size:0.8rem;color:var(--naranja-glow);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:1px;">Juegos & Renders:</div>
-                <div class="benchmark-selectors" id="game-selectors">
-                    <button class="benchmark-btn active" onclick="setBenchmarkGame('cyberpunk', this)">Cyberpunk 2077 RT</button>
-                    <button class="benchmark-btn" onclick="setBenchmarkGame('wukong', this)">Black Myth: Wukong</button>
-                    <button class="benchmark-btn" onclick="setBenchmarkGame('gta6', this)">GTA VI Ultra</button>
-                    <button class="benchmark-btn" onclick="setBenchmarkGame('blender', this)">Blender Cycles 4K</button>
-                </div>
-
-                <div style="font-family:var(--fuente-mono);font-size:0.8rem;color:var(--naranja-glow);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:1px;">Resolución:</div>
-                <div class="benchmark-selectors" id="res-selectors">
-                    <button class="benchmark-btn" onclick="setBenchmarkRes('1080p', this)">1080p FHD</button>
-                    <button class="benchmark-btn" onclick="setBenchmarkRes('1440p', this)">1440p 2K</button>
-                    <button class="benchmark-btn active" onclick="setBenchmarkRes('4k', this)">4K Ultra UHD</button>
-                    <button class="benchmark-btn" onclick="setBenchmarkRes('8k', this)">8K DSR</button>
-                </div>
-            </div>
-
-            <div class="fps-meter-container">
-                <div class="fps-label" id="benchmark-rig-label">RTX 4090 + i9 14900K</div>
-                <div class="fps-number" id="fps-display">165</div>
-                <div class="fps-label" id="fps-status">FPS // ULTRA RAY TRACING DLSS 3.5</div>
-                <div class="fps-bar-bg">
-                    <div class="fps-bar-fill" id="fps-bar" style="width: 88%;"></div>
-                </div>
-                <div style="margin-top:1.5rem;font-family:var(--fuente-mono);font-size:0.85rem;color:var(--gris-texto);">
-                    Temperatura Media: <span style="color:var(--naranja-glow);font-weight:700;">58°C Líquida</span> • Latencia: <span style="color:var(--naranja-glow);font-weight:700;">4.2ms</span>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
 
     
-    <!-- SIMULADOR DE RENDIMIENTO HARDWARE INTERACTIVO -->
+    
+
+        <!-- SIMULADOR DE RENDIMIENTO HARDWARE INTERACTIVO -->
     <section class="benchmark-section reveal" id="benchmark">
         <div class="benchmark-card">
             <div>
