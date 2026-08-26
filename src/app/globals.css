@@ -1,0 +1,625 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Diginast Design System — Tailwind 4 @theme tokens
+   3 escalas completas 50-950 (base, primary, accent)
+   Paleta: fondo oscuro azul-violeta, acento violeta/índigo + turquesa
+   ============================================================ */
+
+:root {
+  --naranja-primario: #F97316;
+  --naranja-deep: #EA580C;
+  --naranja-glow: #FB923C;
+  --carbon: #0A0A0B;
+  --carbon-lift: #141416;
+  --carbon-border: #262628;
+  --crema: #FFF7ED;
+  --gris-texto: #A1A1AA;
+  --borde-fuego: rgba(249, 115, 22, 0.3);
+  --borde-fuego-intenso: rgba(249, 115, 22, 0.6);
+  --sombra-glow: 0 0 40px rgba(249, 115, 22, 0.4);
+  --sombra-glow-sm: 0 0 20px rgba(249, 115, 22, 0.25);
+  --nav-height: 70px;
+}
+
+@theme {
+  /* --- Base (fondo oscuro carbón cibernético) --- */
+  --color-dgn-base-50:  #FFF7ED;
+  --color-dgn-base-100: #E4E4E7;
+  --color-dgn-base-200: #A1A1AA;
+  --color-dgn-base-300: #71717A;
+  --color-dgn-base-400: #52525B;
+  --color-dgn-base-500: #3F3F46;
+  --color-dgn-base-600: #262628;
+  --color-dgn-base-700: #1E1E22;
+  --color-dgn-base-800: #141416;
+  --color-dgn-base-900: #0E0E10;
+  --color-dgn-base-950: #0A0A0B;
+
+  /* --- Primary (Flame Orange / Fuego cibernético) --- */
+  --color-dgn-primary-50:  #FFF7ED;
+  --color-dgn-primary-100: #FFEDD5;
+  --color-dgn-primary-200: #FED7AA;
+  --color-dgn-primary-300: #FDBA74;
+  --color-dgn-primary-400: #FB923C;
+  --color-dgn-primary-500: #F97316;
+  --color-dgn-primary-600: #EA580C;
+  --color-dgn-primary-700: #C2410C;
+  --color-dgn-primary-800: #9A3412;
+  --color-dgn-primary-900: #7C2D12;
+  --color-dgn-primary-950: #431407;
+
+  /* --- Accent (Neon Amber & Cyber Gold) --- */
+  --color-dgn-accent-50:  #FEFCE8;
+  --color-dgn-accent-100: #FEF9C3;
+  --color-dgn-accent-200: #FEF08A;
+  --color-dgn-accent-300: #FDE047;
+  --color-dgn-accent-400: #FACC15;
+  --color-dgn-accent-500: #EAB308;
+  --color-dgn-accent-600: #CA8A04;
+  --color-dgn-accent-700: #A16207;
+  --color-dgn-accent-800: #854D0E;
+  --color-dgn-accent-900: #713F12;
+  --color-dgn-accent-950: #422006;
+
+  /* --- Text --- */
+  --color-dgn-text-50:  #FFF7ED;
+  --color-dgn-text-300: #A1A1AA;
+  --color-dgn-text-500: #71717A;
+
+  /* --- Fonts (referencian las CSS vars de next/font) --- */
+  --font-display: var(--font-outfit), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+}
+
+/* ============================================================
+   Base styles
+   ============================================================ */
+* {
+  border-color: var(--color-dgn-base-700);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-dgn-base-950);
+  color: var(--color-dgn-text-50);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar Diginast */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-dgn-base-900);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-dgn-primary-800);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-dgn-primary-600);
+}
+
+/* Selection */
+::selection {
+  background: var(--color-dgn-primary-600);
+  color: var(--color-dgn-text-50);
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--color-dgn-accent-400);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Admin form inputs
+   ============================================================ */
+.input {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-dgn-base-700);
+  background-color: var(--color-dgn-base-800);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-dgn-text-50);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.input:focus {
+  border-color: var(--color-dgn-accent-400);
+}
+
+/* Hide scrollbar for category strip */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ============================================================
+   ANIMACIONES 2D VISTOSAS — Diginast
+   Inspirado en freefrontend.com/css-animations (MIT)
+   Todas respetan prefers-reduced-motion
+   ============================================================ */
+
+/* --- 1. Float / Levitar (hero elements, badges) --- */
+@keyframes dgn-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+.dgn-float {
+  animation: dgn-float 4s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* --- 2. Glow Pulse (badges, CTAs, accent elements) --- */
+@keyframes dgn-glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px -5px hsl(265 75% 50% / 0.6),
+                0 0 40px -10px hsl(265 75% 50% / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 35px -3px hsl(265 75% 50% / 0.85),
+                0 0 70px -8px hsl(265 75% 50% / 0.5);
+  }
+}
+.dgn-glow-pulse {
+  animation: dgn-glow-pulse 3s ease-in-out infinite;
+}
+
+/* --- 3. Gradient Shift (hero background, promos) --- */
+@keyframes dgn-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.dgn-gradient-shift {
+  background-size: 200% 200%;
+  animation: dgn-gradient-shift 8s ease infinite;
+}
+
+/* --- 4. Shimmer (skeletons, loading, price highlights) --- */
+@keyframes dgn-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.dgn-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(265 75% 50% / 0.15) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: dgn-shimmer 2.5s linear infinite;
+}
+
+/* --- 5. Text Gradient Flow (headlines, brand) --- */
+@keyframes dgn-text-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.dgn-text-flow {
+  background: linear-gradient(
+    90deg,
+    var(--color-dgn-primary-400),
+    var(--color-dgn-accent-400),
+    var(--color-dgn-primary-400)
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: dgn-text-flow 4s linear infinite;
+}
+
+/* --- 6. Fade Up In (entrance sections) --- */
+@keyframes dgn-fade-up-in {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.dgn-fade-up-in {
+  animation: dgn-fade-up-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* --- 7. Scale In (cards entrance) --- */
+@keyframes dgn-scale-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+.dgn-scale-in {
+  animation: dgn-scale-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* --- 8. Slide In Left/Right (category strip, mobile bar) --- */
+@keyframes dgn-slide-in-left {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.dgn-slide-in-left {
+  animation: dgn-slide-in-left 0.5s ease-out both;
+}
+@keyframes dgn-slide-in-right {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.dgn-slide-in-right {
+  animation: dgn-slide-in-right 0.5s ease-out both;
+}
+
+/* --- 9. Border Glow (cards on hover) --- */
+@keyframes dgn-border-glow {
+  0%, 100% { border-color: hsl(265 75% 50% / 0.3); }
+  50% { border-color: hsl(190 85% 48% / 0.6); }
+}
+.dgn-border-glow:hover {
+  animation: dgn-border-glow 2s ease-in-out infinite;
+}
+
+/* --- 10. Blink Cursor (terminal/code accents) --- */
+@keyframes dgn-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.dgn-blink {
+  animation: dgn-blink 1s step-end infinite;
+}
+
+/* --- 11. Rotate Slow (decorative 3D accents, logos) --- */
+@keyframes dgn-rotate-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.dgn-rotate-slow {
+  animation: dgn-rotate-slow 20s linear infinite;
+}
+
+/* --- 12. Marquee (logos strip, scrolling text) --- */
+@keyframes dgn-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.dgn-marquee {
+  animation: dgn-marquee 25s linear infinite;
+}
+
+/* --- 13. Bounce Subtle (notifications, badges) --- */
+@keyframes dgn-bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.dgn-bounce-subtle {
+  animation: dgn-bounce-subtle 2s ease-in-out infinite;
+}
+
+/* --- 14. Ripple (button click feedback) --- */
+@keyframes dgn-ripple {
+  0% { transform: scale(0); opacity: 0.6; }
+  100% { transform: scale(4); opacity: 0; }
+}
+.dgn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+.dgn-ripple::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+}
+.dgn-ripple:active::after {
+  animation: dgn-ripple 0.6s ease-out;
+}
+
+/* --- 15. Aurora / Mesh gradient movement (hero bg) --- */
+@keyframes dgn-aurora {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  33% { transform: translate(30px, -20px) rotate(120deg) scale(1.1); }
+  66% { transform: translate(-20px, 20px) rotate(240deg) scale(0.95); }
+  100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+}
+.dgn-aurora {
+  animation: dgn-aurora 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* --- Utility: stagger delays --- */
+.dgn-delay-1 { animation-delay: 0.1s; }
+.dgn-delay-2 { animation-delay: 0.2s; }
+.dgn-delay-3 { animation-delay: 0.3s; }
+.dgn-delay-4 { animation-delay: 0.4s; }
+.dgn-delay-5 { animation-delay: 0.5s; }
+
+/* ============================================================
+   PREFERS-REDUCED-MOTION — desactiva TODAS las animaciones
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .dgn-float,
+  .dgn-glow-pulse,
+  .dgn-gradient-shift,
+  .dgn-shimmer,
+  .dgn-text-flow,
+  .dgn-fade-up-in,
+  .dgn-scale-in,
+  .dgn-slide-in-left,
+  .dgn-slide-in-right,
+  .dgn-border-glow,
+  .dgn-blink,
+  .dgn-rotate-slow,
+  .dgn-marquee,
+  .dgn-bounce-subtle,
+  .dgn-aurora {
+    animation: none !important;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE HELPERS
+   ============================================================ */
+
+/* Safe area para móviles con notch */
+@supports (padding: max(0px)) {
+  .dgn-safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Container fluid para videos */
+.dgn-video-container {
+  position: relative;
+  overflow: hidden;
+}
+.dgn-video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ============================================================
+   CURSOR MAGNÉTICO (Desktop)
+   ============================================================ */
+.cursor-dot {
+  display: none;
+}
+.cursor-ring {
+  display: none;
+}
+
+@media (pointer: fine) and (min-width: 769px) {
+  .cursor-dot {
+    display: block;
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: #FFF7ED;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+  }
+
+  .cursor-ring {
+    display: block;
+    position: fixed;
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid #FB923C;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+    transition: width 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                height 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                border-color 0.2s ease,
+                background-color 0.2s ease;
+    opacity: 0.85;
+  }
+
+  .cursor-ring.hovered {
+    width: 65px;
+    height: 65px;
+    border-color: #F97316;
+    background-color: rgba(249, 115, 22, 0.15);
+    opacity: 1;
+  }
+}
+
+/* ============================================================
+   3D CARD & TRANSFORM HELPERS
+   ============================================================ */
+.perspective-1000 {
+  perspective: 1000px;
+}
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* ============================================================
+   GLASSMORPHISM & CYBER UTILITIES
+   ============================================================ */
+.glass-panel {
+  background: rgba(20, 20, 22, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--borde-fuego);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-panel-hover:hover {
+  border-color: var(--naranja-glow);
+  box-shadow: var(--sombra-glow);
+  transform: translateY(-3px);
+}
+
+.gradient-text-flame {
+  background: linear-gradient(135deg, var(--naranja-primario), var(--naranja-glow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-flame {
+  background: linear-gradient(135deg, var(--naranja-primario), var(--naranja-deep));
+  color: var(--carbon);
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
+}
+.btn-flame:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-glow);
+  filter: brightness(1.08);
+}
+.btn-flame:active {
+  transform: translateY(0);
+}
+
+.btn-outline-flame {
+  background: rgba(20, 20, 22, 0.6);
+  border: 1px solid var(--borde-fuego);
+  color: var(--crema);
+  transition: all 0.3s ease;
+}
+.btn-outline-flame:hover {
+  border-color: var(--naranja-primario);
+  background: rgba(249, 115, 22, 0.12);
+  color: var(--naranja-glow);
+}
+
+/* ============================================================
+   MODAL ZOOM LENS & IMAGE INTERACTION
+   ============================================================ */
+.zoom-container {
+  position: relative;
+  overflow: hidden;
+  cursor: crosshair;
+  touch-action: none;
+  background: var(--carbon);
+  user-select: none;
+}
+
+.zoom-image {
+  will-change: transform, transform-origin;
+  transition: transform 0.15s ease-out;
+  pointer-events: none;
+}
+
+.zoom-lens {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border: 2px solid var(--naranja-glow);
+  border-radius: 50%;
+  background: rgba(249, 115, 22, 0.15);
+  box-shadow: 0 0 25px rgba(249, 115, 22, 0.35);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+  display: none;
+}
+
+@media (pointer: fine) {
+  .zoom-lens {
+    display: block;
+  }
+}
+.zoom-lens.active {
+  opacity: 1;
+}
+
+/* ============================================================
+   HUD TAGS & DATA CHUNKS
+   ============================================================ */
+.hud-tag {
+  background: rgba(10, 10, 11, 0.85);
+  border: 1px solid var(--borde-fuego);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--naranja-glow);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.2);
+}
+
+/* ============================================================
+   ANIMACIONES & KEYFRAMES
+   ============================================================ */
+@keyframes orb-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(25px, -25px) scale(1.15); }
+}
+.animate-orb {
+  animation: orb-float 8s ease-in-out infinite;
+}
+
+@keyframes bolt-pulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--naranja-primario)); }
+  50% { transform: scale(1.12); filter: drop-shadow(0 0 25px var(--naranja-glow)); }
+}
+.animate-bolt {
+  animation: bolt-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes load-fill {
+  0% { width: 0%; }
+  60% { width: 80%; }
+  100% { width: 100%; }
+}
+
+@keyframes indicator-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--carbon-border);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.progress-dot.active {
+  width: 32px;
+  background: var(--naranja-primario);
+  box-shadow: 0 0 12px var(--naranja-glow);
+}
+
+

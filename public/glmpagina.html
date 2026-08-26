@@ -1,0 +1,4435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Diginast — Tecnología que inspira</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+    <style>
+        :root {
+            font-size: 17px;
+            --naranja-primario: #F97316;
+            --naranja-deep: #EA580C;
+            --naranja-glow: #FB923C;
+            --carbon: #0A0A0B;
+            --carbon-lift: #141416;
+            --carbon-border: #262628;
+            --crema: #FFF7ED;
+            --gris-texto: #A1A1AA;
+            --borde-fuego: rgba(249, 115, 22, 0.3);
+            --sombra-glow: 0 0 40px rgba(249, 115, 22, 0.4);
+            --fuente-principal: 'Inter', sans-serif;
+            --fuente-mono: 'JetBrains Mono', monospace;
+            --nav-height: 82px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        body {
+            font-family: var(--fuente-principal);
+            background: var(--carbon);
+            color: var(--crema);
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 0px; }
+
+        /* ============ CURSOR (solo desktop) ============ */
+        .cursor-dot, .cursor-ring, .cursor-label {
+            display: none;
+        }
+
+        @media (pointer: fine) and (min-width: 769px) {
+            .cursor-dot {
+                display: block;
+                position: fixed;
+                width: 10px; height: 10px;
+                background: #fff;
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 10000;
+                mix-blend-mode: difference;
+                transform: translate(-50%, -50%);
+            }
+
+            .cursor-ring {
+                display: block;
+                position: fixed;
+                width: 40px; height: 40px;
+                border: 1.5px solid #fff;
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                mix-blend-mode: difference;
+                transform: translate(-50%, -50%);
+                transition: width 0.3s ease, height 0.3s ease;
+                opacity: 0.6;
+            }
+
+            .cursor-ring.hovered {
+                width: 70px; height: 70px;
+                opacity: 1;
+            }
+        }
+
+        /* ============ LOADING ============ */
+        #loading-screen {
+            position: fixed; inset: 0;
+            background: var(--carbon);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            z-index: 100000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        #loading-screen.hidden { opacity: 0; visibility: hidden; }
+
+        .loader-bolt {
+            width: 80px; height: 80px;
+            animation: bolt-pulse 2s ease-in-out infinite;
+        }
+
+        .loader-bolt svg {
+            width: 100%; height: 100%;
+            filter: drop-shadow(0 0 20px var(--naranja-primario));
+        }
+
+        @keyframes bolt-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .loader-text {
+            margin-top: 25px;
+            font-family: var(--fuente-mono);
+            color: var(--gris-texto);
+            font-size: 13px; letter-spacing: 3px;
+            text-align: center;
+        }
+
+        .loader-text span { color: var(--naranja-primario); font-weight: 700; }
+
+        .loader-bar {
+            width: 180px; height: 3px;
+            background: var(--carbon-border);
+            margin-top: 20px;
+            border-radius: 3px; overflow: hidden;
+        }
+
+        .loader-bar-fill {
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, var(--naranja-primario), var(--naranja-glow));
+            animation: load-fill 2s ease-out forwards;
+        }
+
+        @keyframes load-fill {
+            0% { width: 0%; }
+            60% { width: 80%; }
+            100% { width: 100%; }
+        }
+
+        /* ============ SCROLL PROGRESS ============ */
+        .scroll-progress {
+            position: fixed; top: 0; left: 0;
+            height: 3px; width: 0%;
+            background: linear-gradient(90deg, var(--naranja-primario), var(--naranja-glow));
+            z-index: 1100;
+            box-shadow: 0 0 15px var(--naranja-primario);
+        }
+
+        /* ============ NAVBAR ============ */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: transparent;
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            transition: all 0.4s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 10, 11, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--borde-fuego);
+        }
+
+        .nav-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex; align-items: center; gap: 0.6rem;
+            font-size: 1.3rem; font-weight: 800;
+            color: var(--crema); text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-logo-icon {
+            width: 38px; height: 38px;
+            background: linear-gradient(135deg, var(--naranja-primario), var(--naranja-deep));
+            border-radius: 10px;
+            display: flex; align-items: center;
+            justify-content: center;
+            box-shadow: var(--sombra-glow);
+        }
+
+        .nav-logo-icon svg {
+            width: 20px; height: 20px;
+            fill: var(--carbon);
+        }
+
+        .nav-links {
+            display: none;
+            gap: 2rem;
+            list-style: none; align-items: center;
+        }
+
+        @media (min-width: 1024px) {
+            .nav-links { display: flex; }
+            .nav-hamburger { display: none !important; }
+        }
+
+        .nav-link-btn {
+            background: none; border: none;
+            color: var(--gris-texto); text-decoration: none;
+            font-weight: 500; font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative; padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-family: var(--fuente-principal);
+            display: flex; align-items: center; gap: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .nav-link-btn svg {
+            width: 18px; height: 18px;
+            fill: currentColor;
+        }
+
+        .nav-link-btn::after {
+            content: ''; position: absolute;
+            bottom: 0; left: 50%;
+            width: 0; height: 2px;
+            background: var(--naranja-primario);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link-btn:hover { color: var(--crema); }
+        .nav-link-btn:hover::after { width: 80%; }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--naranja-primario), var(--naranja-deep));
+            color: var(--carbon);
+            font-weight: 700;
+            padding: 0.7rem 1.4rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: var(--fuente-principal);
+            display: flex; align-items: center; gap: 0.5rem;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--sombra-glow);
+        }
+
+        .nav-cta svg {
+            width: 16px; height: 16px;
+            fill: var(--carbon);
+        }
+
+        /* HAMBURGER */
+        .nav-hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1002;
+        }
+
+        .nav-hamburger span {
+            width: 26px; height: 3px;
+            background: var(--crema);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .nav-hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* MOBILE MENU */
+        .mobile-menu {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0; right: 0;
+            background: rgba(10, 10, 11, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 1001;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-bottom: 1px solid var(--borde-fuego);
+        }
+
+        .mobile-menu.open {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-menu a {
+            color: var(--crema);
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 1rem;
+            border-radius: 12px;
+            background: var(--carbon-lift);
+            border: 1px solid var(--carbon-border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu a:active {
+            background: rgba(249, 115, 22, 0.2);
+            border-color: var(--naranja-primario);
+        }
+
+        .mobile-menu a svg {
+            width: 22px; height: 22px;
+            fill: var(--naranja-glow);
+        }
+
+        /* ============ SCROLL INDICATOR ============ */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 10;
+            animation: indicator-bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes indicator-bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .scroll-indicator-text {
+            font-family: var(--fuente-mono);
+            font-size: 0.75rem;
+            color: var(--naranja-glow);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .scroll-indicator-arrow {
+            width: 24px; height: 24px;
+            fill: none;
+            stroke: var(--naranja-glow);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 10px var(--naranja-glow));
+        }
+
+        .scroll-indicator-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--naranja-glow), transparent);
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            min-height: 100vh;
+            min-height: 100svh;
+            display: flex; align-items: center;
+            position: relative; overflow: hidden;
+            padding: calc(var(--nav-height) + 2rem) 1.5rem 5rem;
+            z-index: 1;
+        }
+
+        @media (min-width: 768px) {
+            .hero { padding: calc(var(--nav-height) + 3rem) 3rem 4rem; }
+        }
+
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(249, 115, 22, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(249, 115, 22, 0.05) 0%, transparent 50%);
+        }
+
+        .hero-grid {
+            position: absolute; inset: 0;
+            background-image: 
+                linear-gradient(rgba(249, 115, 22, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(249, 115, 22, 0.04) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+        }
+
+        .hero-content {
+            max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr;
+            gap: 3rem; align-items: center;
+            position: relative; z-index: 2;
+            width: 100%;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+            }
+        }
+
+        .hero-text { text-align: center; }
+        @media (min-width: 1024px) { .hero-text { text-align: left; } }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid var(--borde-fuego);
+            color: var(--naranja-glow);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem; font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: badge-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes badge-glow {
+            0%, 100% { box-shadow: 0 0 0 rgba(249, 115, 22, 0); }
+            50% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.3); }
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 8vw, 4.5rem);
+            font-weight: 900; line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-title .gradient-text {
+            background: linear-gradient(135deg, var(--naranja-primario), var(--naranja-glow), var(--naranja-primario));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: text-shimmer 3s linear infinite;
+        }
+
+        @keyframes text-shimmer { to { background-position: 200% center; } }
+
+        .hero-subtitle {
+            font-size: 1.05rem; color: var(--gris-texto);
+            margin-bottom: 2rem;
+            max-width: 500px; line-height: 1.6;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-subtitle { margin-left: 0; margin-right: 0; }
+        }
+
+        .hero-actions {
+            display: flex; gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        @media (min-width: 1024px) { .hero-actions { justify-content: flex-start; } }
+
+        /* ============ BOTONES ============ */
+        .btn-magnetic {
+            position: relative;
+            display: inline-flex;
+            align-items: center; gap: 0.6rem;
+            background: linear-gradient(135deg, var(--naranja-primario), var(--naranja-deep));
+            color: var(--carbon);
+            font-weight: 700;
+            padding: 1rem 1.8rem;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 8px 30px rgba(249, 115, 22, 0.4);
+            font-family: var(--fuente-principal);
+            text-decoration: none;
+            will-change: transform;
+            min-height: 48px;
+        }
+
+        .btn-magnetic:active {
+            transform: scale(0.96);
+        }
+
+        @media (min-width: 769px) {
+            .btn-magnetic {
+                padding: 1rem 2.2rem;
+                font-size: 1rem;
+            }
+        }
+
+        .btn-magnetic::before {
+            content: '';
+            position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-magnetic:hover::before { left: 100%; }
+
+        .btn-magnetic svg {
+            width: 20px; height: 20px;
+            fill: var(--carbon);
+            position: relative; z-index: 1;
+        }
+
+        .btn-magnetic span { position: relative; z-index: 1; }
+
+        .btn-secondary-magnetic {
+            display: inline-flex;
+            align-items: center; gap: 0.6rem;
+            background: transparent;
+            color: var(--crema);
+            font-weight: 600;
+            padding: 1rem 1.8rem;
+            border-radius: 14px;
+            border: 2px solid var(--carbon-border);
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-family: var(--fuente-principal);
+            min-height: 48px;
+        }
+
+        .btn-secondary-magnetic:active {
+            transform: scale(0.96);
+            border-color: var(--naranja-primario);
+        }
+
+        @media (min-width: 769px) {
+            .btn-secondary-magnetic {
+                padding: 1rem 2.2rem;
+                font-size: 1rem;
+            }
+        }
+
+        .btn-secondary-magnetic svg {
+            width: 20px; height: 20px;
+            fill: currentColor;
+        }
+
+        /* ============ HERO CARD 3D ============ */
+        .hero-3d-container {
+            perspective: 1000px;
+            display: flex; justify-content: center;
+            align-items: center;
+            order: -1;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-3d-container { order: 0; }
+        }
+
+        .hero-3d-card {
+            position: relative;
+            width: 100%; max-width: 340px;
+            aspect-ratio: 3/4;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease-out;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .hero-3d-card { max-width: 400px; }
+        }
+
+        .hero-card-face {
+            position: absolute; inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--borde-fuego);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(249, 115, 22, 0.2);
+        }
+
+        .hero-card-front { background: var(--carbon-lift); transform: rotateY(0deg); }
+
+        .hero-card-back {
+            background: linear-gradient(145deg, var(--naranja-primario), var(--naranja-deep));
+            transform: rotateY(180deg);
+            display: flex; flex-direction: column;
+            justify-content: center; padding: 1.5rem;
+            color: var(--carbon);
+        }
+
+        .card-bg-img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; opacity: 0.3;
+        }
+
+        .card-content {
+            position: relative; z-index: 2;
+            height: 100%; display: flex;
+            flex-direction: column; padding: 1.5rem;
+            background: linear-gradient(to bottom, transparent 40%, rgba(10,10,11,0.95) 100%);
+        }
+
+        .card-chip {
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, var(--naranja-primario), var(--naranja-deep));
+            border-radius: 12px;
+            display: flex; align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.5);
+            animation: chip-float 3s ease-in-out infinite;
+        }
+
+        .card-chip svg { width: 26px; height: 26px; fill: var(--carbon); }
+
+        @keyframes chip-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        .card-title {
+            font-size: 1.2rem; font-weight: 800;
+            margin-bottom: 1rem; color: var(--crema);
+        }
+
+        .card-specs { display: grid; gap: 0.5rem; margin-top: auto; }
+
+        .card-spec {
+            display: flex; justify-content: space-between;
+            align-items: center; padding: 0.6rem 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: var(--fuente-mono); font-size: 0.7rem;
+        }
+
+        .card-spec-label { color: var(--gris-texto); }
+        .card-spec-value { color: var(--naranja-glow); font-weight: 700; }
+
+        .card-price {
+            font-size: 2rem; font-weight: 900;
+            color: var(--naranja-glow);
+            margin-top: 1rem;
+            font-family: var(--fuente-mono);
+        }
+
+        .card-flip-hint {
+            font-family: var(--fuente-mono);
+            font-size: 0.65rem;
+            color: var(--gris-texto);
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        /* ============ SECCIONES STICKY (con fallback móvil) ============ */
+        .sticky-section {
+            position: relative;
+            height: 250vh;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .sticky-section { height: 180vh; }
+        }
+
+        .sticky-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            height: 100svh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sticky-canvas-container {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .sticky-canvas-container canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* FALLBACK MÓVIL: Animación CSS atractiva */
+        .mobile-fallback {
+            position: absolute;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, rgba(249, 115, 22, 0.08) 0%, transparent 70%);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-fallback { display: flex; }
+            .sticky-canvas-container { display: none; }
+        }
+
+        .fallback-animation {
+            position: relative;
+            width: 200px; height: 200px;
+        }
+
+        .fallback-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid var(--naranja-primario);
+        }
+
+        .fallback-ring:nth-child(1) {
+            inset: 0;
+            animation: fallback-spin 8s linear infinite;
+            border-style: dashed;
+        }
+
+        .fallback-ring:nth-child(2) {
+            inset: 30px;
+            border-color: var(--naranja-glow);
+            animation: fallback-spin-reverse 6s linear infinite;
+        }
+
+        .fallback-ring:nth-child(3) {
+            inset: 60px;
+            border-width: 1px;
+            animation: fallback-pulse 3s ease-in-out infinite;
+        }
+
+        .fallback-core {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 40px; height: 40px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, var(--naranja-glow), var(--naranja-primario));
+            border-radius: 50%;
+            box-shadow: 0 0 40px var(--naranja-primario);
+            animation: fallback-core-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes fallback-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fallback-spin-reverse {
+            to { transform: rotate(-360deg); }
+        }
+
+        @keyframes fallback-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        @keyframes fallback-core-pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 30px var(--naranja-primario); }
+            50% { transform: translate(-50%, -50%) scale(1.3); box-shadow: 0 0 60px var(--naranja-glow); }
+        }
+
+        /* HUD elements (ocultos en móvil) */
+        .sticky-hud {
+            position: absolute;
+            font-family: var(--fuente-mono);
+            font-size: 0.75rem;
+            color: var(--naranja-glow);
+            background: rgba(10, 10, 11, 0.7);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 10px;
+            padding: 0.5rem 0.9rem;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
+            .sticky-hud { display: block; }
+        }
+
+        /* Contenido central sticky */
+        .sticky-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 5rem 1.5rem 6rem;
+            pointer-events: none;
+        }
+
+        @media (min-width: 768px) {
+            .sticky-overlay {
+                justify-content: center;
+                align-items: center;
+                padding: 2rem;
+            }
+        }
+
+        .sticky-content {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .sticky-title {
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            font-weight: 900;
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+            text-shadow: 0 0 40px rgba(10, 10, 11, 0.9);
+        }
+
+        .sticky-subtitle {
+            color: var(--gris-texto);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            text-shadow: 0 0 20px rgba(10, 10, 11, 0.9);
+        }
+
+        @media (min-width: 768px) {
+            .sticky-subtitle { font-size: 1.2rem; }
+        }
+
+        /* Indicador de scroll en secciones sticky */
+        .sticky-scroll-hint {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            z-index: 10;
+            animation: indicator-bounce 2s ease-in-out infinite;
+        }
+
+        .sticky-scroll-hint span {
+            font-family: var(--fuente-mono);
+            font-size: 0.65rem;
+            color: var(--naranja-glow);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .sticky-scroll-hint svg {
+            width: 18px; height: 18px;
+            fill: none;
+            stroke: var(--naranja-glow);
+            stroke-width: 2;
+        }
+
+        /* Progreso dots */
+        .progress-dots {
+            position: absolute;
+            bottom: 5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.8rem;
+            z-index: 10;
+        }
+
+        .progress-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            border: 2px solid var(--naranja-glow);
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: var(--naranja-primario);
+            box-shadow: 0 0 15px var(--naranja-glow);
+            transform: scale(1.3);
+        }
+
+        /* Data chunks del scrollytelling */
+        .data-chunk {
+            position: absolute;
+            background: rgba(10, 10, 11, 0.75);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 14px;
+            padding: 0.9rem 1.2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 10;
+        }
+
+        @media (min-width: 1024px) {
+            .data-chunk { padding: 1.2rem 1.5rem; }
+        }
+
+        .data-chunk.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .data-chunk h3 {
+            font-family: var(--fuente-mono);
+            font-size: 0.65rem;
+            color: var(--naranja-glow);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.3rem;
+        }
+
+        .data-chunk p {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--crema);
+        }
+
+        .data-chunk .data-value {
+            font-family: var(--fuente-mono);
+            color: var(--naranja-glow);
+            font-weight: 700;
+        }
+
+        @media (max-width: 767px) {
+            .chunk-1 { top: 12%; left: 4%; transform: translateY(20px) scale(0.9); }
+            .chunk-2 { top: 12%; right: 4%; transform: translateY(20px) scale(0.9); }
+            .chunk-3 { top: 30%; left: 4%; transform: translateY(20px) scale(0.9); }
+            .chunk-4 { top: 30%; right: 4%; transform: translateY(20px) scale(0.9); }
+            .chunk-5 { top: 48%; left: 4%; transform: translateY(20px) scale(0.9); }
+            .chunk-6 { top: 48%; right: 4%; transform: translateY(20px) scale(0.9); }
+            .data-chunk.visible { transform: translateY(0) scale(1); }
+        }
+
+        @media (min-width: 768px) {
+            .chunk-1 { top: 15%; left: 5%; }
+            .chunk-2 { top: 20%; right: 5%; }
+            .chunk-3 { top: 45%; left: 3%; }
+            .chunk-4 { top: 50%; right: 3%; }
+            .chunk-5 { bottom: 25%; left: 8%; }
+            .chunk-6 { bottom: 20%; right: 8%; }
+        }
+
+        /* ============ STATS ============ */
+        .stats-section {
+            padding: 4rem 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (min-width: 768px) {
+            .stats-section { padding: 6rem 3rem; }
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2rem;
+            }
+        }
+
+        .stat-card {
+            background: var(--carbon-lift);
+            border: 1px solid var(--carbon-border);
+            border-radius: 16px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .stat-card { padding: 2.5rem 1.5rem; }
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--naranja-primario), var(--naranja-glow));
+        }
+
+        .stat-icon {
+            width: 50px; height: 50px;
+            background: rgba(249, 115, 22, 0.1);
+            border-radius: 14px;
+            display: flex; align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            border: 1px solid var(--borde-fuego);
+        }
+
+        .stat-icon svg {
+            width: 24px; height: 24px;
+            fill: var(--naranja-glow);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--naranja-primario);
+            font-family: var(--fuente-mono);
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            .stat-number { font-size: 3rem; }
+        }
+
+        .stat-label {
+            color: var(--gris-texto);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.7rem;
+        }
+
+        /* ============ SECCIONES GENERALES ============ */
+        .section {
+            padding: 4rem 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (min-width: 768px) {
+            .section { padding: 6rem 3rem; }
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-family: var(--fuente-mono);
+            color: var(--naranja-glow);
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: clamp(1.6rem, 4vw, 2.8rem);
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-subtitle {
+            color: var(--gris-texto);
+            font-size: 0.95rem;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        /* ============ CATEGORIES ============ */
+        .categories-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .categories-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        .category-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 4/5;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            will-change: transform;
+        }
+
+        .category-card:active { transform: scale(0.97); }
+
+        @media (min-width: 769px) {
+            .category-card:hover { transform: translateY(-8px) scale(1.02); }
+        }
+
+        .category-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4);
+            transition: all 0.5s ease;
+        }
+
+        @media (min-width: 769px) {
+            .category-card:hover .category-bg {
+                transform: scale(1.1);
+                filter: brightness(0.6);
+            }
+        }
+
+        .category-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10,10,11,0.95) 0%, rgba(10,10,11,0.4) 50%, transparent 100%);
+            z-index: 1;
+        }
+
+        .category-content {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 1.2rem;
+            z-index: 2;
+        }
+
+        .category-icon-wrapper {
+            width: 50px; height: 50px;
+            background: rgba(249, 115, 22, 0.9);
+            border-radius: 14px;
+            display: flex; align-items: center;
+            justify-content: center;
+            margin-bottom: 0.8rem;
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
+        }
+
+        .category-icon-wrapper svg {
+            width: 26px; height: 26px;
+            fill: var(--carbon);
+        }
+
+        .category-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: var(--crema);
+        }
+
+        .category-count {
+            font-family: var(--fuente-mono);
+            color: var(--naranja-glow);
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* ============ CATALOG ============ */
+        .catalog-filters {
+            max-width: 1400px;
+            margin: 0 auto 2.5rem;
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: var(--carbon-lift);
+            border: 1px solid var(--carbon-border);
+            color: var(--gris-texto);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            font-family: var(--fuente-principal);
+        }
+
+        .filter-btn:active { transform: scale(0.95); }
+
+        .filter-btn.active {
+            background: var(--naranja-primario);
+            border-color: var(--naranja-primario);
+            color: var(--carbon);
+        }
+
+        .catalog-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .catalog-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .catalog-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+        }
+
+        .product-card {
+            background: var(--carbon-lift);
+            border: 1px solid var(--carbon-border);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            transform-style: preserve-3d;
+            will-change: transform;
+            transition: border-color 0.3s ease;
+        }
+
+        .product-image {
+            position: relative;
+            aspect-ratio: 16/10;
+            overflow: hidden;
+            background: var(--carbon);
+            cursor: pointer;
+        }
+
+        .product-image img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:active .product-image img {
+            transform: scale(1.05);
+        }
+
+        @media (min-width: 769px) {
+            .product-card:hover .product-image img {
+                transform: scale(1.1);
+            }
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 0.8rem; left: 0.8rem;
+            background: var(--naranja-primario);
+            color: var(--carbon);
+            font-family: var(--fuente-mono);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        .product-content { padding: 1.2rem; }
+
+        .product-category {
+            font-family: var(--fuente-mono);
+            font-size: 0.65rem;
+            color: var(--naranja-glow);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.4rem;
+        }
+
+        .product-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            line-height: 1.4;
+        }
+
+        .product-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-spec {
+            background: rgba(249, 115, 22, 0.08);
+            border: 1px solid var(--borde-fuego);
+            color: var(--naranja-glow);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-family: var(--fuente-mono);
+            font-size: 0.65rem;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--naranja-glow);
+            font-family: var(--fuente-mono);
+        }
+
+        .btn-ver-detalles {
+            background: linear-gradient(135deg, var(--naranja-primario), var(--naranja-deep));
+            color: var(--carbon);
+            font-weight: 700;
+            padding: 0.7rem 1.2rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: var(--fuente-principal);
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-ver-detalles:active { transform: scale(0.95); }
+
+        .btn-ver-detalles svg {
+            width: 16px; height: 16px;
+            fill: currentColor;
+        }
+
+        /* ============ MODAL DE PRODUCTO (con zoom integrado) ============ */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(10, 10, 11, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            padding-top: calc(var(--nav-height) + 1rem);
+            opacity: 0; visibility: hidden;
+            transition: all 0.35s ease;
+        }
+
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .modal {
+            background: var(--carbon-lift);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 20px;
+            max-width: 580px;
+            width: 100%;
+            max-height: calc(100vh - var(--nav-height) - 2rem);
+            max-height: calc(100svh - var(--nav-height) - 2rem);
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9) translateY(30px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modal-overlay.active .modal { transform: scale(1) translateY(0); }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            width: 40px; height: 40px;
+            background: rgba(10, 10, 11, 0.85);
+            border: 1px solid var(--carbon-border);
+            border-radius: 50%;
+            color: var(--gris-texto);
+            cursor: pointer;
+            display: flex; align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 20;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-close:active {
+            border-color: var(--naranja-primario);
+            color: var(--naranja-glow);
+        }
+
+        .modal-close svg {
+            width: 18px; height: 18px;
+            fill: currentColor;
+        }
+
+        /* ZOOM INTEGRADO EN LA IMAGEN DEL MODAL */
+        .modal-image-zoom-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/10;
+            overflow: hidden;
+            border-radius: 20px 20px 0 0;
+            cursor: crosshair;
+            touch-action: none;
+            background: var(--carbon);
+        }
+
+        .modal-image-zoom-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.2s ease-out;
+            transform-origin: center center;
+            will-change: transform;
+            user-select: none;
+            -webkit-user-drag: none;
+            pointer-events: none;
+        }
+
+        .zoom-indicator {
+            position: absolute;
+            top: 1rem; right: 4.5rem;
+            background: rgba(10, 10, 11, 0.8);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 8px;
+            padding: 0.4rem 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--fuente-mono);
+            font-size: 0.65rem;
+            color: var(--naranja-glow);
+            backdrop-filter: blur(10px);
+            z-index: 5;
+            transition: opacity 0.3s ease;
+        }
+
+        .zoom-indicator svg {
+            width: 14px; height: 14px;
+            fill: currentColor;
+        }
+
+        /* Lente de zoom visual (desktop) */
+        .zoom-lens {
+            position: absolute;
+            width: 100px; height: 100px;
+            border: 2px solid var(--naranja-glow);
+            border-radius: 50%;
+            background: rgba(249, 115, 22, 0.1);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 4;
+            display: none;
+        }
+
+        @media (pointer: fine) {
+            .zoom-lens { display: block; }
+        }
+
+        .zoom-lens.active { opacity: 1; }
+
+        /* Tooltip de instrucción táctil */
+        .touch-hint {
+            position: absolute;
+            bottom: 1rem; left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 10, 11, 0.85);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 8px;
+            padding: 0.4rem 0.8rem;
+            font-family: var(--fuente-mono);
+            font-size: 0.65rem;
+            color: var(--naranja-glow);
+            backdrop-filter: blur(10px);
+            z-index: 5;
+            animation: hint-pulse 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes hint-pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .modal-content { padding: 1.5rem; }
+
+        .modal-category {
+            font-family: var(--fuente-mono);
+            color: var(--naranja-glow);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.4rem;
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+        }
+
+        .modal-description {
+            color: var(--gris-texto);
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .modal-specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-spec {
+            background: rgba(249, 115, 22, 0.05);
+            border: 1px solid var(--borde-fuego);
+            padding: 0.8rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .modal-spec-label {
+            font-family: var(--fuente-mono);
+            font-size: 0.6rem;
+            color: var(--gris-texto);
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+
+        .modal-spec-value {
+            color: var(--naranja-glow);
+            font-weight: 700;
+            font-family: var(--fuente-mono);
+            font-size: 0.85rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1.2rem;
+            border-top: 1px solid var(--carbon-border);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .modal-price {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--naranja-glow);
+            font-family: var(--fuente-mono);
+        }
+
+        /* ============ CTA ============ */
+        .cta-section {
+            padding: 5rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            z-index: 1;
+        }
+
+        @media (min-width: 768px) {
+            .cta-section { padding: 8rem 3rem; }
+        }
+
+        .cta-orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.15), transparent 70%);
+            animation: orb-float 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .cta-orb:nth-child(1) { width: 200px; height: 200px; top: 10%; left: 5%; }
+        .cta-orb:nth-child(2) { width: 150px; height: 150px; bottom: 20%; right: 5%; animation-delay: 2s; }
+
+        @media (min-width: 768px) {
+            .cta-orb:nth-child(1) { width: 300px; height: 300px; top: 10%; left: 10%; }
+            .cta-orb:nth-child(2) { width: 200px; height: 200px; top: 60%; right: 10%; }
+            .cta-orb:nth-child(3) { width: 150px; height: 150px; bottom: 20%; left: 30%; animation-delay: 4s; }
+        }
+
+        @keyframes orb-float {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            33% { transform: translate(20px, -20px) scale(1.1); opacity: 0.8; }
+            66% { transform: translate(-15px, 15px) scale(0.9); opacity: 0.6; }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: clamp(1.8rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .cta-subtitle {
+            color: var(--gris-texto);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            background: var(--carbon-lift);
+            border-top: 1px solid var(--carbon-border);
+            padding: 3rem 1.5rem 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(3, 1fr);
+                text-align: left;
+            }
+        }
+
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-brand p {
+            color: var(--gris-texto);
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .footer-links h4 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links ul { list-style: none; }
+
+        .footer-links a {
+            color: var(--gris-texto);
+            text-decoration: none;
+            display: block;
+            padding: 0.4rem 0;
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--carbon-border);
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: var(--gris-texto);
+            font-size: 0.8rem;
+        }
+
+        /* ============ TOAST ============ */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(150%);
+            background: var(--carbon-lift);
+            border: 1px solid var(--naranja-primario);
+            border-radius: 14px;
+            padding: 0.9rem 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            z-index: 1400;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: var(--sombra-glow);
+            max-width: 90vw;
+        }
+
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        .toast svg {
+            width: 20px; height: 20px;
+            fill: var(--naranja-glow);
+            flex-shrink: 0;
+        }
+
+        .toast-message {
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        /* ============ SEARCH ============ */
+        .search-overlay {
+            position: fixed; inset: 0;
+            background: rgba(10, 10, 11, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1200;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: calc(var(--nav-height) + 2rem) 1rem 1rem;
+            opacity: 0; visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .search-overlay.active { opacity: 1; visibility: visible; }
+
+        .search-container {
+            width: 100%;
+            max-width: 550px;
+            transform: translateY(-30px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .search-overlay.active .search-container { transform: translateY(0); }
+
+        .search-input-wrapper {
+            background: var(--carbon-lift);
+            border: 2px solid var(--borde-fuego);
+            border-radius: 16px;
+            padding: 1rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: var(--sombra-glow);
+        }
+
+        .search-input-wrapper svg {
+            width: 22px; height: 22px;
+            fill: var(--naranja-glow);
+            flex-shrink: 0;
+        }
+
+        .search-input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--crema);
+            font-size: 1.05rem;
+            font-family: var(--fuente-principal);
+            min-width: 0;
+        }
+
+        .search-input::placeholder { color: var(--gris-texto); }
+
+        .search-results {
+            margin-top: 1rem;
+            max-height: 350px;
+            overflow-y: auto;
+            display: none;
+            flex-direction: column;
+            gap: 0.8rem;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .search-results.show { display: flex; }
+
+        .search-result-card {
+            background: var(--carbon-lift);
+            border: 1px solid var(--carbon-border);
+            border-radius: 14px;
+            padding: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            cursor: pointer;
+        }
+
+        .search-result-card:active {
+            border-color: var(--naranja-primario);
+        }
+
+        .search-result-img {
+            width: 55px; height: 55px;
+            border-radius: 10px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .search-result-info h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--crema);
+            margin-bottom: 0.2rem;
+        }
+
+        .search-result-info p {
+            font-size: 0.75rem;
+            color: var(--naranja-glow);
+            font-family: var(--fuente-mono);
+        }
+
+        /* ============ BACKGROUND PARTICLES ============ */
+        #bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            display: block;
+        }
+        .hero, .stats-section, .section, .sticky-section, .promos-section, .cta-section {
+            background: transparent !important;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============ ANIMACIONES ENTRADA ============ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============ PULL TO REFRESH HINT ============ */
+        .mobile-scroll-hint {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(10, 10, 11, 0.9);
+            border: 1px solid var(--borde-fuego);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--fuente-mono);
+            font-size: 0.65rem;
+            color: var(--naranja-glow);
+            z-index: 900;
+            backdrop-filter: blur(10px);
+            animation: hint-fade 3s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-scroll-hint { display: flex; }
+        }
+
+        @keyframes hint-fade {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .mobile-scroll-hint svg {
+            width: 14px; height: 14px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            animation: arrow-down 1.5s ease-in-out infinite;
+        }
+
+        @keyframes arrow-down {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(3px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOADING -->
+    <div id="loading-screen">
+        <div class="loader-bolt">
+            <svg viewBox="0 0 24 24">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="#F97316"/>
+            </svg>
+        </div>
+        <div class="loader-text">Cargando <span>DIGINAST</span></div>
+        <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+    </div>
+
+    <!-- CURSOR (desktop) -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <!-- SCROLL PROGRESS -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- PARTICLES -->
+    <canvas id="bg-particles"></canvas>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#inicio" class="nav-logo">
+                <div class="nav-logo-icon">
+                    <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <span>Diginast</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#catalogo" class="nav-link-btn">
+                    <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+                    Productos
+                </a></li>
+                <li><a href="#categorias" class="nav-link-btn">
+                    <svg viewBox="0 0 24 24"><path d="M12 2l-5.5 9h11z"/><circle cx="17.5" cy="17.5" r="4.5"/><rect x="3" y="13" width="9" height="9" rx="1"/></svg>
+                    Categorías
+                </a></li>
+                <li><button class="nav-link-btn" onclick="openSearch()">
+                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    Buscar
+                </button></li>
+            </ul>
+
+            <a href="#cotizar" class="nav-cta">
+                <span>Cotizar</span>
+                <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </a>
+
+            <button class="nav-hamburger" id="hamburger" aria-label="Menú">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#catalogo">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+            Productos
+        </a>
+        <a href="#categorias">
+            <svg viewBox="0 0 24 24"><path d="M12 2l-5.5 9h11z"/><circle cx="17.5" cy="17.5" r="4.5"/><rect x="3" y="13" width="9" height="9" rx="1"/></svg>
+            Categorías
+        </a>
+        <a href="#" onclick="openSearch(); return false;">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            Buscar
+        </a>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <svg viewBox="0 0 24 24">
+                    <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+                <input type="text" class="search-input" id="search-input" placeholder="Buscar productos...">
+                <button class="modal-close" onclick="closeSearch()" style="position:relative;top:0;right:0;width:35px;height:35px;">
+                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </button>
+            </div>
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+        <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
+
+        <div class="hero-content">
+            <div class="hero-text reveal visible">
+                <div class="hero-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                    Tecnología de Vanguardia
+                </div>
+                <h1 class="hero-title">
+                    Potencia que<br>
+                    <span class="gradient-text">inspira.</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Descubre el futuro de la tecnología con equipos de alto rendimiento.
+                </p>
+                <div class="hero-actions">
+                    <a href="#catalogo" class="btn-magnetic">
+                        <span>Explorar</span>
+                        <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    </a>
+                    <a href="#categorias" class="btn-secondary-magnetic">
+                        <span>Categorías</span>
+                        <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-3d-container reveal visible" style="transition-delay: 0.2s;">
+                <div class="hero-3d-card" id="hero-card">
+                    <div class="hero-card-face hero-card-front">
+                        <img class="card-bg-img" src="https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&h=800&fit=crop" alt="Setup Gaming" loading="lazy">
+                        <div class="card-content">
+                            <div class="card-chip">
+                                <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                            </div>
+                            <h3 class="card-title">Setup Premium Gaming</h3>
+                            <div class="card-specs">
+                                <div class="card-spec"><span class="card-spec-label">GPU</span><span class="card-spec-value">RTX 4090</span></div>
+                                <div class="card-spec"><span class="card-spec-label">CPU</span><span class="card-spec-value">i9 14900K</span></div>
+                                <div class="card-spec"><span class="card-spec-label">RAM</span><span class="card-spec-value">64GB DDR5</span></div>
+                            </div>
+                            <div class="card-price">$3,499</div>
+                        </div>
+                    </div>
+                    <div class="hero-card-face hero-card-back">
+                        <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 1rem;">¿Por qué Diginast?</h3>
+                        <ul style="list-style:none; font-weight:600; font-size:0.95rem;">
+                            <li style="padding:0.5rem 0; display:flex; align-items:center; gap:0.6rem;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Garantía 3 años
+                            </li>
+                            <li style="padding:0.5rem 0; display:flex; align-items:center; gap:0.6rem;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Envío gratis
+                            </li>
+                            <li style="padding:0.5rem 0; display:flex; align-items:center; gap:0.6rem;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Soporte 24/7
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCROLL INDICATOR -->
+        <div class="scroll-indicator">
+            <span class="scroll-indicator-text">Desliza para descubrir</span>
+            <svg class="scroll-indicator-arrow" viewBox="0 0 24 24">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- PRODUCTO DESTACADO STICKY -->
+    <section class="sticky-section" id="destacado">
+        <div class="sticky-container">
+            <div class="sticky-canvas-container" id="featured-canvas-container">
+                <canvas id="featured-canvas"></canvas>
+            </div>
+
+            <!-- Fallback móvil animado -->
+            <div class="mobile-fallback">
+                <div class="fallback-animation">
+                    <div class="fallback-ring"></div>
+                    <div class="fallback-ring"></div>
+                    <div class="fallback-ring"></div>
+                    <div class="fallback-core"></div>
+                </div>
+            </div>
+
+            <div class="data-chunk chunk-1"><h3>Procesador</h3><p>Intel <span class="data-value">i9-14900K</span></p></div>
+            <div class="data-chunk chunk-2"><h3>Gráficos</h3><p>NVIDIA <span class="data-value">RTX 4090</span></p></div>
+            <div class="data-chunk chunk-3"><h3>Memoria</h3><p><span class="data-value">64GB</span> DDR5</p></div>
+            <div class="data-chunk chunk-4"><h3>SSD</h3><p><span class="data-value">2TB</span> NVMe</p></div>
+            <div class="data-chunk chunk-5"><h3>Cooling</h3><p>Liquid <span class="data-value">360mm</span></p></div>
+            <div class="data-chunk chunk-6"><h3>Precio</h3><p><span class="data-value">$3,499</span></p></div>
+
+            <div class="sticky-overlay">
+                <div class="sticky-content">
+                    <h2 class="sticky-title" id="featured-title">Setup Premium Gaming</h2>
+                    <p class="sticky-subtitle" id="featured-subtitle">Explora cada componente en 360°</p>
+                </div>
+            </div>
+
+            <div class="progress-dots" id="featured-dots">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+            </div>
+
+            <div class="sticky-scroll-hint">
+                <span>Continúa deslizando</span>
+                <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- RENDER 3D STICKY -->
+    <section class="sticky-section" id="experiencia">
+        <div class="sticky-container">
+            <div class="sticky-canvas-container" id="render3d-canvas-container">
+                <canvas id="render3d-canvas"></canvas>
+            </div>
+
+            <div class="mobile-fallback">
+                <div class="fallback-animation" style="width:250px;height:250px;">
+                    <div class="fallback-ring" style="border-color: var(--naranja-glow);"></div>
+                    <div class="fallback-ring" style="inset: 40px; border-color: var(--naranja-primario);"></div>
+                    <div class="fallback-ring" style="inset: 80px;"></div>
+                    <div class="fallback-core" style="width:50px;height:50px;"></div>
+                </div>
+            </div>
+
+            <div class="sticky-hud" style="top:20%;left:5%;">⚡ 83 TFLOPS</div>
+            <div class="sticky-hud" style="top:30%;right:5%;">🔥 24GB GDDR6X</div>
+            <div class="sticky-hud" style="bottom:25%;left:8%;">❄️ Liquid Cooling</div>
+
+            <div class="sticky-overlay">
+                <div class="sticky-content">
+                    <h2 class="sticky-title" id="render-title">Una experiencia <span class="gradient-text" style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">visual única</span></h2>
+                    <p class="sticky-subtitle" id="render-subtitle">Explora el poder desde adentro</p>
+                </div>
+            </div>
+
+            <div class="progress-dots" id="render-dots">
+                <div class="progress-dot active"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+                <div class="progress-dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card reveal">
+                <div class="stat-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2l-5.5 9h11z"/><circle cx="17.5" cy="17.5" r="4.5"/><rect x="3" y="13" width="9" height="9" rx="1"/></svg>
+                </div>
+                <span class="stat-number" data-count="1000">0</span>
+                <span class="stat-label">Productos</span>
+            </div>
+            <div class="stat-card reveal" style="transition-delay:0.1s;">
+                <div class="stat-icon">
+                    <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+                </div>
+                <span class="stat-number" data-count="24">0</span>
+                <span class="stat-label">Categorías</span>
+            </div>
+            <div class="stat-card reveal" style="transition-delay:0.2s;">
+                <div class="stat-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+                <span class="stat-number" data-count="5000">0</span>
+                <span class="stat-label">Clientes</span>
+            </div>
+            <div class="stat-card reveal" style="transition-delay:0.3s;">
+                <div class="stat-icon">
+                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                </div>
+                <span class="stat-number" data-count="10">0</span>
+                <span class="stat-label">Años</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="section" id="categorias">
+        <div class="section-header">
+            <span class="section-tag">// Explora por categoría</span>
+            <h2 class="section-title">Encuentra tu equipo perfecto</h2>
+            <p class="section-subtitle">Desde workstations hasta setups gaming</p>
+        </div>
+        <div class="categories-grid" id="categories-grid"></div>
+    </section>
+
+    <!-- CATALOG -->
+    <section class="section" id="catalogo">
+        <div class="section-header">
+            <span class="section-tag">// Catálogo destacado</span>
+            <h2 class="section-title">Productos premium</h2>
+            <p class="section-subtitle">Toca cualquier producto para ver detalles con zoom</p>
+        </div>
+        <div class="catalog-filters" id="catalog-filters"></div>
+        <div class="catalog-grid" id="catalog-grid"></div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="cotizar">
+        <div class="cta-orb"></div>
+        <div class="cta-orb"></div>
+        <div class="cta-orb"></div>
+        <div class="cta-content reveal">
+            <h2 class="cta-title">¿Listo para el <span class="gradient-text" style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">siguiente nivel</span>?</h2>
+            <p class="cta-subtitle">Cotiza tu equipo personalizado hoy mismo.</p>
+            <button class="btn-magnetic" style="font-size:1.05rem; padding:1.2rem 2.5rem;">
+                <span>Solicitar Cotización</span>
+                <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>Diginast</h3>
+                <p>Potencia que inspira. Tu socio tecnológico de confianza.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Categorías</h4>
+                <ul>
+                    <li><a href="#catalogo">Gaming</a></li>
+                    <li><a href="#catalogo">Workstations</a></li>
+                    <li><a href="#catalogo">Laptops</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#catalogo">Catálogo</a></li>
+                    <li><a href="#categorias">Categorías</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Diginast. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL PRODUCTO (con zoom integrado) -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <button class="modal-close" id="modal-close">
+                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+
+            <!-- IMAGEN CON ZOOM INTEGRADO -->
+            <div class="modal-image-zoom-container" id="zoom-container">
+                <img src="" alt="" id="modal-image" loading="lazy">
+                <div class="zoom-lens" id="zoom-lens"></div>
+                <div class="zoom-indicator" id="zoom-indicator">
+                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <span id="zoom-mode-text">Hover para zoom</span>
+                </div>
+                <div class="touch-hint" id="touch-hint">👆 Toca para hacer zoom</div>
+            </div>
+
+            <div class="modal-content">
+                <div class="modal-category" id="modal-category"></div>
+                <h3 class="modal-title" id="modal-title"></h3>
+                <p class="modal-description" id="modal-description"></p>
+                <div class="modal-specs" id="modal-specs"></div>
+                <div class="modal-footer">
+                    <div class="modal-price" id="modal-price"></div>
+                    <button class="btn-magnetic" onclick="showToast()" style="padding:0.8rem 1.5rem;font-size:0.9rem;">
+                        <span>Agregar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        <span class="toast-message">Agregado a favoritos</span>
+    </div>
+
+    <!-- HINT MÓVIL FLOTANTE -->
+    <div class="mobile-scroll-hint">
+        <span>Desliza</span>
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </div>
+
+    <script>
+        // ============ DETECCIÓN ============
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        const isDesktop = window.innerWidth > 768 && !isTouch;
+        const enable3D = true;
+
+        // ============ DATA ============
+        const categorias = [
+            { id: "gaming", nombre: "Gaming", count: 45, icon: `<svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM11 13H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`, img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=800&fit=crop" },
+            { id: "workstation", nombre: "Workstations", count: 32, icon: `<svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>`, img: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&h=800&fit=crop" },
+            { id: "laptops", nombre: "Laptops", count: 38, icon: `<svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 5h16v11H4V5z"/></svg>`, img: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=800&fit=crop" },
+            { id: "componentes", nombre: "Componentes", count: 65, icon: `<svg viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>`, img: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&h=800&fit=crop" },
+            { id: "audio", nombre: "Audio Pro", count: 28, icon: `<svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>`, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=800&fit=crop" },
+            { id: "monitores", nombre: "Monitores", count: 34, icon: `<svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14z"/></svg>`, img: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&h=800&fit=crop" }
+        ];
+
+        const productos = [
+            { id: 1, nombre: "Setup Gaming Xtreme RTX 4090", categoria: "gaming", precio: 3499, imagen: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&h=800&fit=crop", descripcion: "El setup gaming definitivo con RTX 4090 y refrigeración líquida.", specs: ["RTX 4090", "i9 14900K", "64GB DDR5"] },
+            { id: 2, nombre: "Workstation Creator Pro", categoria: "workstation", precio: 2899, imagen: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=1200&h=800&fit=crop", descripcion: "Equipo profesional para edición 8K y 3D rendering.", specs: ["Threadripper", "256GB RAM", "8TB SSD"] },
+            { id: 3, nombre: "Laptop Ultra Creator 16\"", categoria: "laptops", precio: 2299, imagen: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&h=800&fit=crop", descripcion: "Laptop para creadores con pantalla OLED 4K.", specs: ["OLED 4K", "RTX 4080", "64GB RAM"] },
+            { id: 4, nombre: "GPU RTX 4090 Gaming OC", categoria: "componentes", precio: 1599, imagen: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=1200&h=800&fit=crop", descripcion: "La GPU más potente del mercado para gaming en 8K.", specs: ["24GB GDDR6X", "DLSS 3.5", "PCIe 5.0"] },
+            { id: 5, nombre: "Monitor Odyssey Neo G9", categoria: "monitores", precio: 1899, imagen: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=1200&h=800&fit=crop", descripcion: "Monitor curvo 57\" con resolución 7680x2160 y 240Hz.", specs: ["57\" Curvo", "7680x2160", "240Hz"] },
+            { id: 6, nombre: "Audio Setup Studio Pro", categoria: "audio", precio: 899, imagen: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&h=800&fit=crop", descripcion: "Setup completo de audio profesional para creators.", specs: ["Monitores 8\"", "24bit/192kHz", "DAW Ready"] }
+        ];
+
+        // ============ LENIS ============
+        const lenis = new Lenis({
+            duration: isMobile ? 0.8 : 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: !isMobile,
+            smoothTouch: false,
+            touchMultiplier: 1.5
+        });
+
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0);
+
+        // ============ LOADING ============
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loading-screen').classList.add('hidden');
+            }, 1800);
+        });
+
+        // ============ CURSOR (desktop only) ============
+        if (isDesktop) {
+            const cursorDot = document.getElementById('cursor-dot');
+            const cursorRing = document.getElementById('cursor-ring');
+            let mx = 0, my = 0, rx = 0, ry = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mx = e.clientX; my = e.clientY;
+                cursorDot.style.left = mx + 'px';
+                cursorDot.style.top = my + 'px';
+            });
+
+            (function animRing() {
+                rx += (mx - rx) * 0.12;
+                ry += (my - ry) * 0.12;
+                cursorRing.style.left = rx + 'px';
+                cursorRing.style.top = ry + 'px';
+                requestAnimationFrame(animRing);
+            })();
+
+            document.addEventListener('mouseover', (e) => {
+                if (e.target.closest('a, button, .product-card, .category-card')) {
+                    cursorRing.classList.add('hovered');
+                }
+            });
+            document.addEventListener('mouseout', (e) => {
+                if (e.target.closest('a, button, .product-card, .category-card')) {
+                    cursorRing.classList.remove('hovered');
+                }
+            });
+        }
+
+        // ============ HAMBURGER MENU ============
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobile-menu');
+        let menuOpen = false;
+
+        hamburger.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            hamburger.classList.toggle('active', menuOpen);
+            mobileMenu.classList.toggle('open', menuOpen);
+            if (menuOpen) lenis.stop(); else lenis.start();
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                menuOpen = false;
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('open');
+                lenis.start();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) lenis.scrollTo(target, { duration: 1.2 });
+            });
+        });
+
+        // ============ SCROLL PROGRESS + NAVBAR ============
+        lenis.on('scroll', ({ scroll, limit }) => {
+            document.getElementById('scroll-progress').style.width = (scroll / limit) * 100 + '%';
+            document.getElementById('navbar').classList.toggle('scrolled', scroll > 30);
+        });
+
+        // ============ CINEMATIC LIVING CYBERNETIC BACKGROUND ENGINE ============
+        const bgCanvas = document.getElementById('bg-particles');
+        const bgCtx = bgCanvas.getContext('2d');
+
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        let mouseX = width / 2;
+        let mouseY = height / 2;
+        let targetMouseX = width / 2;
+        let targetMouseY = height / 2;
+        let scrollY = 0;
+        let scrollVelocity = 0;
+        let lastScrollY = 0;
+
+        // 1. Ambient Cyber Energy Nebulas
+        const nebulas = [
+            { x: width * 0.2, y: height * 0.3, vx: 0.3, vy: 0.2, r: 280, color: 'rgba(249, 115, 22, 0.12)', baseR: 280, phase: 0 },
+            { x: width * 0.8, y: height * 0.6, vx: -0.25, vy: 0.3, r: 320, color: 'rgba(234, 88, 12, 0.10)', baseR: 320, phase: 2 },
+            { x: width * 0.5, y: height * 0.8, vx: 0.2, vy: -0.2, r: 260, color: 'rgba(251, 146, 60, 0.08)', baseR: 260, phase: 4 },
+            { x: width * 0.7, y: height * 0.2, vx: -0.2, vy: -0.15, r: 220, color: 'rgba(180, 83, 9, 0.09)', baseR: 220, phase: 1 }
+        ];
+
+        // 2. 3D Geometric Polyhedrons (True 3D perspective projection)
+        const polyhedrons = [];
+        const isMob = width < 768;
+        const polyCount = isMob ? 24 : 48;
+
+        // Define 3D Vertices for Polyhedrons
+        const cubeVerts = [
+            [-1,-1,-1], [1,-1,-1], [1,1,-1], [-1,1,-1],
+            [-1,-1,1],  [1,-1,1],  [1,1,1],  [-1,1,1]
+        ];
+        const cubeEdges = [
+            [0,1],[1,2],[2,3],[3,0],
+            [4,5],[5,6],[6,7],[7,4],
+            [0,4],[1,5],[2,6],[3,7]
+        ];
+
+        const octaVerts = [
+            [0,1.4,0], [0,-1.4,0],
+            [-1,0,-1], [1,0,-1], [1,0,1], [-1,0,1]
+        ];
+        const octaEdges = [
+            [0,2],[0,3],[0,4],[0,5],
+            [1,2],[1,3],[1,4],[1,5],
+            [2,3],[3,4],[4,5],[5,2]
+        ];
+
+        const tetraVerts = [
+            [1,1,1], [-1,-1,1], [-1,1,-1], [1,-1,-1]
+        ];
+        const tetraEdges = [
+            [0,1],[0,2],[0,3],[1,2],[2,3],[3,1]
+        ];
+
+        const telemetryTags = [
+            "83 TFLOPS", "RTX 4090", "i9 14900K", "GDDR6X", "PCIe 5.0",
+            "NVMe 7400MB/s", "DDR5 7200MHz", "360mm LIQUID", "0x7F-CORE",
+            "// ONLINE", "[SYS:OPTIMAL]", "⚡ 1200W PLATINUM", "RGB_SYNC", "4K_144Hz"
+        ];
+
+        function initEntities() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            width = window.innerWidth;
+            height = window.innerHeight;
+            bgCanvas.width = width * dpr;
+            bgCanvas.height = height * dpr;
+            bgCanvas.style.width = width + 'px';
+            bgCanvas.style.height = height + 'px';
+            bgCtx.scale(dpr, dpr);
+
+            polyhedrons.length = 0;
+            const types = ['cube', 'octa', 'tetra', 'ring', 'tag'];
+
+            for (let i = 0; i < polyCount; i++) {
+                const type = types[i % types.length];
+                polyhedrons.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    z: Math.random() * 600 + 200, // 3D depth
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    vz: (Math.random() - 0.5) * 0.2,
+                    rotX: Math.random() * Math.PI * 2,
+                    rotY: Math.random() * Math.PI * 2,
+                    rotZ: Math.random() * Math.PI * 2,
+                    vRotX: (Math.random() - 0.5) * 0.018,
+                    vRotY: (Math.random() - 0.5) * 0.022,
+                    vRotZ: (Math.random() - 0.5) * 0.014,
+                    scale: Math.random() * 16 + 14,
+                    type: type,
+                    tag: telemetryTags[Math.floor(Math.random() * telemetryTags.length)],
+                    opacity: Math.random() * 0.5 + 0.45,
+                    pulse: Math.random() * Math.PI * 2,
+                    pulseSpeed: 0.03 + Math.random() * 0.03
+                });
+            }
+        }
+
+        // 3. Shooting Cyber Comets / Laser Streaks
+        const comets = [];
+        function spawnComet() {
+            if (comets.length < (isMob ? 2 : 4)) {
+                comets.push({
+                    x: Math.random() * width * 1.2 - width * 0.1,
+                    y: -50,
+                    length: Math.random() * 120 + 80,
+                    vx: (Math.random() - 0.2) * 4 + 2,
+                    vy: Math.random() * 6 + 4,
+                    opacity: Math.random() * 0.6 + 0.4,
+                    width: Math.random() * 2 + 1,
+                    life: 1.0,
+                    decay: 0.008 + Math.random() * 0.008
+                });
+            }
+        }
+        setInterval(spawnComet, 1800);
+
+        // 4. Click Shockwave Ripples
+        const ripples = [];
+        window.addEventListener('click', (e) => {
+            ripples.push({
+                x: e.clientX,
+                y: e.clientY,
+                r: 5,
+                maxR: 180,
+                opacity: 0.8,
+                speed: 4.5
+            });
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            targetMouseX = e.clientX;
+            targetMouseY = e.clientY;
+        });
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            scrollVelocity = (currentScroll - lastScrollY) * 0.08;
+            lastScrollY = currentScroll;
+        }, { passive: true });
+
+        // 3D Matrix Math Helper
+        function project3D(x, y, z, rotX, rotY, rotZ, scale, cx, cy) {
+            // Rotate around X
+            let y1 = y * Math.cos(rotX) - z * Math.sin(rotX);
+            let z1 = y * Math.sin(rotX) + z * Math.cos(rotX);
+
+            // Rotate around Y
+            let x2 = x * Math.cos(rotY) + z1 * Math.sin(rotY);
+            let z2 = -x * Math.sin(rotY) + z1 * Math.cos(rotY);
+
+            // Rotate around Z
+            let x3 = x2 * Math.cos(rotZ) - y1 * Math.sin(rotZ);
+            let y3 = x2 * Math.sin(rotZ) + y1 * Math.cos(rotZ);
+
+            // Perspective Projection
+            const fov = 450;
+            const dist = fov + z2;
+            if (dist <= 1) return null;
+            const factor = fov / dist;
+
+            return {
+                x: cx + x3 * scale * factor,
+                y: cy + y3 * scale * factor,
+                scale: factor,
+                depth: z2
+            };
+        }
+
+        function drawCyberEngine() {
+            bgCtx.clearRect(0, 0, width, height);
+
+            // Smooth mouse interpolation
+            mouseX += (targetMouseX - mouseX) * 0.05;
+            mouseY += (targetMouseY - mouseY) * 0.05;
+            scrollVelocity *= 0.92;
+
+            // ---- LAYER 1: Ambient Plasma Energy Nebulas ----
+            nebulas.forEach(n => {
+                n.x += n.vx;
+                n.y += n.vy;
+                n.phase += 0.015;
+                n.r = n.baseR + Math.sin(n.phase) * 35;
+
+                if (n.x < -100) n.x = width + 100;
+                if (n.x > width + 100) n.x = -100;
+                if (n.y < -100) n.y = height + 100;
+                if (n.y > height + 100) n.y = -100;
+
+                const grad = bgCtx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r);
+                grad.addColorStop(0, n.color);
+                grad.addColorStop(1, 'rgba(10, 10, 11, 0)');
+
+                bgCtx.fillStyle = grad;
+                bgCtx.beginPath();
+                bgCtx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                bgCtx.fill();
+            });
+
+            // ---- LAYER 2: Connecting Laser Vectors between Polyhedrons ----
+            const maxConnDist = isMob ? 120 : 180;
+            for (let i = 0; i < polyhedrons.length; i++) {
+                const p1 = polyhedrons[i];
+                for (let j = i + 1; j < polyhedrons.length; j++) {
+                    const p2 = polyhedrons[j];
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < maxConnDist) {
+                        const alpha = (1 - dist / maxConnDist) * 0.38;
+                        bgCtx.strokeStyle = `rgba(249, 115, 22, ${alpha})`;
+                        bgCtx.lineWidth = 1.0;
+                        bgCtx.beginPath();
+                        bgCtx.moveTo(p1.x, p1.y);
+                        bgCtx.lineTo(p2.x, p2.y);
+                        bgCtx.stroke();
+
+                        // Glowing midpoint energy spark
+                        if (dist < maxConnDist * 0.5) {
+                            const mx = (p1.x + p2.x) / 2;
+                            const my = (p1.y + p2.y) / 2;
+                            bgCtx.fillStyle = '#FED7AA';
+                            bgCtx.globalAlpha = alpha * 1.5;
+                            bgCtx.beginPath();
+                            bgCtx.arc(mx, my, 1.5, 0, Math.PI * 2);
+                            bgCtx.fill();
+                        }
+                    }
+                }
+            }
+
+            // ---- LAYER 3: 3D Wireframe Polyhedrons & Telemetry Badges ----
+            polyhedrons.forEach(p => {
+                p.x += p.vx + (mouseX - width / 2) * 0.0004;
+                p.y += p.vy + scrollVelocity;
+                p.z += p.vz;
+                p.rotX += p.vRotX + scrollVelocity * 0.003;
+                p.rotY += p.vRotY;
+                p.rotZ += p.vRotZ;
+                p.pulse += p.pulseSpeed;
+
+                // Wrap screen boundaries
+                if (p.x < -60) p.x = width + 60;
+                if (p.x > width + 60) p.x = -60;
+                if (p.y < -60) p.y = height + 60;
+                if (p.y > height + 60) p.y = -60;
+                if (p.z < 100) p.z = 700;
+                if (p.z > 700) p.z = 100;
+
+                const opacity = p.opacity * (0.8 + Math.sin(p.pulse) * 0.2);
+
+                if (p.type === 'cube' || p.type === 'octa' || p.type === 'tetra') {
+                    const verts = p.type === 'cube' ? cubeVerts : (p.type === 'octa' ? octaVerts : tetraVerts);
+                    const edges = p.type === 'cube' ? cubeEdges : (p.type === 'octa' ? octaEdges : tetraEdges);
+
+                    // Project all vertices
+                    const proj = verts.map(v => project3D(v[0], v[1], v[2], p.rotX, p.rotY, p.rotZ, p.scale, p.x, p.y));
+
+                    // Draw Wireframe Edges
+                    bgCtx.strokeStyle = '#F97316';
+                    bgCtx.globalAlpha = opacity;
+                    bgCtx.lineWidth = 1.3;
+
+                    edges.forEach(e => {
+                        const v1 = proj[e[0]];
+                        const v2 = proj[e[1]];
+                        if (v1 && v2) {
+                            bgCtx.beginPath();
+                            bgCtx.moveTo(v1.x, v1.y);
+                            bgCtx.lineTo(v2.x, v2.y);
+                            bgCtx.stroke();
+                        }
+                    });
+
+                    // Draw Glowing Vertex Nodes
+                    bgCtx.fillStyle = '#FB923C';
+                    bgCtx.globalAlpha = opacity * 1.3;
+                    proj.forEach(v => {
+                        if (v) {
+                            bgCtx.beginPath();
+                            bgCtx.arc(v.x, v.y, 2, 0, Math.PI * 2);
+                            bgCtx.fill();
+                        }
+                    });
+                } else if (p.type === 'ring') {
+                    // Concentric Orbital Ring
+                    bgCtx.save();
+                    bgCtx.translate(p.x, p.y);
+                    bgCtx.rotate(p.rotZ);
+
+                    bgCtx.strokeStyle = '#FB923C';
+                    bgCtx.globalAlpha = opacity * 0.7;
+                    bgCtx.lineWidth = 1.2;
+                    bgCtx.beginPath();
+                    bgCtx.arc(0, 0, p.scale * 1.2, 0, Math.PI * 2);
+                    bgCtx.stroke();
+
+                    // Inner Hexagon
+                    bgCtx.rotate(p.rotY * 2);
+                    bgCtx.strokeStyle = '#F97316';
+                    bgCtx.globalAlpha = opacity;
+                    bgCtx.beginPath();
+                    for (let k = 0; k < 6; k++) {
+                        const a = (k * Math.PI) / 3;
+                        const px = p.scale * 0.8 * Math.cos(a);
+                        const py = p.scale * 0.8 * Math.sin(a);
+                        if (k === 0) bgCtx.moveTo(px, py);
+                        else bgCtx.lineTo(px, py);
+                    }
+                    bgCtx.closePath();
+                    bgCtx.stroke();
+
+                    bgCtx.restore();
+                } else if (p.type === 'tag') {
+                    // Floating Cyber Telemetry Tag
+                    bgCtx.save();
+                    bgCtx.translate(p.x, p.y);
+                    bgCtx.rotate(Math.sin(p.pulse) * 0.08);
+
+                    // Badge box
+                    bgCtx.fillStyle = 'rgba(20, 20, 22, 0.75)';
+                    bgCtx.strokeStyle = 'rgba(249, 115, 22, 0.45)';
+                    bgCtx.globalAlpha = opacity * 0.85;
+                    bgCtx.lineWidth = 1;
+
+                    const text = p.tag;
+                    bgCtx.font = "600 10px 'JetBrains Mono', monospace";
+                    const metrics = bgCtx.measureText(text);
+                    const tw = metrics.width + 16;
+                    const th = 20;
+
+                    bgCtx.beginPath();
+                    bgCtx.roundRect(-tw / 2, -th / 2, tw, th, 4);
+                    bgCtx.fill();
+                    bgCtx.stroke();
+
+                    // Text
+                    bgCtx.fillStyle = '#FB923C';
+                    bgCtx.globalAlpha = opacity * 1.1;
+                    bgCtx.textAlign = 'center';
+                    bgCtx.textBaseline = 'middle';
+                    bgCtx.fillText(text, 0, 0);
+
+                    bgCtx.restore();
+                }
+            });
+
+            // ---- LAYER 4: Shooting Comets / Laser Trails ----
+            for (let i = comets.length - 1; i >= 0; i--) {
+                const c = comets[i];
+                c.x += c.vx;
+                c.y += c.vy;
+                c.life -= c.decay;
+
+                if (c.life <= 0 || c.y > height + 100 || c.x > width + 100) {
+                    comets.splice(i, 1);
+                    continue;
+                }
+
+                const tailX = c.x - c.vx * (c.length / 5);
+                const tailY = c.y - c.vy * (c.length / 5);
+
+                const cometGrad = bgCtx.createLinearGradient(tailX, tailY, c.x, c.y);
+                cometGrad.addColorStop(0, 'rgba(249, 115, 22, 0)');
+                cometGrad.addColorStop(0.7, `rgba(249, 115, 22, ${c.life * 0.5})`);
+                cometGrad.addColorStop(1, `rgba(255, 247, 237, ${c.life * 0.9})`);
+
+                bgCtx.strokeStyle = cometGrad;
+                bgCtx.lineWidth = c.width;
+                bgCtx.lineCap = 'round';
+                bgCtx.beginPath();
+                bgCtx.moveTo(tailX, tailY);
+                bgCtx.lineTo(c.x, c.y);
+                bgCtx.stroke();
+
+                // Bright head
+                bgCtx.fillStyle = '#FFF7ED';
+                bgCtx.globalAlpha = c.life * 0.9;
+                bgCtx.beginPath();
+                bgCtx.arc(c.x, c.y, c.width * 1.5, 0, Math.PI * 2);
+                bgCtx.fill();
+            }
+
+            // ---- LAYER 5: Click Energy Ripples ----
+            for (let i = ripples.length - 1; i >= 0; i--) {
+                const rip = ripples[i];
+                rip.r += rip.speed;
+                rip.opacity -= 0.018;
+
+                if (rip.opacity <= 0 || rip.r >= rip.maxR) {
+                    ripples.splice(i, 1);
+                    continue;
+                }
+
+                bgCtx.strokeStyle = `rgba(249, 115, 22, ${rip.opacity})`;
+                bgCtx.lineWidth = 2;
+                bgCtx.beginPath();
+                bgCtx.arc(rip.x, rip.y, rip.r, 0, Math.PI * 2);
+                bgCtx.stroke();
+
+                bgCtx.strokeStyle = `rgba(251, 146, 60, ${rip.opacity * 0.5})`;
+                bgCtx.lineWidth = 1;
+                bgCtx.beginPath();
+                bgCtx.arc(rip.x, rip.y, rip.r * 0.65, 0, Math.PI * 2);
+                bgCtx.stroke();
+            }
+
+            requestAnimationFrame(drawCyberEngine);
+        }
+
+        function initParticles() {
+            initEntities();
+        }
+        window.addEventListener('resize', initParticles);
+
+        function drawParticles() {
+            drawCyberEngine();
+        }
+
+        // ============ HERO CARD ============
+        const heroCard = document.getElementById('hero-card');
+        let flipped = false;
+
+        if (isDesktop) {
+            heroCard.addEventListener('mousemove', (e) => {
+                if (!flipped) {
+                    const rect = heroCard.getBoundingClientRect();
+                    const x = e.clientX - rect.left, y = e.clientY - rect.top;
+                    heroCard.style.transform = `rotateX(${(y - rect.height/2)/12}deg) rotateY(${(rect.width/2 - x)/12}deg)`;
+                }
+            });
+            heroCard.addEventListener('mouseleave', () => {
+                if (!flipped) heroCard.style.transform = 'rotateX(0deg) rotateY(0deg)';
+            });
+        }
+
+        heroCard.addEventListener('click', () => {
+            flipped = !flipped;
+            heroCard.style.transform = flipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+        });
+
+        // ============ THREE.JS FEATURED ============
+        function initFeatured3D() {
+            if (!enable3D) return;
+            const canvas = document.getElementById('featured-canvas');
+            const container = canvas.parentElement;
+
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x0A0A0B, 0.02);
+
+            const camera = new THREE.PerspectiveCamera(50, container.clientWidth/container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, 12);
+
+            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            scene.add(new THREE.AmbientLight(0x404040, 0.5));
+            const key = new THREE.DirectionalLight(0xF97316, 2);
+            key.position.set(5, 5, 5);
+            scene.add(key);
+
+            // PC Tower
+            const group = new THREE.Group();
+            const bodyGeo = new THREE.BoxGeometry(3, 4, 2);
+            const bodyMat = new THREE.MeshPhongMaterial({ color: 0x141416, emissive: 0xF97316, emissiveIntensity: 0.05, transparent: true, opacity: 0.9 });
+            group.add(new THREE.Mesh(bodyGeo, bodyMat));
+
+            const edges = new THREE.LineSegments(new THREE.EdgesGeometry(bodyGeo), new THREE.LineBasicMaterial({ color: 0xF97316, transparent: true, opacity: 0.8 }));
+            group.add(edges);
+
+            // Fans
+            const fans = new THREE.Group();
+            for (let i = 0; i < 3; i++) {
+                const fan = new THREE.Mesh(new THREE.TorusGeometry(0.4, 0.06, 8, 24), new THREE.MeshBasicMaterial({ color: 0xF97316, transparent: true, opacity: 0.7 }));
+                fan.position.set(0, 1.2 - i * 0.9, 0.9);
+                fans.add(fan);
+            }
+            group.add(fans);
+
+            scene.add(group);
+
+            let progress = 0;
+            ScrollTrigger.create({
+                trigger: '.sticky-section',
+                start: 'top top',
+                end: 'bottom bottom',
+                onUpdate: (self) => {
+                    progress = self.progress;
+                    const chunks = document.querySelectorAll('.data-chunk');
+                    const visible = Math.floor(progress * chunks.length) + 1;
+                    chunks.forEach((c, i) => c.classList.toggle('visible', i < visible));
+
+                    const dots = document.querySelectorAll('#featured-dots .progress-dot');
+                    const active = Math.floor(progress * dots.length);
+                    dots.forEach((d, i) => d.classList.toggle('active', i <= active));
+
+                    const titles = ['Setup Premium Gaming', 'Potencia Extrema', 'Refrigeración Líquida', 'RGB Personalizable', 'Tu Próxima Máquina'];
+                    const titleEl = document.getElementById('featured-title');
+                    if (titleEl) titleEl.textContent = titles[Math.min(titles.length-1, Math.floor(progress * titles.length))];
+                }
+            });
+
+            (function animate() {
+                requestAnimationFrame(animate);
+                group.rotation.y = progress * Math.PI * 4;
+                group.rotation.x = Math.sin(progress * Math.PI * 2) * 0.3;
+                fans.children.forEach(f => f.rotation.z += 0.05);
+                renderer.render(scene, camera);
+            })();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth/container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+
+        // ============ THREE.JS RENDER 3D ============
+        function initRender3D() {
+            if (!enable3D) return;
+            const container = document.getElementById('render3d-canvas-container');
+            const canvas = document.getElementById('render3d-canvas');
+
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x0A0A0B, 0.015);
+
+            const camera = new THREE.PerspectiveCamera(60, container.clientWidth/container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, 15);
+
+            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Central icosahedron
+            const central = new THREE.Mesh(new THREE.IcosahedronGeometry(3, 1), new THREE.MeshBasicMaterial({ color: 0xF97316, wireframe: true, transparent: true, opacity: 0.6 }));
+            scene.add(central);
+
+            const inner = new THREE.Mesh(new THREE.OctahedronGeometry(1.5, 0), new THREE.MeshPhongMaterial({ color: 0xFB923C, emissive: 0xEA580C, emissiveIntensity: 0.4 }));
+            central.add(inner);
+
+            // Rings
+            const ringGroup = new THREE.Group();
+            for (let i = 0; i < 3; i++) {
+                const ring = new THREE.Mesh(new THREE.TorusGeometry(5 + i*1.5, 0.02, 8, 80), new THREE.MeshBasicMaterial({ color: 0xF97316, transparent: true, opacity: 0.4 - i*0.1 }));
+                if (i===0) ring.rotation.x = Math.PI/2;
+                else if (i===1) { ring.rotation.x = Math.PI/3; ring.rotation.y = Math.PI/4; }
+                else { ring.rotation.x = -Math.PI/4; ring.rotation.z = Math.PI/6; }
+                ringGroup.add(ring);
+            }
+            scene.add(ringGroup);
+
+            // Floating shapes
+            const shapes = [];
+            const configs = [
+                ['tetra', 0.5, [6,2,-3]], ['tetra', 0.3, [-7,-1,-5]],
+                ['octa', 0.4, [-5,4,-6]], ['octa', 0.6, [8,1,-10]],
+                ['icosa', 0.5, [4,5,-7]], ['icosa', 0.4, [-6,-2,-8]],
+                ['dodeca', 0.6, [7,-4,-6]], ['dodeca', 0.4, [-4,3,-9]]
+            ];
+            configs.forEach(([type, size, pos]) => {
+                const geos = { tetra: THREE.TetrahedronGeometry, octa: THREE.OctahedronGeometry, icosa: THREE.IcosahedronGeometry, dodeca: THREE.DodecahedronGeometry };
+                const mesh = new THREE.Mesh(new geos[type](size, 0), new THREE.MeshBasicMaterial({ color: 0xF97316, wireframe: true, transparent: true, opacity: 0.5 }));
+                mesh.position.set(...pos);
+                mesh.userData = { baseY: pos[1], rSpeed: { x: (Math.random()-.5)*0.02, y: (Math.random()-.5)*0.02 }, fOffset: Math.random()*Math.PI*2, fSpeed: 0.5+Math.random()*0.5 };
+                shapes.push(mesh);
+                scene.add(mesh);
+            });
+
+            // Stars
+            const starGeo = new THREE.BufferGeometry();
+            const starPos = new Float32Array(300 * 3);
+            for (let i = 0; i < 300; i++) {
+                starPos[i*3] = (Math.random()-.5)*40;
+                starPos[i*3+1] = (Math.random()-.5)*30;
+                starPos[i*3+2] = (Math.random()-.5)*30 - 10;
+            }
+            starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+            const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xFB923C, size: 0.08, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending }));
+            scene.add(stars);
+
+            let active = false;
+            let progress = 0;
+            new IntersectionObserver(entries => entries.forEach(e => active = e.isIntersecting), { threshold: 0.1 }).observe(container);
+
+            ScrollTrigger.create({
+                trigger: '#experiencia',
+                start: 'top top',
+                end: 'bottom bottom',
+                onUpdate: (self) => {
+                    progress = self.progress;
+                    const dots = document.querySelectorAll('#render-dots .progress-dot');
+                    const activeDot = Math.floor(progress * dots.length);
+                    dots.forEach((d, i) => d.classList.toggle('active', i <= activeDot));
+
+                    const title = document.getElementById('render-title');
+                    const sub = document.getElementById('render-subtitle');
+                    if (progress < 0.33) { title.innerHTML = 'Una experiencia <span style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">visual única</span>'; sub.textContent = 'Explora el poder desde adentro'; }
+                    else if (progress < 0.66) { title.innerHTML = 'Rendimiento <span style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">extremo</span>'; sub.textContent = 'Cada componente optimizado'; }
+                    else { title.innerHTML = 'El futuro es <span style="background:linear-gradient(135deg,var(--naranja-primario),var(--naranja-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">ahora</span>'; sub.textContent = 'Descubre lo que podemos crear'; }
+                }
+            });
+
+            (function animate() {
+                requestAnimationFrame(animate);
+                if (active) {
+                    const t = Date.now() * 0.001;
+                    central.rotation.y += 0.003;
+                    ringGroup.rotation.y += 0.002;
+                    inner.rotation.y -= 0.005;
+                    const pulse = 1 + Math.sin(t*2)*0.1;
+                    inner.scale.set(pulse, pulse, pulse);
+                    shapes.forEach(s => {
+                        s.position.y = s.userData.baseY + Math.sin(t*s.userData.fSpeed+s.userData.fOffset)*0.5;
+                        s.rotation.x += s.userData.rSpeed.x;
+                        s.rotation.y += s.userData.rSpeed.y;
+                    });
+                    stars.rotation.y += 0.0005;
+                    camera.position.z = 15 - progress * 5;
+                    camera.lookAt(0, 0, 0);
+                    renderer.render(scene, camera);
+                }
+            })();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth/container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+
+        // ============ RENDER CATEGORIES ============
+        function renderCategories() {
+            const grid = document.getElementById('categories-grid');
+            categorias.forEach((cat, i) => {
+                const card = document.createElement('div');
+                card.className = 'category-card reveal';
+                card.style.transitionDelay = `${i * 0.08}s`;
+                card.innerHTML = `
+                    <img class="category-bg" src="${cat.img}" alt="${cat.nombre}" loading="lazy">
+                    <div class="category-overlay"></div>
+                    <div class="category-content">
+                        <div class="category-icon-wrapper">${cat.icon}</div>
+                        <div class="category-name">${cat.nombre}</div>
+                        <div class="category-count">${cat.count} productos</div>
+                    </div>
+                `;
+                card.addEventListener('click', () => {
+                    filterProducts(cat.id);
+                    lenis.scrollTo('#catalogo', { duration: 1 });
+                });
+                grid.appendChild(card);
+            });
+        }
+
+        // ============ RENDER PRODUCTS ============
+        function renderProducts(filter = 'todos') {
+            const grid = document.getElementById('catalog-grid');
+            grid.innerHTML = '';
+            const filtered = filter === 'todos' ? productos : productos.filter(p => p.categoria === filter);
+
+            filtered.forEach(producto => {
+                const card = document.createElement('article');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-image" data-id="${producto.id}">
+                        <img src="${producto.imagen}" alt="${producto.nombre}" loading="lazy">
+                        <span class="product-badge">${producto.categoria}</span>
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">${producto.categoria}</div>
+                        <h3 class="product-name">${producto.nombre}</h3>
+                        <div class="product-specs">
+                            ${producto.specs.map(s => `<span class="product-spec">${s}</span>`).join('')}
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price">$${producto.precio.toLocaleString()}</div>
+                            <button class="btn-ver-detalles" onclick="openModal(${producto.id})">
+                                <span>Ver Detalles</span>
+                                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function renderFilters() {
+            const container = document.getElementById('catalog-filters');
+            const filters = [{ id: 'todos', nombre: 'Todos' }, ...categorias.map(c => ({ id: c.id, nombre: c.nombre }))];
+            filters.forEach(f => {
+                const btn = document.createElement('button');
+                btn.className = `filter-btn ${f.id === 'todos' ? 'active' : ''}`;
+                btn.textContent = f.nombre;
+                btn.addEventListener('click', () => {
+                    container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderProducts(f.id);
+                });
+                container.appendChild(btn);
+            });
+        }
+
+        // ============ MODAL CON ZOOM INTEGRADO ============
+        const modalOverlay = document.getElementById('modal-overlay');
+        const zoomContainer = document.getElementById('zoom-container');
+        const modalImage = document.getElementById('modal-image');
+        const zoomLens = document.getElementById('zoom-lens');
+        const zoomIndicator = document.getElementById('zoom-indicator');
+        const touchHint = document.getElementById('touch-hint');
+
+        let isZoomActive = false;
+        let currentZoomLevel = 1;
+
+                function openModal(productId) {
+            const producto = productos.find(p => p.id === productId);
+            if (!producto) return;
+
+            const waBtn = document.getElementById('modal-whatsapp-btn');
+            if (waBtn) {
+                waBtn.href = 'https://wa.me/584127670871?text=' + encodeURIComponent('Hola Diginast, quiero cotizar: ' + producto.nombre + ' (
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            lenis.start();
+            resetZoomState();
+        }
+
+        function resetZoomState() {
+            isZoomActive = false;
+            currentZoomLevel = 1;
+            modalImage.style.transform = 'scale(1)';
+            modalImage.style.transformOrigin = 'center center';
+            zoomLens.classList.remove('active');
+        }
+
+        function updateZoomModeText() {
+            const text = document.getElementById('zoom-mode-text');
+            if (isTouch) {
+                text.textContent = isZoomActive ? 'Toca para salir' : 'Toca para zoom';
+            } else {
+                text.textContent = 'Hover para zoom';
+            }
+        }
+
+        // ZOOM: Desktop (mouse hover + seguimiento)
+        if (!isTouch) {
+            zoomContainer.addEventListener('mouseenter', () => {
+                if (!isZoomActive) {
+                    isZoomActive = true;
+                    currentZoomLevel = 2.5;
+                    zoomLens.classList.add('active');
+                }
+            });
+
+            zoomContainer.addEventListener('mousemove', (e) => {
+                if (isZoomActive) {
+                    const rect = zoomContainer.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+                    // Actualizar transform-origin de la imagen
+                    modalImage.style.transformOrigin = `${x}% ${y}%`;
+                    modalImage.style.transform = `scale(${currentZoomLevel})`;
+
+                    // Actualizar posición de la lente
+                    zoomLens.style.left = (e.clientX - rect.left - 50) + 'px';
+                    zoomLens.style.top = (e.clientY - rect.top - 50) + 'px';
+                }
+            });
+
+            zoomContainer.addEventListener('mouseleave', () => {
+                resetZoomState();
+            });
+
+            // Click para toggle zoom level
+            zoomContainer.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentZoomLevel === 2.5) {
+                    currentZoomLevel = 4;
+                } else if (currentZoomLevel === 4) {
+                    currentZoomLevel = 1;
+                    isZoomActive = false;
+                } else {
+                    currentZoomLevel = 2.5;
+                    isZoomActive = true;
+                    zoomLens.classList.add('active');
+                }
+            });
+        }
+
+        // ZOOM: Táctil (tap para activar, drag para mover)
+        if (isTouch) {
+            let lastTap = 0;
+            let startX = 0, startY = 0;
+            let currentX = 50, currentY = 50;
+
+            zoomContainer.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const now = Date.now();
+                const touch = e.touches[0];
+                const rect = zoomContainer.getBoundingClientRect();
+
+                // Detectar doble tap
+                if (now - lastTap < 300) {
+                    // Doble tap: reset zoom
+                    resetZoomState();
+                    updateZoomModeText();
+                    return;
+                }
+                lastTap = now;
+
+                if (!isZoomActive) {
+                    // Activar zoom en el punto tocado
+                    isZoomActive = true;
+                    currentZoomLevel = 2.5;
+                    currentX = ((touch.clientX - rect.left) / rect.width) * 100;
+                    currentY = ((touch.clientY - rect.top) / rect.height) * 100;
+                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
+                    modalImage.style.transform = `scale(${currentZoomLevel})`;
+                    touchHint.textContent = '👆 Arrastra para explorar • Doble tap para salir';
+                }
+
+                startX = touch.clientX;
+                startY = touch.clientY;
+            }, { passive: false });
+
+            zoomContainer.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (isZoomActive && e.touches.length === 1) {
+                    const touch = e.touches[0];
+                    const rect = zoomContainer.getBoundingClientRect();
+
+                    // Calcular nueva posición del origen
+                    const deltaX = (touch.clientX - startX) / rect.width * 100;
+                    const deltaY = (touch.clientY - startY) / rect.height * 100;
+
+                    currentX = Math.max(0, Math.min(100, currentX - deltaX / currentZoomLevel));
+                    currentY = Math.max(0, Math.min(100, currentY - deltaY / currentZoomLevel));
+
+                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
+                    modalImage.style.transform = `scale(${currentZoomLevel})`;
+
+                    startX = touch.clientX;
+                    startY = touch.clientY;
+                }
+
+                // Pinch zoom
+                if (e.touches.length === 2 && isZoomActive) {
+                    const dist = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                    if (zoomContainer.dataset.lastPinchDist) {
+                        const scale = dist / parseFloat(zoomContainer.dataset.lastPinchDist);
+                        currentZoomLevel = Math.max(1, Math.min(5, currentZoomLevel * scale));
+                        modalImage.style.transform = `scale(${currentZoomLevel})`;
+                    }
+                    zoomContainer.dataset.lastPinchDist = dist;
+                }
+            }, { passive: false });
+
+            zoomContainer.addEventListener('touchend', (e) => {
+                delete zoomContainer.dataset.lastPinchDist;
+            });
+        }
+
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        // ============ SEARCH ============
+        function openSearch() {
+            document.getElementById('search-overlay').classList.add('active');
+            document.getElementById('search-input').focus();
+            lenis.stop();
+            if (menuOpen) {
+                menuOpen = false;
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('open');
+            }
+        }
+
+        function closeSearch() {
+            document.getElementById('search-overlay').classList.remove('active');
+            lenis.start();
+        }
+
+        document.getElementById('search-overlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeSearch();
+        });
+
+        document.getElementById('search-input').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const results = document.getElementById('search-results');
+
+            if (query.length < 2) {
+                results.classList.remove('show');
+                return;
+            }
+
+            const filtered = productos.filter(p =>
+                p.nombre.toLowerCase().includes(query) ||
+                p.categoria.toLowerCase().includes(query) ||
+                p.specs.some(s => s.toLowerCase().includes(query))
+            );
+
+            results.innerHTML = '';
+
+            if (filtered.length === 0) {
+                results.innerHTML = '<div style="text-align:center;color:var(--gris-texto);padding:1.5rem;font-style:italic;">No se encontraron resultados</div>';
+            } else {
+                filtered.forEach(producto => {
+                    const card = document.createElement('div');
+                    card.className = 'search-result-card';
+                    card.innerHTML = `
+                        <img src="${producto.imagen}" alt="${producto.nombre}" class="search-result-img">
+                        <div class="search-result-info">
+                            <h4>${producto.nombre}</h4>
+                            <p>$${producto.precio.toLocaleString()}</p>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => {
+                        closeSearch();
+                        openModal(producto.id);
+                    });
+                    results.appendChild(card);
+                });
+            }
+            results.classList.add('show');
+        });
+
+        // ============ TOAST ============
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // ============ REVEAL ANIMATIONS ============
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        function observeReveals() {
+            document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+        }
+
+        // ============ STATS COUNTER ============
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = parseInt(entry.target.dataset.count);
+                        let current = 0;
+                        const increment = target / 60;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            entry.target.textContent = Math.floor(current).toLocaleString() + '+';
+                        }, 16);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            stats.forEach(s => observer.observe(s));
+        }
+
+        // ============ SMOOTH SCROLL ============
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    lenis.scrollTo(target, { duration: 1.2 });
+                }
+            });
+        });
+
+        // ============ KEYBOARD ============
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeSearch();
+                closeModal();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                openSearch();
+            }
+        });
+
+        // ============ INIT ============
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCategories();
+            renderFilters();
+            renderProducts();
+            animateStats();
+            initFeatured3D();
+            initRender3D();
+            observeReveals();
+            updateZoomModeText();
+
+            // Ocultar hint flotante después de 6s
+            setTimeout(() => {
+                const hint = document.querySelector('.mobile-scroll-hint');
+                if (hint) hint.style.opacity = '0';
+            }, 6000);
+
+            setTimeout(() => ScrollTrigger.refresh(), 500);
+        });
+    </script>
+</body>
+</html> + producto.precio + ')');
+            }
+            const producto = productos.find(p => p.id === productId);
+            if (!producto) return;
+
+            modalImage.src = producto.imagen;
+            modalImage.alt = producto.nombre;
+            document.getElementById('modal-category').textContent = producto.categoria;
+            document.getElementById('modal-title').textContent = producto.nombre;
+            document.getElementById('modal-description').textContent = producto.descripcion;
+            document.getElementById('modal-price').textContent = `$${producto.precio.toLocaleString()}`;
+
+            document.getElementById('modal-specs').innerHTML = producto.specs.map(s => `
+                <div class="modal-spec">
+                    <div class="modal-spec-label">Spec</div>
+                    <div class="modal-spec-value">${s}</div>
+                </div>
+            `).join('');
+
+            // Reset zoom
+            resetZoomState();
+            updateZoomModeText();
+
+            modalOverlay.classList.add('active');
+            lenis.stop();
+
+            // Ocultar hint táctil después de 3s
+            setTimeout(() => {
+                touchHint.style.display = 'none';
+            }, 3000);
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            lenis.start();
+            resetZoomState();
+        }
+
+        function resetZoomState() {
+            isZoomActive = false;
+            currentZoomLevel = 1;
+            modalImage.style.transform = 'scale(1)';
+            modalImage.style.transformOrigin = 'center center';
+            zoomLens.classList.remove('active');
+        }
+
+        function updateZoomModeText() {
+            const text = document.getElementById('zoom-mode-text');
+            if (isTouch) {
+                text.textContent = isZoomActive ? 'Toca para salir' : 'Toca para zoom';
+            } else {
+                text.textContent = 'Hover para zoom';
+            }
+        }
+
+        // ZOOM: Desktop (mouse hover + seguimiento)
+        if (!isTouch) {
+            zoomContainer.addEventListener('mouseenter', () => {
+                if (!isZoomActive) {
+                    isZoomActive = true;
+                    currentZoomLevel = 2.5;
+                    zoomLens.classList.add('active');
+                }
+            });
+
+            zoomContainer.addEventListener('mousemove', (e) => {
+                if (isZoomActive) {
+                    const rect = zoomContainer.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+                    // Actualizar transform-origin de la imagen
+                    modalImage.style.transformOrigin = `${x}% ${y}%`;
+                    modalImage.style.transform = `scale(${currentZoomLevel})`;
+
+                    // Actualizar posición de la lente
+                    zoomLens.style.left = (e.clientX - rect.left - 50) + 'px';
+                    zoomLens.style.top = (e.clientY - rect.top - 50) + 'px';
+                }
+            });
+
+            zoomContainer.addEventListener('mouseleave', () => {
+                resetZoomState();
+            });
+
+            // Click para toggle zoom level
+            zoomContainer.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentZoomLevel === 2.5) {
+                    currentZoomLevel = 4;
+                } else if (currentZoomLevel === 4) {
+                    currentZoomLevel = 1;
+                    isZoomActive = false;
+                } else {
+                    currentZoomLevel = 2.5;
+                    isZoomActive = true;
+                    zoomLens.classList.add('active');
+                }
+            });
+        }
+
+        // ZOOM: Táctil (tap para activar, drag para mover)
+        if (isTouch) {
+            let lastTap = 0;
+            let startX = 0, startY = 0;
+            let currentX = 50, currentY = 50;
+
+            zoomContainer.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const now = Date.now();
+                const touch = e.touches[0];
+                const rect = zoomContainer.getBoundingClientRect();
+
+                // Detectar doble tap
+                if (now - lastTap < 300) {
+                    // Doble tap: reset zoom
+                    resetZoomState();
+                    updateZoomModeText();
+                    return;
+                }
+                lastTap = now;
+
+                if (!isZoomActive) {
+                    // Activar zoom en el punto tocado
+                    isZoomActive = true;
+                    currentZoomLevel = 2.5;
+                    currentX = ((touch.clientX - rect.left) / rect.width) * 100;
+                    currentY = ((touch.clientY - rect.top) / rect.height) * 100;
+                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
+                    modalImage.style.transform = `scale(${currentZoomLevel})`;
+                    touchHint.textContent = '👆 Arrastra para explorar • Doble tap para salir';
+                }
+
+                startX = touch.clientX;
+                startY = touch.clientY;
+            }, { passive: false });
+
+            zoomContainer.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (isZoomActive && e.touches.length === 1) {
+                    const touch = e.touches[0];
+                    const rect = zoomContainer.getBoundingClientRect();
+
+                    // Calcular nueva posición del origen
+                    const deltaX = (touch.clientX - startX) / rect.width * 100;
+                    const deltaY = (touch.clientY - startY) / rect.height * 100;
+
+                    currentX = Math.max(0, Math.min(100, currentX - deltaX / currentZoomLevel));
+                    currentY = Math.max(0, Math.min(100, currentY - deltaY / currentZoomLevel));
+
+                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
+                    modalImage.style.transform = `scale(${currentZoomLevel})`;
+
+                    startX = touch.clientX;
+                    startY = touch.clientY;
+                }
+
+                // Pinch zoom
+                if (e.touches.length === 2 && isZoomActive) {
+                    const dist = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                    if (zoomContainer.dataset.lastPinchDist) {
+                        const scale = dist / parseFloat(zoomContainer.dataset.lastPinchDist);
+                        currentZoomLevel = Math.max(1, Math.min(5, currentZoomLevel * scale));
+                        modalImage.style.transform = `scale(${currentZoomLevel})`;
+                    }
+                    zoomContainer.dataset.lastPinchDist = dist;
+                }
+            }, { passive: false });
+
+            zoomContainer.addEventListener('touchend', (e) => {
+                delete zoomContainer.dataset.lastPinchDist;
+            });
+        }
+
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        // ============ SEARCH ============
+        function openSearch() {
+            document.getElementById('search-overlay').classList.add('active');
+            document.getElementById('search-input').focus();
+            lenis.stop();
+            if (menuOpen) {
+                menuOpen = false;
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('open');
+            }
+        }
+
+        function closeSearch() {
+            document.getElementById('search-overlay').classList.remove('active');
+            lenis.start();
+        }
+
+        document.getElementById('search-overlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeSearch();
+        });
+
+        document.getElementById('search-input').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const results = document.getElementById('search-results');
+
+            if (query.length < 2) {
+                results.classList.remove('show');
+                return;
+            }
+
+            const filtered = productos.filter(p =>
+                p.nombre.toLowerCase().includes(query) ||
+                p.categoria.toLowerCase().includes(query) ||
+                p.specs.some(s => s.toLowerCase().includes(query))
+            );
+
+            results.innerHTML = '';
+
+            if (filtered.length === 0) {
+                results.innerHTML = '<div style="text-align:center;color:var(--gris-texto);padding:1.5rem;font-style:italic;">No se encontraron resultados</div>';
+            } else {
+                filtered.forEach(producto => {
+                    const card = document.createElement('div');
+                    card.className = 'search-result-card';
+                    card.innerHTML = `
+                        <img src="${producto.imagen}" alt="${producto.nombre}" class="search-result-img">
+                        <div class="search-result-info">
+                            <h4>${producto.nombre}</h4>
+                            <p>$${producto.precio.toLocaleString()}</p>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => {
+                        closeSearch();
+                        openModal(producto.id);
+                    });
+                    results.appendChild(card);
+                });
+            }
+            results.classList.add('show');
+        });
+
+        // ============ TOAST ============
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // ============ REVEAL ANIMATIONS ============
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        function observeReveals() {
+            document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+        }
+
+        // ============ STATS COUNTER ============
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = parseInt(entry.target.dataset.count);
+                        let current = 0;
+                        const increment = target / 60;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            entry.target.textContent = Math.floor(current).toLocaleString() + '+';
+                        }, 16);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            stats.forEach(s => observer.observe(s));
+        }
+
+        // ============ SMOOTH SCROLL ============
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    lenis.scrollTo(target, { duration: 1.2 });
+                }
+            });
+        });
+
+        // ============ KEYBOARD ============
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeSearch();
+                closeModal();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                openSearch();
+            }
+        });
+
+        // ============ INIT ============
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCategories();
+            renderFilters();
+            renderProducts();
+            animateStats();
+            initFeatured3D();
+            initRender3D();
+            observeReveals();
+            updateZoomModeText();
+
+            // Ocultar hint flotante después de 6s
+            setTimeout(() => {
+                const hint = document.querySelector('.mobile-scroll-hint');
+                if (hint) hint.style.opacity = '0';
+            }, 6000);
+
+            setTimeout(() => ScrollTrigger.refresh(), 500);
+        });
+    </script>
+</body>
+</html> + producto.precio + ')');
+            }
+
+            modalImage.src = producto.imagen;
+            modalImage.alt = producto.nombre;
+            document.getElementById('modal-category').textContent = producto.categoria;
+            document.getElementById('modal-title').textContent = producto.nombre;
+            document.getElementById('modal-description').textContent = producto.descripcion;
+            document.getElementById('modal-price').textContent = `${producto.precio.toLocaleString()}`;
+
+            document.getElementById('modal-specs').innerHTML = producto.specs.map(s => `
+                <div class="modal-spec">
+                    <div class="modal-spec-label">Spec</div>
+                    <div class="modal-spec-value">${s}</div>
+                </div>
+            `).join('');
+
+            // Reset zoom
+            resetZoomState();
+            updateZoomModeText();
+
+            modalOverlay.classList.add('active');
+            lenis.stop();
+
+            // Ocultar hint táctil después de 3s
+            setTimeout(() => {
+                touchHint.style.display = 'none';
+            }, 3000);
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            lenis.start();
+            resetZoomState();
+        }
+
+        function resetZoomState() {
+            isZoomActive = false;
+            currentZoomLevel = 1;
+            modalImage.style.transform = 'scale(1)';
+            modalImage.style.transformOrigin = 'center center';
+            zoomLens.classList.remove('active');
+        }
+
+        function updateZoomModeText() {
+            const text = document.getElementById('zoom-mode-text');
+            if (isTouch) {
+                text.textContent = isZoomActive ? 'Toca para salir' : 'Toca para zoom';
+            } else {
+                text.textContent = 'Hover para zoom';
+            }
+        }
+
+        // ZOOM: Desktop (mouse hover + seguimiento)
+        if (!isTouch) {
+            zoomContainer.addEventListener('mouseenter', () => {
+                if (!isZoomActive) {
+                    isZoomActive = true;
+                    currentZoomLevel = 2.5;
+                    zoomLens.classList.add('active');
+                }
+            });
+
+            zoomContainer.addEventListener('mousemove', (e) => {
+                if (isZoomActive) {
+                    const rect = zoomContainer.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+                    // Actualizar transform-origin de la imagen
+                    modalImage.style.transformOrigin = `${x}% ${y}%`;
+                    modalImage.style.transform = `scale(${currentZoomLevel})`;
+
+                    // Actualizar posición de la lente
+                    zoomLens.style.left = (e.clientX - rect.left - 50) + 'px';
+                    zoomLens.style.top = (e.clientY - rect.top - 50) + 'px';
+                }
+            });
+
+            zoomContainer.addEventListener('mouseleave', () => {
+                resetZoomState();
+            });
+
+            // Click para toggle zoom level
+            zoomContainer.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentZoomLevel === 2.5) {
+                    currentZoomLevel = 4;
+                } else if (currentZoomLevel === 4) {
+                    currentZoomLevel = 1;
+                    isZoomActive = false;
+                } else {
+                    currentZoomLevel = 2.5;
+                    isZoomActive = true;
+                    zoomLens.classList.add('active');
+                }
+            });
+        }
+
+        // ZOOM: Táctil (tap para activar, drag para mover)
+        if (isTouch) {
+            let lastTap = 0;
+            let startX = 0, startY = 0;
+            let currentX = 50, currentY = 50;
+
+            zoomContainer.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const now = Date.now();
+                const touch = e.touches[0];
+                const rect = zoomContainer.getBoundingClientRect();
+
+                // Detectar doble tap
+                if (now - lastTap < 300) {
+                    // Doble tap: reset zoom
+                    resetZoomState();
+                    updateZoomModeText();
+                    return;
+                }
+                lastTap = now;
+
+                if (!isZoomActive) {
+                    // Activar zoom en el punto tocado
+                    isZoomActive = true;
+                    currentZoomLevel = 2.5;
+                    currentX = ((touch.clientX - rect.left) / rect.width) * 100;
+                    currentY = ((touch.clientY - rect.top) / rect.height) * 100;
+                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
+                    modalImage.style.transform = `scale(${currentZoomLevel})`;
+                    touchHint.textContent = '👆 Arrastra para explorar • Doble tap para salir';
+                }
+
+                startX = touch.clientX;
+                startY = touch.clientY;
+            }, { passive: false });
+
+            zoomContainer.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (isZoomActive && e.touches.length === 1) {
+                    const touch = e.touches[0];
+                    const rect = zoomContainer.getBoundingClientRect();
+
+                    // Calcular nueva posición del origen
+                    const deltaX = (touch.clientX - startX) / rect.width * 100;
+                    const deltaY = (touch.clientY - startY) / rect.height * 100;
+
+                    currentX = Math.max(0, Math.min(100, currentX - deltaX / currentZoomLevel));
+                    currentY = Math.max(0, Math.min(100, currentY - deltaY / currentZoomLevel));
+
+                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
+                    modalImage.style.transform = `scale(${currentZoomLevel})`;
+
+                    startX = touch.clientX;
+                    startY = touch.clientY;
+                }
+
+                // Pinch zoom
+                if (e.touches.length === 2 && isZoomActive) {
+                    const dist = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                    if (zoomContainer.dataset.lastPinchDist) {
+                        const scale = dist / parseFloat(zoomContainer.dataset.lastPinchDist);
+                        currentZoomLevel = Math.max(1, Math.min(5, currentZoomLevel * scale));
+                        modalImage.style.transform = `scale(${currentZoomLevel})`;
+                    }
+                    zoomContainer.dataset.lastPinchDist = dist;
+                }
+            }, { passive: false });
+
+            zoomContainer.addEventListener('touchend', (e) => {
+                delete zoomContainer.dataset.lastPinchDist;
+            });
+        }
+
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        // ============ SEARCH ============
+        function openSearch() {
+            document.getElementById('search-overlay').classList.add('active');
+            document.getElementById('search-input').focus();
+            lenis.stop();
+            if (menuOpen) {
+                menuOpen = false;
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('open');
+            }
+        }
+
+        function closeSearch() {
+            document.getElementById('search-overlay').classList.remove('active');
+            lenis.start();
+        }
+
+        document.getElementById('search-overlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeSearch();
+        });
+
+        document.getElementById('search-input').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const results = document.getElementById('search-results');
+
+            if (query.length < 2) {
+                results.classList.remove('show');
+                return;
+            }
+
+            const filtered = productos.filter(p =>
+                p.nombre.toLowerCase().includes(query) ||
+                p.categoria.toLowerCase().includes(query) ||
+                p.specs.some(s => s.toLowerCase().includes(query))
+            );
+
+            results.innerHTML = '';
+
+            if (filtered.length === 0) {
+                results.innerHTML = '<div style="text-align:center;color:var(--gris-texto);padding:1.5rem;font-style:italic;">No se encontraron resultados</div>';
+            } else {
+                filtered.forEach(producto => {
+                    const card = document.createElement('div');
+                    card.className = 'search-result-card';
+                    card.innerHTML = `
+                        <img src="${producto.imagen}" alt="${producto.nombre}" class="search-result-img">
+                        <div class="search-result-info">
+                            <h4>${producto.nombre}</h4>
+                            <p>$${producto.precio.toLocaleString()}</p>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => {
+                        closeSearch();
+                        openModal(producto.id);
+                    });
+                    results.appendChild(card);
+                });
+            }
+            results.classList.add('show');
+        });
+
+        // ============ TOAST ============
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // ============ REVEAL ANIMATIONS ============
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        function observeReveals() {
+            document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+        }
+
+        // ============ STATS COUNTER ============
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = parseInt(entry.target.dataset.count);
+                        let current = 0;
+                        const increment = target / 60;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            entry.target.textContent = Math.floor(current).toLocaleString() + '+';
+                        }, 16);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            stats.forEach(s => observer.observe(s));
+        }
+
+        // ============ SMOOTH SCROLL ============
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    lenis.scrollTo(target, { duration: 1.2 });
+                }
+            });
+        });
+
+        // ============ KEYBOARD ============
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeSearch();
+                closeModal();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                openSearch();
+            }
+        });
+
+        // ============ INIT ============
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCategories();
+            renderFilters();
+            renderProducts();
+            animateStats();
+            initFeatured3D();
+            initRender3D();
+            observeReveals();
+            updateZoomModeText();
+
+            // Ocultar hint flotante después de 6s
+            setTimeout(() => {
+                const hint = document.querySelector('.mobile-scroll-hint');
+                if (hint) hint.style.opacity = '0';
+            }, 6000);
+
+            setTimeout(() => ScrollTrigger.refresh(), 500);
+        });
+    </script>
+</body>
+</html> + producto.precio + ')');
+            }
+            const producto = productos.find(p => p.id === productId);
+            if (!producto) return;
+
+            modalImage.src = producto.imagen;
+            modalImage.alt = producto.nombre;
+            document.getElementById('modal-category').textContent = producto.categoria;
+            document.getElementById('modal-title').textContent = producto.nombre;
+            document.getElementById('modal-description').textContent = producto.descripcion;
+            document.getElementById('modal-price').textContent = `$${producto.precio.toLocaleString()}`;
+
+            document.getElementById('modal-specs').innerHTML = producto.specs.map(s => `
+                <div class="modal-spec">
+                    <div class="modal-spec-label">Spec</div>
+                    <div class="modal-spec-value">${s}</div>
+                </div>
+            `).join('');
+
+            // Reset zoom
+            resetZoomState();
+            updateZoomModeText();
+
+            modalOverlay.classList.add('active');
+            lenis.stop();
+
+            // Ocultar hint táctil después de 3s
+            setTimeout(() => {
+                touchHint.style.display = 'none';
+            }, 3000);
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            lenis.start();
+            resetZoomState();
+        }
+
+        function resetZoomState() {
+            isZoomActive = false;
+            currentZoomLevel = 1;
+            modalImage.style.transform = 'scale(1)';
+            modalImage.style.transformOrigin = 'center center';
+            zoomLens.classList.remove('active');
+        }
+
+        function updateZoomModeText() {
+            const text = document.getElementById('zoom-mode-text');
+            if (isTouch) {
+                text.textContent = isZoomActive ? 'Toca para salir' : 'Toca para zoom';
+            } else {
+                text.textContent = 'Hover para zoom';
+            }
+        }
+
+        // ZOOM: Desktop (mouse hover + seguimiento)
+        if (!isTouch) {
+            zoomContainer.addEventListener('mouseenter', () => {
+                if (!isZoomActive) {
+                    isZoomActive = true;
+                    currentZoomLevel = 2.5;
+                    zoomLens.classList.add('active');
+                }
+            });
+
+            zoomContainer.addEventListener('mousemove', (e) => {
+                if (isZoomActive) {
+                    const rect = zoomContainer.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+                    // Actualizar transform-origin de la imagen
+                    modalImage.style.transformOrigin = `${x}% ${y}%`;
+                    modalImage.style.transform = `scale(${currentZoomLevel})`;
+
+                    // Actualizar posición de la lente
+                    zoomLens.style.left = (e.clientX - rect.left - 50) + 'px';
+                    zoomLens.style.top = (e.clientY - rect.top - 50) + 'px';
+                }
+            });
+
+            zoomContainer.addEventListener('mouseleave', () => {
+                resetZoomState();
+            });
+
+            // Click para toggle zoom level
+            zoomContainer.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentZoomLevel === 2.5) {
+                    currentZoomLevel = 4;
+                } else if (currentZoomLevel === 4) {
+                    currentZoomLevel = 1;
+                    isZoomActive = false;
+                } else {
+                    currentZoomLevel = 2.5;
+                    isZoomActive = true;
+                    zoomLens.classList.add('active');
+                }
+            });
+        }
+
+        // ZOOM: Táctil (tap para activar, drag para mover)
+        if (isTouch) {
+            let lastTap = 0;
+            let startX = 0, startY = 0;
+            let currentX = 50, currentY = 50;
+
+            zoomContainer.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const now = Date.now();
+                const touch = e.touches[0];
+                const rect = zoomContainer.getBoundingClientRect();
+
+                // Detectar doble tap
+                if (now - lastTap < 300) {
+                    // Doble tap: reset zoom
+                    resetZoomState();
+                    updateZoomModeText();
+                    return;
+                }
+                lastTap = now;
+
+                if (!isZoomActive) {
+                    // Activar zoom en el punto tocado
+                    isZoomActive = true;
+                    currentZoomLevel = 2.5;
+                    currentX = ((touch.clientX - rect.left) / rect.width) * 100;
+                    currentY = ((touch.clientY - rect.top) / rect.height) * 100;
+                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
+                    modalImage.style.transform = `scale(${currentZoomLevel})`;
+                    touchHint.textContent = '👆 Arrastra para explorar • Doble tap para salir';
+                }
+
+                startX = touch.clientX;
+                startY = touch.clientY;
+            }, { passive: false });
+
+            zoomContainer.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (isZoomActive && e.touches.length === 1) {
+                    const touch = e.touches[0];
+                    const rect = zoomContainer.getBoundingClientRect();
+
+                    // Calcular nueva posición del origen
+                    const deltaX = (touch.clientX - startX) / rect.width * 100;
+                    const deltaY = (touch.clientY - startY) / rect.height * 100;
+
+                    currentX = Math.max(0, Math.min(100, currentX - deltaX / currentZoomLevel));
+                    currentY = Math.max(0, Math.min(100, currentY - deltaY / currentZoomLevel));
+
+                    modalImage.style.transformOrigin = `${currentX}% ${currentY}%`;
+                    modalImage.style.transform = `scale(${currentZoomLevel})`;
+
+                    startX = touch.clientX;
+                    startY = touch.clientY;
+                }
+
+                // Pinch zoom
+                if (e.touches.length === 2 && isZoomActive) {
+                    const dist = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                    if (zoomContainer.dataset.lastPinchDist) {
+                        const scale = dist / parseFloat(zoomContainer.dataset.lastPinchDist);
+                        currentZoomLevel = Math.max(1, Math.min(5, currentZoomLevel * scale));
+                        modalImage.style.transform = `scale(${currentZoomLevel})`;
+                    }
+                    zoomContainer.dataset.lastPinchDist = dist;
+                }
+            }, { passive: false });
+
+            zoomContainer.addEventListener('touchend', (e) => {
+                delete zoomContainer.dataset.lastPinchDist;
+            });
+        }
+
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        // ============ SEARCH ============
+        function openSearch() {
+            document.getElementById('search-overlay').classList.add('active');
+            document.getElementById('search-input').focus();
+            lenis.stop();
+            if (menuOpen) {
+                menuOpen = false;
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('open');
+            }
+        }
+
+        function closeSearch() {
+            document.getElementById('search-overlay').classList.remove('active');
+            lenis.start();
+        }
+
+        document.getElementById('search-overlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeSearch();
+        });
+
+        document.getElementById('search-input').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const results = document.getElementById('search-results');
+
+            if (query.length < 2) {
+                results.classList.remove('show');
+                return;
+            }
+
+            const filtered = productos.filter(p =>
+                p.nombre.toLowerCase().includes(query) ||
+                p.categoria.toLowerCase().includes(query) ||
+                p.specs.some(s => s.toLowerCase().includes(query))
+            );
+
+            results.innerHTML = '';
+
+            if (filtered.length === 0) {
+                results.innerHTML = '<div style="text-align:center;color:var(--gris-texto);padding:1.5rem;font-style:italic;">No se encontraron resultados</div>';
+            } else {
+                filtered.forEach(producto => {
+                    const card = document.createElement('div');
+                    card.className = 'search-result-card';
+                    card.innerHTML = `
+                        <img src="${producto.imagen}" alt="${producto.nombre}" class="search-result-img">
+                        <div class="search-result-info">
+                            <h4>${producto.nombre}</h4>
+                            <p>$${producto.precio.toLocaleString()}</p>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => {
+                        closeSearch();
+                        openModal(producto.id);
+                    });
+                    results.appendChild(card);
+                });
+            }
+            results.classList.add('show');
+        });
+
+        // ============ TOAST ============
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // ============ REVEAL ANIMATIONS ============
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        function observeReveals() {
+            document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+        }
+
+        // ============ STATS COUNTER ============
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = parseInt(entry.target.dataset.count);
+                        let current = 0;
+                        const increment = target / 60;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            entry.target.textContent = Math.floor(current).toLocaleString() + '+';
+                        }, 16);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            stats.forEach(s => observer.observe(s));
+        }
+
+        // ============ SMOOTH SCROLL ============
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    lenis.scrollTo(target, { duration: 1.2 });
+                }
+            });
+        });
+
+        // ============ KEYBOARD ============
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeSearch();
+                closeModal();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                openSearch();
+            }
+        });
+
+        // ============ INIT ============
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCategories();
+            renderFilters();
+            renderProducts();
+            animateStats();
+            initFeatured3D();
+            initRender3D();
+            observeReveals();
+            updateZoomModeText();
+
+            // Ocultar hint flotante después de 6s
+            setTimeout(() => {
+                const hint = document.querySelector('.mobile-scroll-hint');
+                if (hint) hint.style.opacity = '0';
+            }, 6000);
+
+            setTimeout(() => ScrollTrigger.refresh(), 500);
+        });
+    </script>
+</body>
+</html>
