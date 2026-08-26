@@ -87,11 +87,26 @@
         /* ============ LOADING ============ */
         #loading-screen {
             position: fixed; inset: 0;
-            background: var(--carbon);
+            background: #0A0A0B;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
             z-index: 100000;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            animation: forceAutoDissolve 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: 0.6s;
+            cursor: pointer;
+        }
+
+        @keyframes forceAutoDissolve {
+            0% { opacity: 1; visibility: visible; }
+            70% { opacity: 0; visibility: visible; }
+            100% { opacity: 0; visibility: hidden; pointer-events: none; display: none; }
+        }
+
+        #loading-screen.hidden {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
         }
 
         #loading-screen.hidden { opacity: 0; visibility: hidden; }
@@ -2492,6 +2507,20 @@
         </div>
         <div class="loader-text">Cargando <span>DIGINAST</span></div>
         <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+    <!-- IMMEDIATE ZERO-DELAY UNLOCK SCRIPT -->
+    <script>
+        (function() {
+            var el = document.getElementById('loading-screen');
+            if (el) {
+                el.addEventListener('click', function() { el.style.display = 'none'; });
+                setTimeout(function() {
+                    el.style.opacity = '0';
+                    el.style.visibility = 'hidden';
+                    setTimeout(function() { el.style.display = 'none'; }, 300);
+                }, 700);
+            }
+        })();
+    </script>
     </div>
 
     <!-- CURSOR (desktop) -->
