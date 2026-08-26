@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="cyber-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FB923C"/>
+      <stop offset="50%" stop-color="#F97316"/>
+      <stop offset="100%" stop-color="#EA580C"/>
+    </linearGradient>
+    <radialGradient id="glow-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F97316" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#0A0A0B" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Dark Cybernetic Background Hexagon / Circle -->
+  <rect width="128" height="128" rx="36" fill="#0A0A0B" />
+  <rect x="4" y="4" width="120" height="120" rx="32" fill="#141416" stroke="rgba(249, 115, 22, 0.4)" stroke-width="2" />
+  <circle cx="64" cy="64" r="50" fill="url(#glow-grad)" />
+
+  <!-- Diginast Neon Bolt Icon -->
+  <path d="M70 14L28 72H62L56 114L100 56H66L70 14Z" fill="url(#cyber-grad)" filter="url(#neon-glow)" />
+</svg>

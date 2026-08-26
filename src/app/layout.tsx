@@ -18,6 +18,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Diginast — Hardware de Alto Rendimiento & Setups Pro",
   description: "Setups gaming premium, workstations profesionales, componentes de última generación y refrigeración líquida con ingeniería de precisión.",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 // ensureSeed se llama en cada page component server-side, no aquí
